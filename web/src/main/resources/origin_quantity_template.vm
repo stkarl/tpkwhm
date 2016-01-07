@@ -1,0 +1,19 @@
+<div id="originQuantity">
+    <table id="question" class="tableSadlier">
+        <tr>
+            <th class="table_header_center">Nhà cung cấp Nguyên liệu</th>
+            <th class="table_header">Khối lượng(kg)</th>
+        </tr>
+        #foreach($originQuantity in $originQuantities)
+            #if($velocityCount % 2 == 0)
+                #set( $className = "even" )
+            #else
+                #set( $className = "odd" )
+            #end
+            <tr class="$className">
+                <td class="center">$originQuantity.origin</td>
+                <td>$originQuantity.quantity</td>
+            </tr>
+        #end
+    </table>
+</div>

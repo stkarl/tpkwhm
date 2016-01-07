@@ -1,0 +1,12 @@
+@charset "utf-8";
+/* CSS Document */
+
+#footerStandards {
+    border:1px solid black;
+    padding:1em;
+    margin-bottom: 1em;
+}
+
+img {
+    max-width: 800px;
+}

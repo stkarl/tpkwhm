@@ -1,0 +1,163 @@
+@charset "utf-8";body{font:100% Arial, Helvetica, sans-serif;background-color:#ffffff;margin:0px;padding:2px;color:#000000;border:none;}
+a:link{color:#0066CC;text-decoration:none;}
+a:visited{text-decoration:none;color:#0066CC;}
+a:hover{text-decoration:underline;color:#006666;}
+a:active{text-decoration:none;color:#990000;}
+.clearfloat{clear:both;height:0;font-size:1px;line-height:0px;}
+.roundcont{width:350px;color:#000;}
+.roundcont p{margin:0 10px;font-size:12px;;text-align:justify;}
+.roundtop{background:url(../images/b_tr.png) no-repeat top right;}
+.roundbottom{background:url(../images/b_br.png) no-repeat top right;}
+img.corner{width:15px;height:15px;border:none;display:block !important;}
+#page{font:100% Arial, Helvetica, sans-serif;background-color:#ffffff;margin:auto;padding:0px;color:#000000;min-height:800px;height:auto !important;height:500px;max-width:750px;width:auto !important;}
+#container a:link:after, #container a:visited:after{content:" (" attr(href) ") ";font-size:90%;}
+#container a[href^="/"]:after{content:" (http://www.tanphuockhanh.com/" attr(href) ") ";}
+#activitytype{font-size:42px;font-weight:bold;font-family:'Geometric 231 BT', 'Geometric BT', Geometric, Arial, sans-serif;}
+#title{font-size:21px;font-weight:bold;}
+#standards{border:1px solid #333333;}
+#line{border-bottom:1px solid #000000;}
+#sidebar{float:left;margin-right:0%;margin-top:2px;padding:0px 10px 5px 5px;font-size:14px;width:40%;}
+#sidebar_it{float:left;margin-right:0%;margin-top:2px;padding:0px 10px 5px 5px;font-size:14px;width:40%;border:double 5px #000000;}
+#content{float:left;font-size:14px;width:100%;}
+#copyright{font-size:9px;float:left;width:75%;padding-left:60px;}
+#website{content:"&nbsp;";float:left;font-size:8px;}
+#mark{float:right;width:9%;font-size:8px;text-align:right;}
+#submission{display:none;}
+#shadow{display:none;}
+#noprint{display:none;}
+.noprint{display:none;}
+.controls{display:none;}
+body {
+    background-color: #FFFFFF;
+}
+
+li{list-style: none;}
+
+.essay textarea{display:none;}
+.drawingbox{border:none;}
+.textbox{border-top:none;border-right:none;border-left:none;border-bottom:2px solid #000;}
+.gridbox{border:none;}
+#footer {
+    display: none;
+}
+.footer {
+    display: none;
+}
+
+#header #user-profile {
+    display: none;
+}
+
+#user-nav {
+    display: none;
+}
+
+.page_wrapper {
+    background: none !important;
+}
+
+#header {
+    position: absolute;
+    width: 160px;
+}
+
+#top-nav {
+    background: none!important;
+}
+
+#top-nav .top-nav-left {
+    background: none !important;
+}
+
+#top-nav .top-nav-main-text-center {
+    background: none !important;
+    color: #0066CC;
+}
+
+#top-nav .top-nav-main {
+    background:none !important;
+    color: #0066CC;
+}
+
+#top-nav .top-nav-right {
+    background: none !important;
+}
+
+.fc-header {
+    display: none;
+}
+
+.content-header {
+    text-align: center;
+    float: none;
+    text-transform: uppercase;
+}
+.scoreCardDetail{
+    page-break-after:always;
+}
+.scoreCardDetail table tr{
+    page-break-inside: avoid;
+}
+
+.log-info{
+    display: none;
+}
+table caption{
+    display: none;
+}
+.tbInput tr td{
+    border: #000000 solid 1px;
+}
+.tbInput tr th{
+    border: #000000 solid 1px;
+}
+.tableSadlier tr td{
+     border: #000000 solid 1px;
+ }
+.tableSadlier tr th{
+    border: #000000 solid 1px;
+}
+.tableSadlier{
+    border: #000000 solid 1px;
+}
+
+.importBackDiv{
+    page-break-after:always;
+    page-break-inside: avoid;
+}
+div#header,div.footer{
+    display: none;
+}
+div#content > div#top-nav{
+    display: none;
+}
+
+@media only print and (orientation: portrait)
+{
+    .tableSadlier td {
+        font-size: 16px;
+        padding: 2px;
+    }
+
+    .tableSadlier .table_header {
+        vertical-align: middle;
+        padding: 4px 2px;
+        font-size: 16px;
+    }
+
+    .bill-title{
+        font-size: 32px;
+    }
+
+    .company-title{
+        font-size: 16px;
+    }
+
+    .sign-panel{
+        font-size: 16px;
+    }
+
+}
+
+
+

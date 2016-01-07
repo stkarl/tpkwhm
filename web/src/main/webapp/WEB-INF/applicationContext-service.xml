@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
+       default-lazy-init="true">
+
+    <!-- =================================================================== -->
+    <!-- AOP: Configuration and Aspects                                      -->
+    <!-- =================================================================== -->
+    <aop:config>
+        <aop:advisor id="userManagerTx" advice-ref="userManagerTxAdvice" pointcut="execution(* *..service.UserService.*(..))" order="0"/>
+        <aop:advisor id="userManagerSecurity" advice-ref="userSecurityAdvice" pointcut="execution(* *..service.UserService.saveUser(..))" order="1"/>
+        <aop:advisor id="managerSaveTx" advice-ref="txAdvice" pointcut="execution(* *..service.*Service.save*(..))" order="2"/>
+        <aop:advisor id="managerAddTx" advice-ref="txAdvice" pointcut="execution(* *..service.*Service.add*(..))" order="2"/>
+        <aop:advisor id="managerUpdateTx" advice-ref="txAdvice" pointcut="execution(* *..service.*Service.update*(..))" order="2"/>
+        <aop:advisor id="managerDeleteTx" advice-ref="txAdvice" pointcut="execution(* *..service.*Service.delete*(..))" order="2"/>
+        <aop:advisor id="managerImportTx" advice-ref="txAdvice" pointcut="execution(* *..service.*Service.import*(..))" order="2"/>
+    </aop:config>
+
+    <!-- Enable @Transactional support -->
+    <tx:annotation-driven/>
+
+    <!-- Enable @AspectJ support -->
+    <aop:aspectj-autoproxy/>
+
+    <bean id="fixExpenseService" class="com.banvien.tpk.core.service.FixExpenseServiceImpl">
+        <property name="fixExpenseDAO" ref="fixExpenseDAO"/>
+    </bean>
+
+    <bean id="arrangementService" class="com.banvien.tpk.core.service.ArrangementServiceImpl">
+        <property name="arrangementDAO" ref="arrangementDAO"/>
+        <property name="arrangementDetailDAO" ref="arrangementDetailDAO"/>
+    </bean>
+
+    <bean id="initProductService" class="com.banvien.tpk.core.service.InitProductServiceImpl">
+        <property name="initProductDAO" ref="initProductDAO"/>
+        <property name="importproductDAO" ref="importproductDAO"/>
+        <property name="initProductDetailDAO" ref="initProductDetailDAO"/>
+    </bean>
+
+    <bean id="oweLogService" class="com.banvien.tpk.core.service.OweLogServiceImpl">
+        <property name="oweLogDAO" ref="oweLogDAO"/>
+        <property name="customerDAO" ref="customerDAO"/>
+    </bean>
+
+    <bean id="bookProductBillService" class="com.banvien.tpk.core.service.BookProductBillServiceImpl">
+        <property name="bookProductBillDAO" ref="bookProductBillDAO"/>
+        <property name="bookProductDAO" ref="bookProductDAO"/>
+        <property name="importproductDAO" ref="importproductDAO"/>
+        <property name="productqualityDAO" ref="productqualityDAO"/>
+        <property name="oweLogDAO" ref="oweLogDAO"/>
+        <property name="customerDAO" ref="customerDAO"/>
+        <property name="bookBillSaleReasonDAO" ref="bookBillSaleReasonDAO"/>
+    </bean>
+
+    <bean id="userModuleService" class="com.banvien.tpk.core.service.UserModuleServiceImpl">
+        <property name="userModuleDAO" ref="userModuleDAO"/>
+    </bean>
+
+    <bean id="userMaterialCateService" class="com.banvien.tpk.core.service.UserMaterialCateServiceImpl">
+        <property name="userMaterialCateDAO" ref="userMaterialCateDAO"/>
+    </bean>
+
+    <bean id="moduleService" class="com.banvien.tpk.core.service.ModuleServiceImpl">
+        <property name="moduleDAO" ref="moduleDAO"/>
+    </bean>
+
+    <bean id="shiftService" class="com.banvien.tpk.core.service.ShiftServiceImpl">
+        <property name="shiftDAO" ref="shiftDAO"/>
+    </bean>
+
+    <bean id="teamService" class="com.banvien.tpk.core.service.TeamServiceImpl">
+        <property name="teamDAO" ref="teamDAO"/>
+    </bean>
+
+    <bean id="materialAndCategoryService" class="com.banvien.tpk.core.service.MaterialAndCategoryServiceImpl">
+        <property name="materialAndCategoryDAO" ref="materialAndCategoryDAO"/>
+    </bean>
+
+    <bean id="userCustomerService" class="com.banvien.tpk.core.service.UserCustomerServiceImpl">
+        <property name="userCustomerDAO" ref="userCustomerDAO"/>
+        <property name="customerDAO" ref="customerDAO"/>
+    </bean>
+
+    <bean id="bookProductService" class="com.banvien.tpk.core.service.BookProductServiceImpl">
+        <property name="bookProductDAO" ref="bookProductDAO"/>
+        <property name="importproductDAO" ref="importproductDAO"/>
+    </bean>
+
+    <bean id="userService" class="com.banvien.tpk.core.service.UserServiceImpl">
+        <property name="userDAO" ref="userDAO"/>
+    </bean>
+    <bean id="settingService" class="com.banvien.tpk.core.service.SettingServiceImpl">
+        <property name="settingDAO" ref="settingDAO" />
+    </bean>
+    <bean id="colourService" class="com.banvien.tpk.core.service.ColourServiceImpl">
+        <property name="colourDAO" ref="colourDAO" />
+    </bean>
+    <bean id="customerService" class="com.banvien.tpk.core.service.CustomerServiceImpl">
+        <property name="customerDAO" ref="customerDAO" />
+        <property name="oweLogDAO" ref="oweLogDAO" />
+        <property name="provinceDAO" ref="provinceDAO" />
+        <property name="userDAO" ref="userDAO" />
+        <property name="userCustomerDAO" ref="userCustomerDAO" />
+    </bean>
+    <bean id="exporttypeService" class="com.banvien.tpk.core.service.ExporttypeServiceImpl">
+        <property name="exporttypeDAO" ref="exporttypeDAO" />
+    </bean>
+    <bean id="machinecomponentService" class="com.banvien.tpk.core.service.MachinecomponentServiceImpl">
+        <property name="machinecomponentDAO" ref="machinecomponentDAO" />
+        <property name="maintenancehistoryDAO" ref="maintenancehistoryDAO" />
+        <property name="machineDAO" ref="machineDAO" />
+
+    </bean>
+    <bean id="materialcategoryService" class="com.banvien.tpk.core.service.MaterialcategoryServiceImpl">
+        <property name="materialcategoryDAO" ref="materialcategoryDAO" />
+    </bean>
+    <bean id="machineService" class="com.banvien.tpk.core.service.MachineServiceImpl">
+        <property name="machineDAO" ref="machineDAO" />
+        <property name="machinecomponentDAO" ref="machinecomponentDAO" />
+    </bean>
+    <bean id="maintenanceHistoryService" class="com.banvien.tpk.core.service.MaintenanceHistoryServiceImpl">
+        <property name="maintenancehistoryDAO" ref="maintenancehistoryDAO" />
+    </bean>
+    <bean id="marketService" class="com.banvien.tpk.core.service.MarketServiceImpl">
+        <property name="marketDAO" ref="marketDAO" />
+    </bean>
+    <bean id="materialService" class="com.banvien.tpk.core.service.MaterialServiceImpl">
+        <property name="materialDAO" ref="materialDAO" />
+        <property name="materialAndCategoryDAO" ref="materialAndCategoryDAO" />
+    </bean>
+    <bean id="originService" class="com.banvien.tpk.core.service.OriginServiceImpl">
+        <property name="originDAO" ref="originDAO" />
+    </bean>
+    <bean id="overlaytypeService" class="com.banvien.tpk.core.service.OverlaytypeServiceImpl">
+        <property name="overlaytypeDAO" ref="overlaytypeDAO" />
+    </bean>
+    <bean id="provinceService" class="com.banvien.tpk.core.service.ProvinceServiceImpl">
+        <property name="provinceDAO" ref="provinceDAO" />
+    </bean>
+    <bean id="productnameService" class="com.banvien.tpk.core.service.ProductnameServiceImpl">
+        <property name="productnameDAO" ref="productnameDAO" />
+    </bean>
+    <bean id="productService" class="com.banvien.tpk.core.service.ProductServiceImpl">
+        <property name="productDAO" ref="productDAO" />
+    </bean>
+    <bean id="regionService" class="com.banvien.tpk.core.service.RegionServiceImpl">
+        <property name="regionDAO" ref="regionDAO" />
+    </bean>
+    <bean id="sizeService" class="com.banvien.tpk.core.service.SizeServiceImpl">
+        <property name="sizeDAO" ref="sizeDAO" />
+    </bean>
+    <bean id="stiffnessService" class="com.banvien.tpk.core.service.StiffnessServiceImpl">
+        <property name="stiffnessDAO" ref="stiffnessDAO" />
+    </bean>
+    <bean id="thicknessService" class="com.banvien.tpk.core.service.ThicknessServiceImpl">
+        <property name="thicknessDAO" ref="thicknessDAO" />
+    </bean>
+    <bean id="warehouseService" class="com.banvien.tpk.core.service.WarehouseServiceImpl">
+        <property name="warehouseDAO" ref="warehouseDAO" />
+    </bean>
+    <bean id="unitService" class="com.banvien.tpk.core.service.UnitServiceImpl">
+        <property name="unitDAO" ref="unitDAO" />
+    </bean>
+    <bean id="qualityService" class="com.banvien.tpk.core.service.QualityServiceImpl">
+        <property name="qualityDAO" ref="qualityDAO" />
+    </bean>
+    <bean id="importmaterialbillService" class="com.banvien.tpk.core.service.ImportmaterialbillServiceImpl">
+        <property name="importmaterialbillDAO" ref="importmaterialbillDAO" />
+        <property name="importmaterialDAO" ref="importmaterialDAO" />
+        <property name="importMaterialBillLogDAO" ref="importMaterialBillLogDAO" />
+
+    </bean>
+    <bean id="exportmaterialbillService" class="com.banvien.tpk.core.service.ExportmaterialbillServiceImpl">
+        <property name="exportmaterialbillDAO" ref="exportmaterialbillDAO" />
+        <property name="exportMaterialBillLogDAO" ref="exportMaterialBillLogDAO" />
+        <property name="importmaterialDAO" ref="importmaterialDAO" />
+        <property name="exportmaterialDAO" ref="exportmaterialDAO" />
+        <property name="machineDAO" ref="machineDAO" />
+        <property name="machinecomponentDAO" ref="machinecomponentDAO" />
+        <property name="maintenancehistoryDAO" ref="maintenancehistoryDAO" />
+        <property name="productionPlanDAO" ref="productionPlanDAO" />
+        <property name="materialcategoryDAO" ref="materialcategoryDAO" />
+
+    </bean>
+
+
+    <bean id="importproductbillService" class="com.banvien.tpk.core.service.ImportproductbillServiceImpl">
+        <property name="importproductbillDAO" ref="importproductbillDAO" />
+        <property name="importproductDAO" ref="importproductDAO" />
+        <property name="productnameDAO" ref="productnameDAO" />
+        <property name="unitDAO" ref="unitDAO" />
+        <property name="qualityDAO" ref="qualityDAO" />
+        <property name="productqualityDAO" ref="productqualityDAO" />
+        <property name="importProductBillLogDAO" ref="importProductBillLogDAO" />
+        <property name="productionPlanDAO" ref="productionPlanDAO" />
+    </bean>
+
+    <bean id="exportproductbillService" class="com.banvien.tpk.core.service.ExportproductbillServiceImpl">
+        <property name="exportproductbillDAO" ref="exportproductbillDAO" />
+        <property name="importproductDAO" ref="importproductDAO" />
+        <property name="exportproductDAO" ref="exportproductDAO" />
+        <property name="importproductbillDAO" ref="importproductbillDAO" />
+        <property name="exportProductBillLogDAO" ref="exportProductBillLogDAO" />
+        <property name="customerDAO" ref="customerDAO" />
+        <property name="productionPlanDAO" ref="productionPlanDAO" />
+        <property name="userDAO" ref="userDAO" />
+    </bean>
+
+    <bean id="importproductService" class="com.banvien.tpk.core.service.ImportproductServiceImpl">
+        <property name="importproductDAO" ref="importproductDAO" />
+        <property name="initProductDAO" ref="initProductDAO" />
+        <property name="userDAO" ref="userDAO" />
+        <property name="productnameDAO" ref="productnameDAO" />
+        <property name="sizeDAO" ref="sizeDAO" />
+        <property name="thicknessDAO" ref="thicknessDAO" />
+        <property name="stiffnessDAO" ref="stiffnessDAO" />
+        <property name="colourDAO" ref="colourDAO" />
+        <property name="overlaytypeDAO" ref="overlaytypeDAO" />
+        <property name="originDAO" ref="originDAO" />
+        <property name="marketDAO" ref="marketDAO" />
+        <property name="unitDAO" ref="unitDAO" />
+        <property name="importproductbillDAO" ref="importproductbillDAO" />
+        <property name="productqualityDAO" ref="productqualityDAO" />
+        <property name="qualityDAO" ref="qualityDAO" />
+        <property name="locationHistoryDAO" ref="locationHistoryDAO" />
+        <property name="exportproductDAO" ref="exportproductDAO" />
+        <property name="customerDAO" ref="customerDAO" />
+        <property name="oweLogDAO" ref="oweLogDAO" />
+        <property name="exportproductbillDAO" ref="exportproductbillDAO" />
+    </bean>
+
+    <bean id="exportproductService" class="com.banvien.tpk.core.service.ExportproductServiceImpl">
+        <property name="exportproductDAO" ref="exportproductDAO" />
+        <property name="importproductDAO" ref="importproductDAO" />
+    </bean>
+
+    <bean id="importmaterialService" class="com.banvien.tpk.core.service.ImportmaterialServiceImpl">
+        <property name="importmaterialDAO" ref="importmaterialDAO" />
+        <property name="userDAO" ref="userDAO" />
+        <property name="materialDAO" ref="materialDAO" />
+        <property name="originDAO" ref="originDAO" />
+        <property name="marketDAO" ref="marketDAO" />
+        <property name="unitDAO" ref="unitDAO" />
+        <property name="importmaterialbillDAO" ref="importmaterialbillDAO" />
+        <property name="locationHistoryDAO" ref="locationHistoryDAO" />
+    </bean>
+
+    <bean id="locationHistoryService" class="com.banvien.tpk.core.service.LocationHistoryServiceImpl">
+        <property name="locationHistoryDAO" ref="locationHistoryDAO" />
+    </bean>
+
+    <bean id="productionPlanService" class="com.banvien.tpk.core.service.ProductionPlanServiceImpl">
+        <property name="productionPlanDAO" ref="productionPlanDAO" />
+    </bean>
+
+    <bean id="warehouseMapService" class="com.banvien.tpk.core.service.WarehouseMapServiceImpl">
+        <property name="warehouseMapDAO" ref="warehouseMapDAO" />
+    </bean>
+
+    <bean id="importMaterialBillLogService" class="com.banvien.tpk.core.service.ImportMaterialBillLogServiceImpl">
+        <property name="importMaterialBillLogDAO" ref="importMaterialBillLogDAO" />
+    </bean>
+    <bean id="importProductBillLogService" class="com.banvien.tpk.core.service.ImportProductBillLogServiceImpl">
+    <property name="importProductBillLogDAO" ref="importProductBillLogDAO" />
+    </bean>
+    <bean id="exportMaterialBillLogService" class="com.banvien.tpk.core.service.ExportMaterialBillLogServiceImpl">
+        <property name="exportMaterialBillLogDAO" ref="exportMaterialBillLogDAO" />
+    </bean>
+    <bean id="exportProductBillLogService" class="com.banvien.tpk.core.service.ExportProductBillLogServiceImpl">
+        <property name="exportProductBillLogDAO" ref="exportProductBillLogDAO" />
+    </bean>
+
+    <bean id="exportmaterialService" class="com.banvien.tpk.core.service.ExportmaterialServiceImpl">
+        <property name="exportmaterialDAO" ref="exportmaterialDAO" />
+        <property name="exportproductDAO" ref="exportproductDAO" />
+        <property name="exporttypeDAO" ref="exporttypeDAO" />
+        <property name="materialMeasurementDAO" ref="materialMeasurementDAO" />
+        <property name="importproductDAO" ref="importproductDAO" />
+        <property name="arrangementDAO" ref="arrangementDAO" />
+    </bean>
+
+    <bean id="materialMeasurementService" class="com.banvien.tpk.core.service.MaterialMeasurementServiceImpl">
+        <property name="materialMeasurementDAO" ref="materialMeasurementDAO" />
+    </bean>
+
+    <bean id="priceBankService" class="com.banvien.tpk.core.service.PriceBankServiceImpl">
+        <property name="priceBankDAO" ref="priceBankDAO" />
+    </bean>
+
+    <bean id="saleReasonService" class="com.banvien.tpk.core.service.SaleReasonServiceImpl">
+        <property name="saleReasonDAO" ref="saleReasonDAO" />
+    </bean>
+
+    <bean id="buyContractService" class="com.banvien.tpk.core.service.BuyContractServiceImpl">
+        <property name="buyContractDAO" ref="buyContractDAO"/>
+        <property name="importproductDAO" ref="importproductDAO"/>
+        <property name="importproductbillDAO" ref="importproductbillDAO"/>
+    </bean>
+
+    <bean id="machinePictureService" class="com.banvien.tpk.core.service.MachinePictureServiceImpl">
+        <property name="machinePictureDAO" ref="machinePictureDAO" />
+    </bean>
+
+    <bean id="machineComponentPictureService" class="com.banvien.tpk.core.service.MachineComponentPictureServiceImpl">
+        <property name="machineComponentPictureDAO" ref="machineComponentPictureDAO" />
+    </bean>
+
+    <tx:advice id="txAdvice">
+        <tx:attributes>
+            <!-- Read-only commented out to make things easier for end-users -->
+            <!-- http://issues.appfuse.org/browse/APF-556 -->
+            <!--tx:method name="get*" read-only="true"/-->
+            <tx:method name="*" rollback-for="com.banvien.tpk.core.exception.DuplicateException"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <tx:advice id="userManagerTxAdvice">
+        <tx:attributes>
+            <tx:method name="save*" rollback-for="UserExistsException"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <bean id="userSecurityAdvice" class="com.banvien.tpk.security.MyUserDetailsService">
+        <property name="userDAO" ref="userDAO"/>
+        <property name="userModuleDAO" ref="userModuleDAO"/>
+    </bean>
+
+    <bean id="mailEngine" class="com.banvien.tpk.core.service.MailEngine">
+        <property name="velocityEngine" ref="velocityEngine"/>
+        <property name="emailSender" ref="emailSender"/>
+    </bean>
+
+    <!-- Configure Velocity for sending e-mail -->
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="velocityProperties">
+            <props>
+                <prop key="resource.loader">class</prop>
+                <prop key="class.resource.loader.class">
+                    org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+                </prop>
+                <prop key="velocimacro.library"></prop>
+            </props>
+        </property>
+    </bean>
+    <!-- Configure e-mail sender for sending e-mail -->
+    <bean id="emailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${mail.host}"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <!-- Uncomment if you need to authenticate with your SMTP Server -->
+        <property name="username" value="${mail.username}"/>
+        <property name="password" value="${mail.password}"/>
+        <property name="port" value="${mail.port}"/>
+        <property name="javaMailProperties">
+            <value>
+                mail.smtp.auth=${mail.smtp.auth}
+            </value>
+        </property>
+    </bean>
+
+</beans>

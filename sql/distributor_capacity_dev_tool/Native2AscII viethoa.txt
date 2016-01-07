@@ -1,0 +1,3 @@
+native2ascii -encoding UTF8 ApplicationResources.properties out.properties
+
+D:\Work Space\BVWorkSpace\FCV\web\src\main\resources

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.0.xsd">
+   
+	<!--<bean id="reminderCronTrigger"-->
+		<!--class="org.springframework.scheduling.quartz.CronTriggerBean">-->
+ <!---->
+		<!--&lt;!&ndash;<property name="jobDetail" ref="reminderJobDetail" />&ndash;&gt;-->
+		<!--<property name="cronExpression" value="0 0 5 * * ?" />-->
+	<!--</bean>-->
+
+    <!--<bean id="workingPlanCronTrigger"-->
+          <!--class="org.springframework.scheduling.quartz.CronTriggerBean">-->
+
+        <!--<property name="jobDetail" ref="workingPlanJobDetail" />-->
+        <!--<property name="cronExpression" value="0 0 6 * * ?" />-->
+    <!--</bean>    -->
+	
+ 	<!--<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">-->
+	    <!--<property name="triggers">-->
+	        <!--<list>-->
+	            <!--<ref bean="reminderCronTrigger" />-->
+                <!--&lt;!&ndash;<ref bean="workingPlanCronTrigger" />&ndash;&gt;-->
+	        <!--</list>-->
+	    <!--</property>-->
+	<!--</bean>-->
+	
+	<!--<bean id="reminderJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
+  		<!--<property name="targetObject" ref="assessmentReminderService" />-->
+  		<!--<property name="targetMethod" value="remind" />-->
+	<!--</bean>-->
+
+    <!--<bean id="workingPlanJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
+        <!--<property name="targetObject" ref="assessmentReminderService" />-->
+        <!--<property name="targetMethod" value="remind" />-->
+    <!--</bean>    -->
+	
+</beans>

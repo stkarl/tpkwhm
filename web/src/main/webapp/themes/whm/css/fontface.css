@@ -1,0 +1,144 @@
+@font-face {
+    font-family: 'HelveticaNeue-Light';
+    src: url('../font/HelveticaNeue-Light.eot');
+}
+@font-face {
+    font-family: 'HelveticaNeue-Light';
+    src: local('Helvetica Neue Light'), url('../font/HelveticaNeue-Light.woff') format('woff'),
+    url('../font/HelveticaNeue-Light.svg#HelveticaNeue-Light') format('svg');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-LightItalic';
+    src: url('../font/HelveticaNeue-LightItalic.eot');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-LightItalic';
+    src: local('Helvetica Neue Light Italic'), url('../font/HelveticaNeue-LightItalic.woff') format('woff'),
+    url('../font/HelveticaNeue-LightItalic.svg#HelveticaNeue-LightItalic') format('svg');
+}
+
+
+@font-face {
+    font-family: 'HelveticaNeue-UltraLight';
+    src: url('../font/HelveticaNeue-UltraLight.eot');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-UltraLight';
+    src: local('Helvetica Neue Ultra Light'), url('../font/HelveticaNeue-UltraLight.woff') format('woff'),
+    url('../font/HelveticaNeue-UltraLight.svg#HelveticaNeue-UltraLight') format('svg');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-UltraLightItalic';
+    src: url('../font/HelveticaNeue-UltraLightItalic.eot');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-UltraLightItalic';
+    src: local('Helvetica Neue Ultra Light Italic'), url('../font/HelveticaNeue-UltraLightItalic.woff') format('woff'),
+    url('../font/HelveticaNeue-UltraLightItalic.svg#HelveticaNeue-UltraLightItalic') format('svg');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-Medium';
+    src: url('../font/HelveticaNeue-Medium.eot');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-Medium';
+    src: local('Helvetica Neue Medium'), url('../font/HelveticaNeue-Medium.woff') format('woff'),
+    url('../font/HelveticaNeue-Medium.svg#HelveticaNeue-Medium') format('svg');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-Bold';
+    src: url('../font/HelveticaNeue-Bold.eot');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-Bold';
+    src: local('Helvetica Neue Bold'), url('../font/HelveticaNeue-Bold.woff') format('woff'),
+    url('../font/HelveticaNeue-Bold.svg#HelveticaNeue-Bold') format('svg');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue';
+    src: url('../font/HelveticaNeue.eot');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue';
+    src: local('Helvetica Neue'), url('../font/HelveticaNeue.woff') format('woff'),
+    url('../font/HelveticaNeue.svg#HelveticaNeue') format('svg');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-BoldItalic';
+    src: url('../font/HelveticaNeue-BoldItalic.eot');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-BoldItalic';
+    src: local('Helvetica Neue Bold Italic'), url('../font/HelveticaNeue-BoldItalic.woff') format('woff'),
+    url('../font/HelveticaNeue-BoldItalic.svg#HelveticaNeue-BoldItalic') format('svg');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-Italic';
+    src: url('../font/HelveticaNeue-Italic.eot');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-Italic';
+    src: local('Helvetica Neue Italic'), url('../font/HelveticaNeue-Italic.woff') format('woff'),
+    url('../font/HelveticaNeue-Italic.svg#HelveticaNeue-Italic') format('svg');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-BoldCond';
+    src: url('../font/HelveticaNeue-BoldCond.eot');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-BoldCond';
+    src: local('Helvetica 77 Bold Condensed'),url('../font/HelveticaNeue-BoldCond.woff') format('woff'),
+    url('../font/HelveticaNeue-BoldCond.svg#HelveticaNeue-BoldCond') format('svg');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-CondensedBlack';
+    src: url('../font/HelveticaNeue-CondensedBlack.eot');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue-CondensedBlack';
+    src: local('Helvetica Neue Condensed Black'), url('../font/HelveticaNeue-CondensedBlack.woff') format('woff'),
+    url('../font/HelveticaNeue-CondensedBlack.svg#HelveticaNeue-CondensedBlack') format('svg');
+}
+
+@font-face {
+    font-family: 'Droid Serif Bold';
+    src: url('../font/DroidSerifBold.eot');
+    src: local('Droid Serif'), url('../font/DroidSerifBold.woff') format('woff'), url('../font/DroidSerifBold.ttf') format('truetype'), url('../font/DroidSerifBold.svg') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Droid Serif';
+    src: url('../font/droidserif.eot');
+    src: local('Droid Serif'), url('../font/droidserif.woff') format('woff'), url('../font/droidserif.ttf') format('truetype'), url('../font/droidserif.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Droid Serif Italic';
+    src: url('../font/droidserif_italic-webfont.eot');
+    src: local('Droid Serif Italic'), url('../font/droidserif_italic-webfont.woff') format('woff'), url('../font/droidserif_italic-webfont.ttf') format('truetype'), url('../font/droidserif_italic-webfont.svg') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}

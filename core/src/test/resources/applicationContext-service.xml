@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
+       default-lazy-init="true">
+
+    <!-- =================================================================== -->
+    <!-- AOP: Configuration and Aspects                                      -->
+    <!-- =================================================================== -->
+    <aop:config>
+        <aop:advisor id="userManagerTx" advice-ref="userManagerTxAdvice" pointcut="execution(* *..service.UserService.*(..))" order="0"/>
+        <aop:advisor id="userManagerSecurity" advice-ref="userSecurityAdvice" pointcut="execution(* *..service.UserService.saveUser(..))" order="1"/>
+        <aop:advisor id="managerSaveTx" advice-ref="txAdvice" pointcut="execution(* *..service.*Service.save*(..))" order="2"/>
+        <aop:advisor id="managerAddTx" advice-ref="txAdvice" pointcut="execution(* *..service.*Service.add*(..))" order="2"/>
+        <aop:advisor id="managerUpdateTx" advice-ref="txAdvice" pointcut="execution(* *..service.*Service.update*(..))" order="2"/>
+        <aop:advisor id="managerDeleteTx" advice-ref="txAdvice" pointcut="execution(* *..service.*Service.delete*(..))" order="2"/>
+        <aop:advisor id="managerImportTx" advice-ref="txAdvice" pointcut="execution(* *..service.*Service.import*(..))" order="2"/>
+    </aop:config>
+    
+    <!-- Enable @Transactional support -->
+    <tx:annotation-driven/>
+    
+    <!-- Enable @AspectJ support -->
+    <aop:aspectj-autoproxy/>
+
+    <bean id="userService" class="com.banvien.tpk.core.service.UserServiceImpl">
+        <property name="userDAO" ref="userDAO"/>
+    </bean>
+
+    <bean id="settingService" class="com.banvien.tpk.core.service.SettingServiceImpl">
+        <property name="settingDAO" ref="settingDAO" />
+    </bean>
+	
+    <tx:advice id="txAdvice">
+        <tx:attributes>
+            <!-- Read-only commented out to make things easier for end-users -->
+            <!-- http://issues.appfuse.org/browse/APF-556 -->
+            <!--tx:method name="get*" read-only="true"/-->
+            <tx:method name="*" rollback-for="com.banvien.tpk.core.exception.DuplicateException"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <tx:advice id="userManagerTxAdvice">
+        <tx:attributes>
+            <tx:method name="save*" rollback-for="UserExistsException"/>
+        </tx:attributes>
+    </tx:advice>
+    
+    <bean id="userSecurityAdvice" class="com.banvien.tpk.security.MyUserDetailsService">
+    	<property name="userDAO" ref="userDAO"/>
+    </bean>
+
+</beans>

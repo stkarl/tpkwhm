@@ -1,0 +1,377 @@
+ul.toolbar_group {margin:3px 20px;padding:0;float:right;margin-left:20px;height: 37px;}
+ul.toolbar_group li{float:left;margin:2px 0px 2px 1px;list-style:none;font:12px Tahoma, Arial;}
+ul.toolbar_group li:first-child{margin-left:2px;}
+ul.toolbar_group li:last-child{margin-right:2px;}
+ul.toolbar_group li a{display:block;text-decoration:none;color:#555555;padding:3px 5px;white-space:nowrap}
+ul.toolbar_group li a:hover{}
+ul.toolbar_group li ul{margin:0;padding:0;position:absolute;z-index:3;visibility:hidden;}
+
+ul.toolbar_group li ul li{float:none;display:block;padding:2px 0;margin:0px 2px 1px 2px;}
+ul.toolbar_group li ul li:first-child{margin-top:2px;}
+ul.toolbar_group li ul li:last-child{margin-bottom:2px;}
+
+
+ul.toolbar_group_tablet {margin:0;padding:0;float:left;margin-left:20px;background-color:#90c1bd;}
+ul.toolbar_group_tablet li{float:left;margin:2px 0px 2px 1px;background-color:#d8fff0;list-style:none;font:12px Tahoma, Arial;}
+ul.toolbar_group_tablet li:first-child{margin-left:2px;}
+ul.toolbar_group_tablet li:last-child{margin-right:2px;}
+ul.toolbar_group_tablet li a{display:block;text-decoration:none;color:#555555;margin:3px;white-space:nowrap}
+ul.toolbar_group_tablet li a:hover{}
+ul.toolbar_group_tablet li ul{margin:0;padding:0;position:absolute;z-index:3;visibility:hidden;border-top:1px solid white;background-color:#90c1bd;}
+ul.toolbar_group_tablet li.hlight_off ul{margin:0;padding:0;position:absolute;z-index:3;border-top:1px solid white;background-color:#90c1bd;}
+ul.toolbar_group_tablet li.hlight_on ul{margin:0;padding:0;position:absolute;z-index:3;visibility:visible;border-top:1px solid white;background-color:#90c1bd;}
+
+ul.toolbar_group_tablet li ul li{float:none;display:block;padding:2px 0;margin:0px 2px 1px 2px;background-color:#d8fff0;}
+ul.toolbar_group_tablet li ul li:first-child{margin-top:2px;}
+ul.toolbar_group_tablet li ul li:last-child{margin-bottom:2px;}
+ul.toolbar_group .separator{float:left;background-image:url("../images/icons/toolbar/bigseparator.png");display:inline-block;height:37px;margin:0px 2px;width:17px;}
+ul.toolbar_group .small_separator{float:left;background-image:url("../images/icons/toolbar/separator.png");display:inline;height:21px;margin:5px 2px;width:2px;}
+.fullscreen{
+    padding-left:0px !important;
+    padding-right:0px !important;
+    /*height:100%;*/
+    marigin:0px !important;
+}
+
+.sc-icon-toolbar-fullscreen {
+    background: url(../images/icons/toolbar/fullscreen.png) scroll center center no-repeat;
+    height: 24px;
+    width: 22px;
+    float: left;
+}
+
+.sc-icon-toolbar-fullscreen:hover {
+    background: url(../images/icons/toolbar/hover/fullscreenhover.png) scroll center center no-repeat;
+}
+
+.sc-icon-toolbar-normalscreen {
+    background: url(../images/icons/toolbar/normalscreen.png) scroll center center no-repeat;
+    height: 24px;
+    width: 22px;
+    float: left;
+}
+
+.sc-icon-toolbar-normalscreen:hover {
+    background: url(../images/icons/toolbar/hover/normalscreenhover.png) scroll center center no-repeat;
+}
+.sc-icon-toolbar-draw-line {
+    background: url(../images/icons/toolbar/draw.png) scroll left center no-repeat;
+    height: 24px;
+    width: 18px;
+    float: left;
+}
+.sc-icon-toolbar-draw-line:hover {
+    background: url(../images/icons/toolbar/hover/drawhover.png) scroll left center no-repeat;
+}
+
+.sc-icon-toolbar-change-font-size:hover {
+    background: url(../images/icons/toolbar/hover/fontsizemediumhover.png) scroll center center no-repeat;
+}
+
+.sc-icon-toolbar-change-font-size{
+    background: url(../images/icons/toolbar/fontsizemedium.png) scroll center center no-repeat;
+    height: 24px;
+    width: 18px;
+    float: left;
+}
+.sc-icon-toolbar-stop-drawing {
+    background: url(../images/icons/toolbar/cursor.png) scroll center center no-repeat;
+    height: 24px;
+    width: 18px;
+    float: left;
+}
+
+.sc-icon-toolbar-stop-drawing:hover {
+    background: url(../images/icons/toolbar/hover/cursorhover.png) scroll center center no-repeat;
+}
+
+.sc-icon-toolbar-eraser {
+    background: url(../images/icons/toolbar/eraser.png) scroll center center no-repeat;
+    height: 24px;
+    width: 18px;
+    float: left;
+}
+.sc-icon-toolbar-eraser:hover {
+    background: url(../images/icons/toolbar/hover/eraserhover.png) scroll center center no-repeat;
+}
+
+.sc-icon-toolbar-single-question {
+    background: url(../images/icons/toolbar/singlequestion.png) scroll center center no-repeat;
+    height: 24px;
+    width: 22px;
+    float: left;
+}
+
+.sc-icon-toolbar-single-question:hover {
+    background: url(../images/icons/toolbar/hover/singlequestionhover.png) scroll center center no-repeat;
+}
+
+.sc-icon-toolbar-multiple-question {
+    background: url(../images/icons/toolbar/multiplequestion.png) scroll center center no-repeat;
+    height: 24px;
+    width: 22px;
+    float: left;
+}
+
+.sc-icon-toolbar-multiple-question:hover {
+    background: url(../images/icons/toolbar/hover/multiplequestionhover.png) scroll center center no-repeat;
+}
+
+.sc-icon-toolbar-toggle-answer-key {
+    background: url(../images/icons/toolbar/togglekey.png) scroll center center no-repeat;
+    height: 24px;
+    width: 24px;
+    float: left;
+}
+.sc-icon-toolbar-toggle-answer-key:hover {
+    background: url(../images/icons/toolbar/hover/togglekeyhover.png) scroll center center no-repeat;
+}
+
+.sc-icon-toolbar-answer-key {
+    background: url(../images/icons/toolbar/key.png) scroll center center no-repeat;
+    height: 24px;
+    width: 24px;
+    float: left;
+}
+
+.sc-icon-toolbar-answer-key:hover {
+    background: url(../images/icons/toolbar/hover/keyhover.png) scroll center center no-repeat;
+}
+
+.sc-icon-toolbar-assign {
+    background: url(../images/icons/toolbar/assign.png) scroll center center no-repeat;
+    height: 24px;
+    width: 18px;
+    float: left;
+}
+
+.sc-icon-toolbar-assign:hover {
+    background: url(../images/icons/toolbar/hover/assignhover.png) scroll center center no-repeat;
+}
+
+.sc-icon-toolbar-print {
+    background: url(../images/icons/toolbar/print.png) scroll center center no-repeat;
+    height: 24px;
+    width: 20px;
+    float: left;
+}
+
+.sc-icon-toolbar-print:hover {
+    background: url(../images/icons/toolbar/hover/printhover.png) scroll center center no-repeat;
+}
+/*use for ie
+please do not remove duplicate code here*/
+.open > .dropdown-menu:before{
+    position: absolute;
+    top: -7px;
+    left: 9px;
+    display: inline-block;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #f0f0f0;
+    border-left: 7px solid transparent;
+    border-bottom-color: rgba(255, 0, 0, 0.0);
+    content: '';
+}
+ .open > .dropdown-menu:after {
+    position: absolute;
+    top: -7px;
+    left: 9px;
+    display: inline-block;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #f0f0f0;
+    border-left: 7px solid transparent;
+    border-bottom-color: rgba(255, 0, 0, 0.0);
+    content: '';
+}
+/*use for not ie*/
+.open > .dropdown-menu:before{
+    border-bottom: 7px solid rgba(0, 0, 0, 0.2);
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    content: "";
+    display: inline-block;
+    left: 9px;
+    position: absolute;
+    top: -7px;
+}
+.open > .dropdown-menu:after {
+    border-bottom: 6px solid #FFFFFF;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    content: "";
+    display: inline-block;
+    left: 10px;
+    position: absolute;
+    top: -6px;
+}
+
+/*use for not ie*/
+div.btn-group > div.resourceView > .dropdown-menu:before{
+    border-bottom: 7px solid rgba(0, 0, 0, 0.2);
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    content: "";
+    display: inline-block;
+    left: 18px;
+    position: absolute;
+    top: -7px;
+}
+div.btn-group > div.resourceView > .dropdown-menu:after {
+    border-bottom: 6px solid #FFFFFF;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    content: "";
+    display: inline-block;
+    left: 19px;
+    position: absolute;
+    top: -6px;
+}
+
+/*use for not ie*/
+div.btn-group > div.resourceView-answer-key > .dropdown-menu:before{
+    border-bottom: 7px solid rgba(0, 0, 0, 0.2);
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    content: "";
+    display: inline-block;
+    left: 24px;
+    position: absolute;
+    top: -7px;
+}
+div.btn-group > div.resourceView-answer-key > .dropdown-menu:after {
+    border-bottom: 6px solid #FFFFFF;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    content: "";
+    display: inline-block;
+    left: 25px;
+    position: absolute;
+    top: -6px;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min--moz-device-pixel-ratio: 1.5),
+only screen and (min-device-pixel-ratio: 1.5) {
+    .sc-icon-toolbar-fullscreen {
+        background: url(../images/icons/toolbar/fullscreen@2x.png) scroll center center no-repeat;
+        background-size: 22px 17px;
+    }
+
+    .sc-icon-toolbar-fullscreen:hover {
+        background: url(../images/icons/toolbar/hover/fullscreenhover@2x.png) scroll center center no-repeat;
+        background-size: 21px 17px;
+    }
+
+    .sc-icon-toolbar-normalscreen {
+        background: url(../images/icons/toolbar/normalscreen@2x.png) scroll center center no-repeat;
+        background-size: 21px 17px;
+    }
+
+    .sc-icon-toolbar-normalscreen:hover {
+        background: url(../images/icons/toolbar/hover/normalscreenhover@2x.png) scroll center center no-repeat;
+        background-size: 21px 17px;
+    }
+    .sc-icon-toolbar-draw-line {
+        background: url(../images/icons/toolbar/draw@2x.png) scroll left center no-repeat;
+        background-size: 12px 19px;
+    }
+    .sc-icon-toolbar-draw-line:hover {
+        background: url(../images/icons/toolbar/hover/drawhover@2x.png) scroll left center no-repeat;
+        background-size: 12px 19px;
+    }
+
+    .sc-icon-toolbar-stop-drawing {
+        background: url(../images/icons/toolbar/cursor@2x.png) scroll center center no-repeat;
+        background-size: 12px 17px;
+
+    }
+
+    .sc-icon-toolbar-stop-drawing:hover {
+        background: url(../images/icons/toolbar/hover/cursorhover@2x.png) scroll center center no-repeat;
+        background-size: 11px 17px;
+    }
+
+    .sc-icon-toolbar-eraser {
+        background: url(../images/icons/toolbar/eraser@2x.png) scroll center center no-repeat;
+        background-size:16px 17px;
+    }
+    .sc-icon-toolbar-eraser:hover {
+        background: url(../images/icons/toolbar/hover/eraserhover@2x.png) scroll center center no-repeat;
+        background-size:16px 17px;
+    }
+
+    .sc-icon-toolbar-single-question {
+        background: url(../images/icons/toolbar/singlequestion@2x.png) scroll center center no-repeat;
+        background-size: 22px 17px;
+    }
+
+    .sc-icon-toolbar-single-question:hover {
+        background: url(../images/icons/toolbar/hover/singlequestionhover@2x.png) scroll center center no-repeat;
+        background-size: 22px 17px;
+    }
+
+    .sc-icon-toolbar-multiple-question {
+        background: url(../images/icons/toolbar/multiplequestion@2x.png) scroll center center no-repeat;
+        background-size: 22px 17px;
+    }
+
+    .sc-icon-toolbar-multiple-question:hover {
+        background: url(../images/icons/toolbar/hover/multiplequestionhover@2x.png) scroll center center no-repeat;
+        background-size: 22px 17px;
+    }
+
+    .sc-icon-toolbar-toggle-answer-key {
+        background: url(../images/icons/toolbar/togglekey@2x.png) scroll center center no-repeat;
+        background-size: 24px 13px;
+    }
+    .sc-icon-toolbar-toggle-answer-key:hover {
+        background: url(../images/icons/toolbar/hover/togglekeyhover@2x.png) scroll center center no-repeat;
+        background-size: 24px 13px;
+    }
+
+    .sc-icon-toolbar-answer-key {
+        background: url(../images/icons/toolbar/key@2x.png) scroll center center no-repeat;
+        background-size: 24px 13px;
+    }
+
+    .sc-icon-toolbar-answer-key:hover {
+        background: url(../images/icons/toolbar/hover/keyhover@2x.png) scroll center center no-repeat;
+        background-size: 24px 13px;
+    }
+
+    .sc-icon-toolbar-change-font-size:hover {
+        background: url(../images/icons/toolbar/hover/fontsizemediumhover@2x.png) scroll center center no-repeat;
+        background-size: 17px 11px;
+    }
+
+    .sc-icon-toolbar-change-font-size{
+        background: url(../images/icons/toolbar/fontsizemedium@2x.png) scroll center center no-repeat;
+        background-size: 17px 11px;
+    }
+
+    .sc-icon-toolbar-assign {
+        background: url(../images/icons/toolbar/assign@2x.png) scroll center center no-repeat;
+        background-size: 16px 15px;
+    }
+
+    .sc-icon-toolbar-assign:hover {
+        background: url(../images/icons/toolbar/hover/assignhover@2x.png) scroll center center no-repeat;
+        background-size: 16px 15px;
+    }
+
+    .sc-icon-toolbar-print {
+        background: url(../images/icons/toolbar/print@2x.png) scroll center center no-repeat;
+        background-size: 20px 17px;
+    }
+
+    .sc-icon-toolbar-print:hover {
+        background: url(../images/icons/toolbar/hover/printhover@2x.png) scroll center center no-repeat;
+        background-size: 20px 17px;
+    }
+
+    ul.toolbar_group .separator{background-image:url("../images/icons/toolbar/bigseparator@2x.png");background-size: 15px 37px;}
+    ul.toolbar_group .small_separator{float:left;background-image:url("../images/icons/toolbar/separator@2x.png");background-size: 2px 21px;}
+
+}
+

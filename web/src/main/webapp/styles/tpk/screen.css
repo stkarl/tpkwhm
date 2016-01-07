@@ -1,0 +1,484 @@
+@charset "utf-8";
+@font-face {
+    font-family: 'HelveticaNeue';
+    src: url('../font/HelveticaNeue.eot');
+}
+
+@font-face {
+    font-family: 'HelveticaNeue';
+    src: local('Helvetica Neue'), url('../font/HelveticaNeue.woff') format('woff'),
+    url('../font/HelveticaNeue.svg#HelveticaNeue') format('svg');
+}
+body  {
+    background-color:#ffffff;
+    background-position:center;
+    background-attachment:fixed;
+    color: #000000;
+    border:none;
+    margin:0;
+    padding:0;
+    font-family: "HelveticaNeue", sans-serif;
+    font-size: 12px;
+}
+
+body.custom_assessment {
+    font-size:14px;
+}
+a:link {
+    color: #0066CC;
+    text-decoration: none;
+}
+a:visited {
+    text-decoration: none;
+    color: #0066CC;
+}
+a:hover {
+    text-decoration: underline;
+    color: #006666;
+}
+a:active {
+    text-decoration: none;
+    color: #990000;
+}
+.clearfloat {
+    clear:both;
+    height:0;
+    font-size: 1px;
+    line-height: 0px;
+    overflow:hidden;
+}
+#shadow {
+    display: none;
+}
+
+#instruction_container {
+    background-color: #F5F5D5;
+    padding:5px 10px;
+}
+
+.InsHead {
+    color: #F89938;
+    font-family: Verdana;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+
+#instruction_trigger.active {
+    background-position: left bottom;
+}
+#instruction_trigger {
+    background: url("/sc-content/images/arrowsTwo.png") no-repeat scroll 0 0 transparent;
+    float: left;
+    font-size: 14px;
+    font-weight: bold;
+    height: 15px;
+    margin: 0 0 5px;
+    padding: 0 0 0 20px;
+}
+
+.instruction_container {
+    clear: both;
+    margin: 0 0 5px;
+    overflow: hidden;
+    padding: 0 0 0 20px;
+    font-size:12px;
+    text-align: justify;
+    display: none;
+}
+
+.clear {
+    clear:both;
+}
+#container {}
+#page {
+    background-color:#ffffff;
+
+    padding:21px;
+    /*text-align: center;*/
+    color: #000000;
+}
+#pagecontainer {
+    margin:auto;
+    min-height:350px; height:auto !important; height:350px; /* min-height hack */
+    max-width:1040px; width:auto !important;
+}
+#pagecontainer.fullscreen {
+    width: 100%; max-width: 100%;
+}
+
+#title {
+    font-size:21px;
+    font-weight:bold;
+}
+#namedate {
+    display:none;
+}
+#line {
+    border-bottom:1px solid #000000;
+}
+
+#content {
+    float:left;
+    font-size:12px;
+    width:100%;
+}
+
+#resourceContainer {
+    float:left;
+    font-size:14px;
+    width:100%;
+}
+
+#copyright {
+    font-size:9px;
+    float:left;
+    width:80%;
+    /*padding-left:60px;*/
+}
+#website {
+    float:left;
+    font-size:8px;
+}
+#mark {
+    float:right;
+    font-size:8px;
+    text-align: right;
+}
+#hilight-green {background-color:#6CFF6C;}
+#hilight-yellow {background-color:#FFFF00;}
+#hilight-red {background-color:#FF7171;}
+
+.drawingbox {
+    border:2px dashed #888888;
+}
+
+
+/*for jquery.alerts*/
+#popup_container {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    min-width: 300px; /* Dialog will be no smaller than this */
+    max-width: 600px; /* Dialog will wrap after this width */
+    background: #FFF;
+    border: solid 5px #999;
+    color: #000;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+object {
+    position: relative !important;
+}
+
+#pagecontainer .inline_textbox {
+    border-color:#333333;
+    border-left: 0 none !important;
+    border-right: 0 none !important;
+    border-top: 0 none !important;
+    border-width: 0 0 1px;
+    color: #646262;
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: 1px;
+    text-align: center;
+    width:200px;
+    background:none;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+    margin-bottom: 0px !important;
+    padding:0px !important;
+}
+#pagecontainer .cumulative-review-ii .enriching-your-vocabulary .tblUnitTestPassage {
+    width:340px;
+}
+#pagecontainer .cumulative-review-ii .enriching-your-vocabulary .inline_textbox {
+    width: 70px;
+}
+
+#pagecontainer .cumulative-review-iii .enriching-your-vocabulary .inline_textbox {
+    width: 100%;
+    text-align: left;
+}
+
+#pagecontainer .cumulative-review-ii .enriching-your-vocabulary .question_number {
+    width: 15px;
+}
+
+#pagecontainer .multiple_textbox {
+    border-color:#333333;
+    border-left: 0 none !important;
+    border-right: 0 none !important;
+    border-top: 0 none !important;
+    border-width: 0 0 1px;
+    color: #646262;
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: 1px;
+    text-align: center;
+    width:200px;
+    background:none;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+}
+
+#pagecontainer .dynamic_textbox {
+    border-color:#333333;
+    border-left: 0 none!important;
+    border-right: 0 none !important;
+    border-top: 0 none !important;
+    border-width: 0 0 1px;
+    color: #646262;
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: 1px;
+    width:200px;
+    background:none !important;
+    width:98%;
+    vertical-align:top;
+    line-height:1.5em;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+}
+
+.mr_question_table td{
+    width: 200px;
+    vertical-align: top;
+}
+
+.mr_question_table label {
+    display: block;
+    margin-left: 25px;
+}
+.mr_question_table input[type="radio"] {
+    float: left;
+}
+
+.mc_question_table td{
+    width: 200px;
+    vertical-align: top;
+}
+
+.mc_question_table label {
+    display: block;
+    margin-left: 25px;
+    margin-bottom: 0px;
+}
+.mc_question_table input[type="radio"] {
+    float: left;
+}
+
+.mc_question_table input[type="checkbox"] {
+    float: left;
+}
+
+.questionNumber {
+    width:30px;
+    vertical-align: top;
+}
+
+.question_number {
+    width: 30px;
+    vertical-align: top;
+}
+
+idioms1 {
+    float: left;
+    width: 325px;
+}
+
+idioms2 {
+    float: left;
+    width: 210px;
+}
+
+idioms3 {
+    float: left;
+    width: 12px;
+    margin-left:180px;
+}
+
+idioms4 {
+    float: left;
+    width: 200px;
+}
+#answerKeyResourceTitle,#footer{display:none;}
+
+.question_content {
+    width: 100%;
+    margin-bottom: 15px;
+}
+.passage-based-reading-sat {
+    float:left;
+    width: 50% !important;
+}
+
+.passage-passage-based-reading-sat {
+    float:left;
+    width: 50%;
+}
+
+.passage-model-reading-test-act {
+    float:left;
+    width: 50% !important;
+}
+
+.question_content.model-reading-test-act, .question_content.passage-based-reading-sat, .question_content.based-reading-sat {
+    width: 50%;
+}
+
+.LiteraryText {
+    color: #424242;
+    font-family: Helvetica Light,helvetica,Arial;
+    font-size: 12px;
+    font-weight: bold;
+    height: 24px;
+    padding-left: 18px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.def-audio {
+    width: 30px;
+    float:left;
+}
+
+.def-pronounciation {
+    width:150px;
+    float: left;
+}
+
+.def-text {
+    float: left;
+    width: 700px;
+}
+
+.tblUnitTestPassage td {
+}
+
+
+.studentQuestionPanel .inline_textbox {
+    border-color:#333333 !important;
+    border-left: 0 none !important;
+    border-right: 0 none !important;
+    border-top: 0 none !important;
+    border-width: 0 0 1px;
+    color: #646262;
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: 1px;
+    text-align: center;
+    width:200px;
+    background:none;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+}
+
+.studentQuestionPanel .multiple_textbox {
+    border-color:#333333 !important;
+    border-left: 0 none !important;
+    border-right: 0 none !important;
+    border-top: 0 none !important;
+    border-width: 0 0 1px;
+    color: #646262;
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: 1px;
+    text-align: center;
+    width:200px;
+    background:none;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+}
+
+.studentQuestionPanel .dynamic_textbox {
+    border-color:#333333 !important;
+    border-left: 0 none !important;
+    border-right: 0 none !important;
+    border-top: 0 none !important;
+    border-width: 0 0 1px;
+    color: #646262;
+    font-size: 11px;
+    font-weight: bold;
+    margin-left: 1px;
+    width:200px;
+    background:none;
+    width:98%;
+    vertical-align:top;
+    line-height:1.5em;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+}
+
+.mc_question_table.vertical {
+    width: 100%;
+}
+
+.cumulative-review-i .enriching-your-vocabulary td {
+    vertical-align: middle;
+}
+.cumulative-review-i .enriching-your-vocabulary table table td:last-child {
+    text-align: right;
+}
+
+.cumulative-review-i .enriching-your-vocabulary table table td:last-child .inline_textbox{
+    font-weight: bold;
+    height:24px;
+    color: #328dc2;
+}
+
+ul { list-style: none; margin: 0px;}
+
+.denotation-and-connotation .mc_question_table input[type="radio"]{
+    margin-top: 6px;
+}
+
+.denotation-and-connotation .mc_question_table img {
+    vertical-align: middle;
+}
+
+i {
+    font-size: 12px;
+}
+
+td {
+    font-size: 12px;
+    vertical-align: top;
+}
+
+.custom_assessment td {
+    font-size: 14px;
+}
+
+.custom_assessment .textbox {
+    width: 95%;
+}
+
+#reservedAreaStudentNameScore {
+    font-size: 20px;
+}
+
+.pg-pageCurrentOfTotal {
+    line-height: 30px;
+}
+
+.passage-supplying-words-in-context td{
+    line-height: 16px;
+    vertical-align: middle;
+}
+
+.passage-challenge-using-connotation td {
+    vertical-align: middle;
+}
+
+#directionLinesPlaceHolder {
+    width: 30px;
+}
+.noscreen {
+display:none;
+}
+#noscreen {
+	display:none;
+}

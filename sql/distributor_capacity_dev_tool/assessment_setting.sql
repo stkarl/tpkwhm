@@ -1,0 +1,19 @@
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.assessment.deadline.se', '1-5');
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.assessment.deadline.asm', '1-5');
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.assessment.deadline.rsm', '1-5');
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.assessment.deadline.alert1', '2');
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.assessment.deadline.alert2', '4');
+
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.workingplan.fielddate.se', '18');
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.workingplan.fielddate.asm', '18');
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.workingplan.fielddate.rsm', '18');
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.workingplan.deadline.plan.se', '1-5');
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.workingplan.deadline.plan.asm', '2-6');
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.workingplan.deadline.plan.rsm', '3-7');
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.workingplan.deadline.report.se', '1-5');
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.workingplan.deadline.report.asm', '2-6');
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.workingplan.deadline.report.rsm', '3-7');
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.workingplan.deadline.plan.alert1', '4');
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.workingplan.deadline.plan.alert2', '2');
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.workingplan.deadline.report.alert1', '4');
+INSERT INTO Setting(FieldName, FieldValue) VALUES('dcdt.workingplan.deadline.report.alert2', '2');

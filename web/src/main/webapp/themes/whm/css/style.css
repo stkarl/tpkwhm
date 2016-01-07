@@ -1,0 +1,10 @@
+input.large{
+    width: 480px;
+}
+.sale-info{
+    background: #BEDCDF;
+    text-align: center;
+}
+.sale-info.hide{
+    display: none;
+}

@@ -1,0 +1,10 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<p>
+    Đây là lần nhắc nhở thứ ${n} rằng Quý nhà phân phối và điều hành kinh doanh chưa gửi kết quả đánh giá M-1 và kế hoạch M0. Nhắc nhở này đã được gửi đến cấp quản lý trực tiếp. Đề nghị hoàn thành trước ngày ${dueDate}
+</p>
+</body>
+</html>

@@ -1,0 +1,2 @@
+ALTER TABLE `tpkwhm`.`machinecomponent` CHANGE COLUMN `Description` `Description` TEXT NULL DEFAULT NULL  ;
+ALTER TABLE `tpkwhm`.`machine` CHANGE COLUMN `Description` `Description` TEXT NULL DEFAULT NULL  ;

@@ -1,0 +1,397 @@
+/* Main */
+body {
+    width: 100%;
+    background:url(../images/bg.jpg) scroll top center repeat-x;
+    padding:0;
+    margin-top: -9px;
+}
+
+.page_wrapper {
+    width: 100%;
+    background:url(../images/bgPageCanvas_shadow.png) scroll top center no-repeat;
+    margin:0;
+    padding:0;
+}
+
+.body_wrapper {
+    width: 1070px;
+    margin: 0 auto;
+    padding-top:9px;
+    background: #ffffff;
+
+}
+a:hover {
+    text-decoration: none;
+}
+/* Header */
+#header {
+    height: 70px;
+    width: 1048px;
+    margin:5px 10px;
+    position: relative;
+    z-index:30;
+}
+
+#header #logo {
+    background: url("../images/login_logo.png") no-repeat scroll 0 0 transparent;
+    height: 86px;
+    position: relative;
+    width: 330px;
+    margin:0 auto;
+}
+
+.title {
+    font-family: "Droid Serif Italic", serif;
+    font-size: 28px;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+.title_forgotPass{
+    font-family: "Droid Serif Italic", serif;
+    font-size: 28px;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+
+.btn-login {
+    font-family: "HelveticaNeue-Bold", sans-serif;
+    font-size: 16px !important;
+    width: 120px !important;
+}
+
+.rememberme{
+    font-family: "HelveticaNeue";
+    font-style:normal;
+    font-size: 14px;
+}
+
+.form-horizontal input[type="text"], .form-horizontal input[type="password"]{
+    font-family: "HelveticaNeue", sans-serif;
+    font-size: 14px;
+}
+
+.form-vertical, .form-actions {
+    margin-bottom: 0;
+}
+
+.put-left{
+    text-align: left;
+    margin-left: 92px;
+}
+
+.more-boxes {
+    width: 1030px;
+    margin-left: 20px;
+    margin-top:20px;
+}
+
+.login-more-box {
+    width:485px;
+    float: left;
+    height: 200px;
+    padding: 30px 10px;
+    color:#ffffff;
+    font-size: 14px;
+}
+
+.login-more-box  .title {
+    font-size:26px;
+    font-family: "Droid Serif Italic";
+    font-style: italic;
+
+}
+
+.login-more-box .btn {
+    font-size: 16px;
+}
+
+#teacher-self-sign-in-box {
+    background:url(../images/teaherregistration_leather_header_bk.png) scroll top left repeat-x #75ace3;
+}
+
+#book-resources-box {
+    background:url(../images/studentresources_leather_header_bk.png) scroll top left repeat-x #8f5fa2;
+}
+
+.sc-teacher-self-sign-in-icon {
+    background: url(../images/teacher_self_sign_in_ico.png) scroll top left no-repeat;
+    width: 125px;
+    height: 164px;
+    display: block;
+    float: left;
+    margin-right: 10px;
+}
+
+.sc-book-resources-icon {
+    background: url(../images/login_book_resource_ico.png) scroll top left no-repeat;
+    width: 148px;
+    height: 154px;
+    display: block;
+    float: left;
+    margin-right: 10px;
+}
+
+/* Footer */
+#footer {
+    background:url(../images/bgFooter.jpg) scroll top center repeat-x;
+    height: 179px;
+}
+
+.footer {
+    width:1070px;
+    margin: 0 auto;
+    height: 92px;
+    background: url("../images/footer_overlap_bk.png") no-repeat scroll left bottom #FFFFFF;
+}
+
+.footer .copyright {
+    font-family: 'HelveticaNeue', sans-serif;
+    color:#b3b3b3;
+    float: left;
+    margin-top: 20px;
+    font-size:12px;
+}
+
+.footer .footer_links {
+    float: right;
+    margin-right: 20px;
+    margin-top: 20px;
+    color: #ffffff;
+    font-family: 'HelveticaNeue', sans-serif;
+    font-size:12px;
+}
+
+.footer .footer_links a {
+    color:#ffffff;
+    text-decoration: none;
+}
+
+.footer .footer_settings {
+    float: right;
+    margin-right: 20px;
+    margin-top: 38px;
+}
+
+.footer .footer_settings a {
+    float: left;
+    margin-left: 10px;
+}
+
+.footer_settings .info {
+    background:url(../images/icons/2ndaryNav/info.png) scroll left center no-repeat;
+    width: 34px;
+    height:36px;
+    display: block;
+}
+
+.footer_settings .info:hover {
+    background:url(../images/icons/2ndaryNav/infohover.png) scroll left center no-repeat;
+    width: 34px;
+    height:36px;
+    display: block;
+}
+
+.footer_settings .classroom {
+    background:url(../images/icons/2ndaryNav/settings.png) scroll left center no-repeat;
+    width: 62px;
+    height:36px;
+    display: block;
+}
+
+.footer_settings .classroom:hover {
+    background:url(../images/icons/2ndaryNav/settingshover.png) scroll left center no-repeat;
+    width: 62px;
+    height:36px;
+    display: block;
+}
+
+.clear {
+    clear:both;
+}
+
+.forgotPwdBack {
+    color:#ffffff;
+    text-decoration: underline;
+    line-height: 30px;
+}
+
+#forgotPwdInstruction {
+    width: 600px;
+    margin-left: 0px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+
+#forgotPwdInstruction p {
+    margin:0 0 5px;
+}
+
+.backToLoginPanel {
+    float: right;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min--moz-device-pixel-ratio: 1.5),
+only screen and (min-device-pixel-ratio: 1.5) {
+    .footer_settings .info {
+        background:url(../images/icons/2ndaryNav/info@2x.png) scroll left center no-repeat;
+        background-size: 28px 29px;
+    }
+
+    .footer_settings .info:hover {
+        background:url(../images/icons/2ndaryNav/infohover@2x.png) scroll left center no-repeat;
+        background-size: 28px 29px;
+    }
+
+    .footer_settings .classroom {
+        background:url(../images/icons/2ndaryNav/settings@2x.png) scroll left center no-repeat;
+        background-size: 62px 36px;
+    }
+
+    .footer_settings .classroom:hover {
+        background:url(../images/icons/2ndaryNav/settingshover@2x.png) scroll left center no-repeat;
+        background-size: 62px 36px;
+    }
+
+    #header #logo {
+        background: url("../images/login_logo@2x.png") no-repeat scroll 0 0 transparent;
+        background-size: 312px 78px;
+    }
+
+
+    #teacher-self-sign-in-box {
+        background:url(../images/teaherregistration_leather_header_bk@2x.png) scroll top left repeat-x #75ace3;
+        background-size:auto 39px;
+    }
+
+    #book-resources-box {
+        background:url(../images/studentresources_leather_header_bk@2x.png) scroll top left repeat-x #8f5fa2;
+        background-size:auto 39px;
+
+    }
+
+    .login_sadlier_icon {
+        background: url(../images/login_sadlier_left_bk@2x.png) scroll top left no-repeat;
+        background-size:261px 411px;
+    }
+}
+span.valid {
+    width: 24px;
+    height: 24px;
+    background: url(../images/icons/valid.png) center center no-repeat;
+    display: inline-block;
+    text-indent: -9999px;
+}
+span.error {
+    font-weight: bold;
+    color: red;
+    padding: 2px 8px;
+    margin-top: 2px;
+}
+
+.error-inline-validate {
+    display: inline-block;
+    color: #B94A48;
+    padding: 3px;
+    color: #ffffff;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background-color: #B94A48;
+    border-width: 5px 0 5px 5px;
+    margin-left:8px;
+}
+.error-inline-validate:before {
+    content: '';
+    display: inline-block;
+    border-top: 7px solid transparent;
+    border-right: 7px solid #B94A48;
+    border-bottom: 7px solid transparent;
+    position: relative;
+    top: 1px;
+    left:-10px
+}
+
+.control-group.error .control-label, .control-group.error .help-block, .control-group.error .help-inline,
+.control-group.success .control-label, .control-group.success .help-block, .control-group.success .help-inline {
+    color: #FFFFFF;
+}
+
+
+
+#loginbox form{
+    position:relative;
+    float:left;
+    color:#ffffff;
+    margin-left: 120px;
+}
+
+#loginbox .form-horizontal .controls {
+    margin-left: 100px;
+}
+
+#loginbox .form-horizontal .control-label {
+    font-family: Arial, sans-serif;;
+    font-size: 14px;
+    text-align: right;
+    width: 80px;
+}
+
+#loginbox a.hint {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #cccccc;
+    text-decoration: underline;
+}
+
+
+#loginbox .info{
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    margin-left: 100px;
+}
+
+#loginbox .error{
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    margin-left: 100px;
+}
+
+
+#loginbox .form-actions {
+    padding: 14px 20px 15px;
+}
+#loginbox .form-actions .pull-left {
+    margin-top: 2px;
+}
+
+#loginbox form#loginform {
+    z-index: 200;
+    width:500px;
+}
+
+#loginbox form#recoverform {
+    z-index: 100;
+    opacity: 0;
+    display:none;
+}
+
+#loginbox form#recoverform .form-actions {
+    margin-top: 27px;
+}
+
+#loginbox form#recoverform .control-group {
+    margin: 23px 0;
+}
+
+
+#loginbox.forgotPwdPanel .form-horizontal .control-label {
+    width: 120px;
+}
+
+#loginbox.forgotPwdPanel .form-horizontal .controls {
+    margin-left: 140px;
+}

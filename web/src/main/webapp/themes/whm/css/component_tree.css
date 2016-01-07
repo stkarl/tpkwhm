@@ -1,0 +1,67 @@
+.tbReportFilter>tbody>tr>td:first-child {
+    font-weight: bold;
+    width: 20%;
+}
+.table-history>tbody>tr:first-child {
+    font-weight: bold;
+}
+.modal{
+    width: 590px;
+}
+.nav{
+    margin: 0px;
+    padding: 0px;
+    float: none;
+}
+.datepicker{
+    z-index: 999999;
+}
+.tbReportFilter td {
+    white-space: normal;
+}
+ul {
+    margin: 0 10px 10px 25px;
+    text-align: justify;
+}
+li.log{
+    margin-bottom: 12px;
+}
+
+
+.tree .dropdown-menu{
+    margin-left: -150px;
+}
+
+.component-level-1{
+    background-color: #c9e1d2 !important;
+}
+.component-level-2{
+    background-color: #d6e8dd !important;
+    font-style: italic;
+
+}
+
+.component-level-3{
+    background-color: #e3efe7 !important;
+}
+.component-level-4{
+    background-color: #eff6f2 !important;
+    font-style: italic;
+}
+.component-level-5{
+    background-color: #fcfdfc !important;
+}
+
+.component-level-6{
+    background-color: #ffffff !important;
+    font-style: italic;
+}
+
+[class^="icon-"]:before, [class*=" icon-"]:before {
+    color: #0088cc;
+}
+
+
+.tree td {
+    border-bottom: 1px solid #ffffff;
+}

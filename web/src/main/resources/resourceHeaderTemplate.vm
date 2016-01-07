@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+    <title>FCV E-learning - Custom Assessment</title>
+</head>
+<body class="custom_assessment">
+<div id="dhtmlwindowholder">
+    <span style="display: none;">.</span>
+</div>
+<div style="display: none;" id="innerreader">
+    <div style="float: left; width: 20px; background-color: rgb(170, 170, 170); height: 100%;">&nbsp;</div>
+    <div style="float: right; width: 20px; background-color: rgb(170, 170, 170); height: 100%;">&nbsp;</div>
+</div>
+<div style="clear: both;" id="shadow">&nbsp;</div>
+
+<div style="display: block;" id="container" class="ui-droppable">
+    <div id="pagecontainer">
+        <div class="boxshadow" id="page">
+            <div align="center" ignore="1" id="reservedAreaStudentNameScore">&nbsp;</div>
+            <div align="center" id="title" >${title}</div>
+            <div style="margin: 10px 0px" id="description">${description}</div>
+            <div id="resourceContainer">

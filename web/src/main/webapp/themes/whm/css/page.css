@@ -1,0 +1,25 @@
+.pg-normal 
+{
+	color: #44687D;
+	font-weight: normal;
+	font-family:Tahoma, Arial, Verdana;
+	text-decoration: none;    
+	cursor: pointer;
+	font-size: 17px;    
+}
+.pg-selected 
+{
+	color: #44687D;
+	font-weight: bold;        
+	font-family:Tahoma, Arial, Verdana;
+	text-decoration: underline;
+	cursor: pointer;
+	font-size: 14px;
+}
+.pg-pageCurrentOfTotal
+{
+    color: #44687D;
+	font-family:Tahoma, Arial, Verdana;
+	font-size: 14px;
+}
+

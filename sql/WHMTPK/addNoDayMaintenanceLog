@@ -1,0 +1,1 @@
+ALTER TABLE `tpkwhm`.`importproductbill` ADD COLUMN `TempBill` TINYINT(1) DEFAULT 0;

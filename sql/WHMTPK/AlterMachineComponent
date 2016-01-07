@@ -1,0 +1,56 @@
+ALTER TABLE `tpkwhm`.`machinecomponent` DROP FOREIGN KEY `FK_Component_Machine` ;
+ALTER TABLE `tpkwhm`.`machinecomponent` CHANGE COLUMN `MachineID` `MachineID` BIGINT(20) NULL DEFAULT NULL  , ADD COLUMN `ParentID` BIGINT(20) NULL DEFAULT NULL  AFTER `GroupCode` ,
+  ADD CONSTRAINT `FK_Component_Machine`
+  FOREIGN KEY (`MachineID` )
+  REFERENCES `tpkwhm`.`machine` (`MachineID` )
+  ON DELETE CASCADE
+  ON UPDATE NO ACTION;
+
+  ALTER TABLE `tpkwhm`.`machinecomponent`
+  ADD CONSTRAINT `FK_Component_Parent`
+  FOREIGN KEY (`ParentID` )
+  REFERENCES `tpkwhm`.`machinecomponent` (`MachineComponentID` )
+  ON DELETE CASCADE
+  ON UPDATE NO ACTION
+, ADD INDEX `FK_Component_Parent_idx` (`ParentID` ASC) ;
+
+
+ALTER TABLE `tpkwhm`.`machinecomponent` ADD COLUMN `ConfirmStatus` INT(11) NULL DEFAULT 0  AFTER `ParentID` ,
+ADD COLUMN `Leader` BIGINT(20) NULL DEFAULT NULL  AFTER `ConfirmStatus` ,
+ADD COLUMN `Chief` BIGINT(20) NULL DEFAULT NULL  AFTER `Leader` ;
+ALTER TABLE `tpkwhm`.`machinecomponent`
+  ADD CONSTRAINT `FK_Component_Leader`
+  FOREIGN KEY (`Leader` )
+  REFERENCES `tpkwhm`.`user` (`UserID` )
+  ON DELETE RESTRICT
+  ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_Component_Chief`
+  FOREIGN KEY (`Chief` )
+  REFERENCES `tpkwhm`.`user` (`UserID` )
+  ON DELETE RESTRICT
+  ON UPDATE NO ACTION
+, ADD INDEX `FK_Component_Leader_idx` (`Leader` ASC)
+, ADD INDEX `FK_Component_Chief_idx` (`Chief` ASC) ;
+
+
+
+ALTER TABLE `tpkwhm`.`machine` ADD COLUMN `ConfirmStatus` INT(11) NULL DEFAULT 0,
+ADD COLUMN `Leader` BIGINT(20) NULL DEFAULT NULL  AFTER `ConfirmStatus` ,
+ADD COLUMN `Chief` BIGINT(20) NULL DEFAULT NULL  AFTER `Leader` ;
+ALTER TABLE `tpkwhm`.`machine`
+  ADD CONSTRAINT `FK_Machine_Leader`
+  FOREIGN KEY (`Leader` )
+  REFERENCES `tpkwhm`.`user` (`UserID` )
+  ON DELETE RESTRICT
+  ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_Machine_Chief`
+  FOREIGN KEY (`Chief` )
+  REFERENCES `tpkwhm`.`user` (`UserID` )
+  ON DELETE RESTRICT
+  ON UPDATE NO ACTION
+, ADD INDEX `FK_Machine_Leader_idx` (`Leader` ASC)
+, ADD INDEX `FK_Machine_Chief_idx` (`Chief` ASC) ;
+
+ALTER TABLE `tpkwhm`.`machinecomponent`
+DROP INDEX `Component_Machine_NameCode_UNIQUE`
+, ADD UNIQUE INDEX `Component_Machine_NameCode_UNIQUE` (`Name` ASC, `Code` ASC, `ParentID` ASC) ;

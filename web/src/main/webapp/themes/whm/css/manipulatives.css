@@ -1,0 +1,22 @@
+#toolbar-panel {
+	  background: url(../../images/toolbar_panel.png);
+	  width:94px;
+    height: 277px;
+    float:left;
+}
+
+#toolbar-options{
+	width: 230px;
+	border:1px solid black;
+	float:left;position:relative;top:30px;
+	background: #f2f2f2;
+	display:none;
+}
+
+#toolbar-text{
+	width: 230px;
+	border:1px solid black;
+	float:left;position:relative;top:30px;
+	background: #f2f2f2;
+	display:none;
+}

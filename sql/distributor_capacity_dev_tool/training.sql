@@ -1,0 +1,355 @@
+DROP TABLE IF EXISTS QuestionType;
+CREATE TABLE QuestionType (
+  QuestionTypeID BIGINT NOT NULL AUTO_INCREMENT,
+  Type VARCHAR(255) NOT NULL,
+  MaxScore FLOAT NOT NULL,
+  AutoScore TINYINT(4) NOT NULL DEFAULT 1,
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (QuestionTypeID),
+  UNIQUE UQ_QuestionType(Type)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+DROP TABLE IF EXISTS Curriculum;
+CREATE TABLE Curriculum (
+  CurriculumID BIGINT NOT NULL AUTO_INCREMENT,
+  Code VARCHAR(255) NOT NULL,
+  Name VARCHAR(255) NOT NULL,
+  Description TEXT,
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (CurriculumID),
+  UNIQUE UQ_Curriculum(Code)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS SkillSet;
+CREATE TABLE SkillSet (
+  SkillSetID BIGINT NOT NULL AUTO_INCREMENT,
+  Code VARCHAR(255) NOT NULL,
+  Name VARCHAR(255) NOT NULL,
+  CurriculumID BIGINT NOT NULL,
+  Description TEXT,
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (SkillSetID),
+  UNIQUE UQ_SkillSet(Code, CurriculumID),
+  CONSTRAINT `FK_SkillSet_Curriculum` FOREIGN KEY (`CurriculumID`) REFERENCES `Curriculum` (`CurriculumID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS Skill;
+CREATE TABLE Skill (
+  SkillID BIGINT NOT NULL AUTO_INCREMENT,
+  Code VARCHAR(255) NOT NULL,
+  Name VARCHAR(255) NOT NULL,
+  Description TEXT,
+  SkillSetID BIGINT NOT NULL,
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (SkillID),
+  UNIQUE UQ_Skill(Code, SkillSetID),
+  CONSTRAINT `FK_Skill_SkillSet` FOREIGN KEY (`SkillSetID`) REFERENCES `SkillSet` (`SkillSetID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS PassagePool;
+CREATE TABLE PassagePool (
+  PassagePoolID BIGINT NOT NULL AUTO_INCREMENT,
+  PassageXML LONGTEXT NOT NULL,
+  PassageHTML LONGTEXT NOT NULL,
+  CurriculumID BIGINT NOT NULL,
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (PassagePoolID),
+  CONSTRAINT `FK_Passage_Curriculum` FOREIGN KEY (`CurriculumID`) REFERENCES `Curriculum` (`CurriculumID`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS QuestionPool;
+CREATE TABLE QuestionPool (
+  QuestionPoolID BIGINT NOT NULL AUTO_INCREMENT,
+  QuestionUID BIGINT NOT NULL,
+  QuestionHTML LONGTEXT NOT NULL,
+  QuestionXML LONGTEXT NOT NULL,
+  CorrectAnswer TEXT,
+  CorrectAnswerNumber INT,
+  CurriculumID BIGINT NOT NULL,
+  PassagePoolID BIGINT NULL,
+  QuestionTypeID BIGINT NOT NULL,
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (QuestionPoolID),
+  UNIQUE UQ_QuestionPool(CurriculumID, QuestionUID),
+  CONSTRAINT `FK_QuestionPool_Curriculum` FOREIGN KEY (`CurriculumID`) REFERENCES `Curriculum` (`CurriculumID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_QuestionPool_Passage` FOREIGN KEY (`PassagePoolID`) REFERENCES `PassagePool` (`PassagePoolID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_QuestionPool_QuestionType` FOREIGN KEY (`QuestionTypeID`) REFERENCES `QuestionType` (`QuestionTypeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS QuestionPoolSkill;
+CREATE TABLE QuestionPoolSkill (
+  QuestionPoolSkillID BIGINT NOT NULL AUTO_INCREMENT,
+  QuestionPoolID BIGINT NOT NULL,
+  SkillID BIGINT NOT NULL,
+
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (QuestionPoolSkillID),
+  UNIQUE UQ_QuestionSkill(QuestionPoolID, SkillID),
+  CONSTRAINT `FK_QuestionPoolSkill_Skill` FOREIGN KEY (`SkillID`) REFERENCES `Skill` (`SkillID`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `FK_QuestionPoolSkill_QuestionPool` FOREIGN KEY (`QuestionPoolID`) REFERENCES `QuestionPool` (`QuestionPoolID`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS AssessmentCategory;
+CREATE TABLE AssessmentCategory (
+  AssessmentCategoryID BIGINT NOT NULL AUTO_INCREMENT,
+  Code VARCHAR(255) NOT NULL,
+  Name VARCHAR(255) NOT NULL,
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (AssessmentCategoryID),
+  UNIQUE UQ_AssessmentCategory(Code)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS ResourceCategory;
+CREATE TABLE ResourceCategory (
+  ResourceCategoryID BIGINT NOT NULL AUTO_INCREMENT,
+  Code VARCHAR(255) NOT NULL,
+  Name VARCHAR(255) NOT NULL,
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (ResourceCategoryID),
+  UNIQUE UQ_ResourceCategory(Code)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS Resource;
+CREATE TABLE Resource (
+  ResourceID BIGINT NOT NULL AUTO_INCREMENT,
+  Code VARCHAR(255) NOT NULL,
+  Title VARCHAR(255) NOT NULL,
+  URI VARCHAR(255) NULL,
+  CurriculumID BIGINT NOT NULL,
+  InstructorID BIGINT NULL,
+  AssessmentCategoryID BIGINT NULL,
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  AutoAssigned TINYINT(4) DEFAULT 0,
+  ResourceCategoryID BIGINT NOT NULL,
+  PRIMARY KEY (ResourceID),
+  UNIQUE UQ_Resource(Code),
+  CONSTRAINT `FK_Resource_Curriculum` FOREIGN KEY (`CurriculumID`) REFERENCES `Curriculum` (`CurriculumID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Resource_User` FOREIGN KEY (`InstructorID`) REFERENCES `User` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Resource_AssessmentCategory` FOREIGN KEY (`AssessmentCategoryID`) REFERENCES `AssessmentCategory` (`AssessmentCategoryID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Resource_ResourceCategory` FOREIGN KEY (`ResourceCategoryID`) REFERENCES `ResourceCategory` (`ResourceCategoryID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS ResourceSkill;
+CREATE TABLE ResourceSkill (
+  ResourceSkillID BIGINT NOT NULL AUTO_INCREMENT,
+  ResourceID BIGINT NOT NULL,
+  SkillID BIGINT NOT NULL,
+
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (ResourceSkillID),
+  UNIQUE UQ_ResourceSkill(ResourceID, SkillID),
+  CONSTRAINT `FK_ResourceSkill_Skill` FOREIGN KEY (`SkillID`) REFERENCES `Skill` (`SkillID`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `FK_ResourceSkill_Question` FOREIGN KEY (`ResourceID`) REFERENCES `Resource` (`ResourceID`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS Passage;
+CREATE TABLE Passage (
+  PassageID BIGINT NOT NULL AUTO_INCREMENT,
+  PassageXML LONGTEXT NOT NULL,
+  PassageNumber INT,
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (PassageID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS Assessment;
+CREATE TABLE Assessment (
+  AssessmentID BIGINT NOT NULL AUTO_INCREMENT,
+  HeaderPassageID BIGINT NOT NULL,
+  FooterPassageID BIGINT NOT NULL,
+  ResourceID BIGINT NOT NULL,
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (AssessmentID),
+  UNIQUE UQ_Assessment(ResourceID),
+  CONSTRAINT `FK_Assessment_Resource` FOREIGN KEY (`ResourceID`) REFERENCES `Resource` (`ResourceID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Assessment_HeaderPassage` FOREIGN KEY (`HeaderPassageID`) REFERENCES `Passage` (`PassageID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Assessment_FooterPassage` FOREIGN KEY (`FooterPassageID`) REFERENCES `Passage` (`PassageID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS Question;
+CREATE TABLE Question (
+  QuestionID BIGINT NOT NULL AUTO_INCREMENT,
+  QuestionNumber INT NOT NULL,
+  QuestionHTML LONGTEXT NOT NULL,
+  QuestionXML LONGTEXT NOT NULL,
+  CorrectAnswer TEXT,
+  CorrectAnswerNumber INT,
+  AssessmentID BIGINT NOT NULL,
+  QuestionTypeID BIGINT NOT NULL,
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (QuestionID),
+  UNIQUE UQ_Question(AssessmentID, QuestionNumber),
+  CONSTRAINT `FK_Question_Assessment` FOREIGN KEY (`AssessmentID`) REFERENCES `Assessment` (`AssessmentID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Question_QuestionType` FOREIGN KEY (`QuestionTypeID`) REFERENCES `QuestionType` (`QuestionTypeID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS QuestionSet;
+CREATE TABLE QuestionSet (
+  QuestionSetID BIGINT NOT NULL AUTO_INCREMENT,
+  PassageID BIGINT NOT NULL,
+  AssessmentID BIGINT NOT NULL,
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (QuestionSetID),
+  CONSTRAINT `FK_QuestionSet_Assessment` FOREIGN KEY (`AssessmentID`) REFERENCES `Assessment` (`AssessmentID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_QuestionSet_Passage` FOREIGN KEY (`PassageID`) REFERENCES `Passage` (`PassageID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS QuestionSetQuestion;
+CREATE TABLE QuestionSetQuestion (
+  QuestionSetQuestionID BIGINT NOT NULL AUTO_INCREMENT,
+  QuestionID BIGINT NOT NULL,
+  QuestionSetID BIGINT NOT NULL,
+
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (QuestionSetQuestionID),
+  UNIQUE UQ_QuestionSetQuestion(QuestionID, QuestionSetID),
+  CONSTRAINT `FK_QuestionSetQuestion_QuestionSet` FOREIGN KEY (`QuestionSetID`) REFERENCES `QuestionSet` (`QuestionSetID`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `FK_QuestionSetQuestion_Question` FOREIGN KEY (`QuestionID`) REFERENCES `Question` (`QuestionID`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS QuestionSkill;
+CREATE TABLE QuestionSkill (
+  QuestionSkillID BIGINT NOT NULL AUTO_INCREMENT,
+  QuestionID BIGINT NOT NULL,
+  SkillID BIGINT NOT NULL,
+
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (QuestionSkillID),
+  UNIQUE UQ_QuestionSkill(QuestionID, SkillID),
+  CONSTRAINT `FK_QuestionSkill_Skill` FOREIGN KEY (`SkillID`) REFERENCES `Skill` (`SkillID`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `FK_QuestionSkill_Question` FOREIGN KEY (`QuestionID`) REFERENCES `Question` (`QuestionID`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS Class;
+CREATE TABLE Class (
+  ClassID BIGINT NOT NULL AUTO_INCREMENT,
+  Code VARCHAR(255) NOT NULL,
+  Name VARCHAR(255) NOT NULL,
+  CurriculumID BIGINT NULL,
+  OpeningTime TIMESTAMP,
+  EndTime TIMESTAMP,
+  InstructorID BIGINT NOT NULL,
+  CreatedBy BIGINT NOT NULL,
+  CreatedDate TIMESTAMP NOT NULL,
+  Enrollable TINYINT(4) NOT NULL DEFAULT 1,
+  ModifiedBy BIGINT,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (ClassID),
+  CONSTRAINT `FK_Class_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `User` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Class_ModifiedBy` FOREIGN KEY (`ModifiedBy`) REFERENCES `User` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Class_Instructor` FOREIGN KEY (`InstructorID`) REFERENCES `User` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Class_Curriculum` FOREIGN KEY (`CurriculumID`) REFERENCES `Curriculum` (`CurriculumID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS ClassRoster;
+CREATE TABLE ClassRoster (
+  ClassRosterID BIGINT NOT NULL AUTO_INCREMENT,
+  ClassID BIGINT NOT NULL,
+  StudentID BIGINT NOT NULL,
+  Status INT,
+  CreatedBy BIGINT NOT NULL,
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedBy BIGINT,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (ClassRosterID),
+  UNIQUE UQ_ClassRoster(ClassID, ClassRosterID),
+  CONSTRAINT `FK_ClassRoster_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `User` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_ClassRoster_ModifiedBy` FOREIGN KEY (`ModifiedBy`) REFERENCES `User` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_ClassRoster_Class` FOREIGN KEY (`ClassID`) REFERENCES `Class` (`ClassID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_ClassRoster_Student` FOREIGN KEY (`StudentID`) REFERENCES `User` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS Assignment;
+CREATE TABLE Assignment (
+  AssignmentID BIGINT NOT NULL AUTO_INCREMENT,
+  Name VARCHAR(255),
+  StartTime TIMESTAMP,
+  EndTime TIMESTAMP,
+  ClassID BIGINT NOT NULL,
+  InstructorID BIGINT NOT NULL,
+  ResourceID BIGINT NOT NULL,
+  CreatedBy BIGINT NOT NULL,
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedBy BIGINT,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (AssignmentID),
+  CONSTRAINT `FK_Assignment_Class` FOREIGN KEY (`ClassID`) REFERENCES `Class` (`ClassID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Assignment_CreatedBy` FOREIGN KEY (`CreatedBy`) REFERENCES `User` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Assignment_ModifiedBy` FOREIGN KEY (`ModifiedBy`) REFERENCES `User` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Assignment_Instructor` FOREIGN KEY (`InstructorID`) REFERENCES `User` (`UserID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Assignment_Resource` FOREIGN KEY (`ResourceID`) REFERENCES `Resource` (`ResourceID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS StudentAssignment;
+CREATE TABLE StudentAssignment (
+  StudentAssignmentID BIGINT NOT NULL AUTO_INCREMENT,
+  AssignmentID BIGINT NOT NULL,
+  ClassRosterID BIGINT NOT NULL,
+  Status INT,
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (StudentAssignmentID),
+  CONSTRAINT `FK_StudentAssignment_ClassRoster` FOREIGN KEY (`ClassRosterID`) REFERENCES `ClassRoster` (`ClassRosterID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `FK_StudentAssignment_Assignment` FOREIGN KEY (`AssignmentID`) REFERENCES `Assignment` (`AssignmentID`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS AssessmentInstance;
+CREATE TABLE AssessmentInstance (
+  AssessmentInstanceID BIGINT NOT NULL AUTO_INCREMENT,
+  AssessmentID BIGINT NOT NULL,
+  StudentAssignmentID BIGINT NOT NULL,
+  Status  INT NOT NULL,
+  Score FLOAT,
+  Duration FLOAT,
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  CompletedDate TIMESTAMP,
+  PRIMARY KEY (AssessmentInstanceID),
+  UNIQUE UQ_AssessmentInstance(StudentAssignmentID),
+  CONSTRAINT `FK_AssessmentInstance_Assessment` FOREIGN KEY (`AssessmentID`) REFERENCES `Assessment` (`AssessmentID`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `FK_AssessmentInstance_StudentAssignment` FOREIGN KEY (`StudentAssignmentID`) REFERENCES `StudentAssignment` (`StudentAssignmentID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS Response;
+CREATE TABLE Response (
+  ResponseID BIGINT NOT NULL AUTO_INCREMENT,
+  AssessmentInstanceID BIGINT NOT NULL,
+  QuestionID  BIGINT NOT NULL,
+  Answer TEXT,
+  Score FLOAT,
+  IsMaster TINYINT(4),
+  CreatedDate TIMESTAMP NOT NULL,
+  ModifiedDate TIMESTAMP,
+  PRIMARY KEY (ResponseID),
+  UNIQUE UQ_Response(AssessmentInstanceID, QuestionID),
+  CONSTRAINT `FK_Response_AssessmentInstance` FOREIGN KEY (`AssessmentInstanceID`) REFERENCES `AssessmentInstance` (`AssessmentInstanceID`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `FK_Response_Question` FOREIGN KEY (`QuestionID`) REFERENCES `Question` (`QuestionID`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE PassagePool
+ADD PassageHTML LONGTEXT;

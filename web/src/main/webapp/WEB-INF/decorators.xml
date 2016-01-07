@@ -1,0 +1,27 @@
+<decorators defaultdir="/decorators">
+    <excludes>
+        <pattern>/40*.jsp</pattern>
+        <pattern>/ajax/*</pattern>
+        <pattern>/MobileWS/*</pattern>
+    </excludes>
+
+    <decorator name="default" page="default.jsp">
+        <pattern>/*</pattern>
+    </decorator>
+    <decorator name="admin" page="admin.jsp">
+        <pattern>/admin/*</pattern>
+    </decorator>
+    <decorator name="dcdt" page="dcdt.jsp">
+        <pattern>/dcdt/*</pattern>
+    </decorator>
+    <decorator name="whm" page="whm.jsp">
+        <pattern>/whm/*</pattern>
+    </decorator>
+    <decorator name="report" page="report.jsp">
+        <pattern>/report/*</pattern>
+    </decorator>
+    <decorator name="login" page="login.jsp">
+        <pattern>/login*</pattern>
+    </decorator>
+
+</decorators>

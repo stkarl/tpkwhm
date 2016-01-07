@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+        "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+        version="2.0">
+
+    <tlib-version>1.0</tlib-version>
+    <short-name>tpk-taglibs</short-name>
+    <uri>http://www.tanphuockhanh.vn/tpk-taglibs</uri>
+
+    <function>
+        <name>productShipName</name>
+        <function-class>com.banvien.tpk.webapp.util.WebCommonUtils</function-class>
+        <function-signature>java.lang.String productShipName(java.lang.String, java.lang.String)</function-signature>
+    </function>
+
+
+    <function>
+        <name>numberInWord</name>
+        <function-class>com.banvien.tpk.webapp.util.ReadNumber</function-class>
+        <function-signature>java.lang.String numberToString(java.lang.Double)</function-signature>
+    </function>
+
+    <function>
+        <name>productShipNote</name>
+        <function-class>com.banvien.tpk.webapp.util.WebCommonUtils</function-class>
+        <function-signature>java.lang.String productShipNote(java.util.List)</function-signature>
+    </function>
+
+    <function>
+        <name>productWidth</name>
+        <function-class>com.banvien.tpk.webapp.util.WebCommonUtils</function-class>
+        <function-signature>java.lang.Double productWidth(java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <name>productThick</name>
+        <function-class>com.banvien.tpk.webapp.util.WebCommonUtils</function-class>
+        <function-signature>java.lang.Double productThick(java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <name>balanceArrangeFee</name>
+        <function-class>com.banvien.tpk.webapp.util.WebCommonUtils</function-class>
+        <function-signature>java.lang.Double balanceArrangeFee(java.lang.Double, java.lang.Double)</function-signature>
+    </function>
+
+    <function>
+        <name>productCodeWhenPrint</name>
+        <function-class>com.banvien.tpk.webapp.util.WebCommonUtils</function-class>
+        <function-signature>java.lang.String productCodeWhenPrint(java.lang.String)</function-signature>
+    </function>
+
+
+    <function>
+        <name>checkImage</name>
+        <function-class>com.banvien.tpk.webapp.util.WebCommonUtils</function-class>
+        <function-signature>java.lang.Boolean checkImage(java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <name>getFileName</name>
+        <function-class>com.banvien.tpk.webapp.util.WebCommonUtils</function-class>
+        <function-signature>java.lang.String getFileName(java.lang.String)</function-signature>
+    </function>
+
+    <function>
+        <name>getLoginID</name>
+        <function-class>com.banvien.tpk.webapp.util.WebCommonUtils</function-class>
+        <function-signature>java.lang.Long getLoginID()</function-signature>
+    </function>
+
+
+</taglib>

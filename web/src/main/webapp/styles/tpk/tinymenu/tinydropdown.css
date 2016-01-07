@@ -1,0 +1,18 @@
+* {margin:0; padding:0; outline:0}
+body {font-family: Verdana,Helvetica,sans-serif; font-size:0.6875em; line-height: 1.55em; color:#525558;}
+.nav {  }
+.menu a {}
+.menu span {}
+.menu a:hover {}
+.menu {list-style:none; text-align:left; margin:auto;}
+.menu li {position:relative; float:left; width: auto; z-index:1000; padding-left: 5px;}
+.menu ul {display:none; position:absolute;  left:0; background:#F4F3F1; display:none; list-style:none}
+.menu ul li {float:none; width:250px;}
+.menu ul li a, li.menuhover li a, li.menuhover li.menuhover li a {float:none; display:block; background:none; height:22px; padding-top:10px}
+.menu ul li a:hover, li.menuhover li a:hover, li.menuhover li.menuhover li a:hover { background: #ecf4f8; }
+.menu ul li span, li.menuhover li span, li.menuhover li.menuhover li span {float:none; display:block; background:none;  padding-top:10px}
+.menu ul ul {left:250px; top:0;}
+.menu li.submenu {}
+.menu li.noborder {border-top:none}
+li.menuhover a, li.menuhover li.menuhover a { background: #ecf4f8; }
+li.menuhover span, li.menuhover li.menuhover span { background: #ecf4f8;}

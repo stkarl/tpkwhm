@@ -1,0 +1,19 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+	<class name="com.banvien.tpk.core.domain.BookProduct" table="bookproduct">
+
+		<id name="bookProductID">
+			<generator class="native"/>
+		</id>
+
+		<many-to-one name="bookProductBill" column="BookProductBillID"/>
+	
+		<property name="note" column="Note"/>
+
+        <many-to-one name="importProduct" column="ImportProductID"/>
+
+    </class>
+</hibernate-mapping>
