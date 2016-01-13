@@ -156,6 +156,7 @@
                 <div class="controls">
                     <div style="display: inline">
                         <a href="javascript:window.print();" class="btn btn-primary"><i class="icon-print"></i> <fmt:message key="button.print"/></a>
+                        <a id="btnExport" class="btn btn-info " onclick="exportExcel();"><i class="icon-arrow-down"></i> <fmt:message key="label.export.excel"/></a>
                         <a href="${backUrl}" class="cancel-link">
                             <fmt:message key="button.cancel"/>
                         </a>
@@ -232,5 +233,9 @@
         }
         var string = numeral(parseFloat(tong)).format('0,0');
         $("#totalMoney").val(string);
+    }
+
+    function exportExcel(){
+        window.location = '/ajax/exportReImport.html?importProductBillID=' + '${item.pojo.importProductBillID}';
     }
 </script>

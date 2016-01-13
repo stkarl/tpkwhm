@@ -21,6 +21,7 @@ import com.banvien.tpk.webapp.util.RequestUtil;
 import com.banvien.tpk.webapp.util.WebCommonUtils;
 import com.banvien.tpk.webapp.validator.ImportProductValidator;
 import jxl.Workbook;
+import jxl.format.Colour;
 import jxl.format.UnderlineStyle;
 import jxl.write.*;
 import org.apache.commons.lang.StringUtils;
@@ -1106,6 +1107,135 @@ public class ImportProductBillController extends ApplicationObjectSupport {
         }
         mav.addObject(Constants.FORM_MODEL_KEY, bean);
         return mav;
+    }
+
+    @RequestMapping("/ajax/exportReImport.html")
+    public ModelAndView exportReImport(@RequestParam(value = "importProductBillID", required = true) Long importProductBillID,
+                               HttpServletRequest request, HttpServletResponse response){
+
+        try {
+            Importproductbill itemObj = this.importproductbillService.findById(importProductBillID);
+            exportReImportProduct2Excel(itemObj , request, response);
+        }
+        catch (Exception e) {
+            logger.error("Could not found item " + importProductBillID, e);
+        }
+        return null;
+    }
+
+    private void exportReImportProduct2Excel(Importproductbill itemObj, HttpServletRequest request, HttpServletResponse response) {
+        try{
+            String outputFileName = "/files/temp/TonNgoaiSanXuat" + System.currentTimeMillis() + ".xls";
+            String reportTemplate = request.getSession().getServletContext().getRealPath("/files/export/TonNgoaiSanXuat.xls");
+            String export2FileName = request.getSession().getServletContext().getRealPath(outputFileName);
+
+            Workbook templateWorkbook = Workbook.getWorkbook(new File(reportTemplate));
+            WritableWorkbook workbook = Workbook.createWorkbook(new File(export2FileName), templateWorkbook);
+
+            WritableSheet sheet = workbook.getSheet(0);
+
+            WritableFont normalFont = new WritableFont(WritableFont.TIMES, 12,
+                    WritableFont.NO_BOLD, false,
+                    UnderlineStyle.NO_UNDERLINE,
+                    Colour.BLACK);
+            WritableCellFormat normalFormat = new WritableCellFormat(normalFont);
+            normalFormat.setAlignment(Alignment.CENTRE);
+            normalFormat.setWrap(true);
+            normalFormat.setBorder(jxl.format.Border.ALL, jxl.format.BorderLineStyle.THIN);
+            DecimalFormat decimalFormat = new DecimalFormat("###,###");
+
+
+            WritableCellFormat infoFormat = new WritableCellFormat(normalFont);
+            infoFormat.setAlignment(Alignment.LEFT);
+            infoFormat.setWrap(false);
+            String cusName = "";
+            if(itemObj.getCustomer() != null){
+                cusName = itemObj.getCustomer().getName();
+                if(itemObj.getCustomer().getProvince() != null){
+                    cusName += " - " + itemObj.getCustomer().getProvince().getName();
+                }
+            }
+
+            sheet.addCell(new Label(2,2,itemObj.getCode(),infoFormat));
+            sheet.addCell(new Label(2,3,cusName,infoFormat));
+            sheet.addCell(new Label(2,4,itemObj.getDescription() != null ? itemObj.getDescription() : "" ,infoFormat));
+            sheet.addCell(new Label(6,2,itemObj.getWarehouse().getName(),infoFormat));
+            sheet.addCell(new Label(6,3,itemObj.getImportDate() != null ? DateUtils.date2String(itemObj.getImportDate(),"dd/MM/yyyy") : "",infoFormat));
+
+            int startRow = 7;
+            int stt = 1;
+            String originName;
+
+
+            Double totalMet = 0d;
+            Double totalKg = 0d;
+
+            for(Importproduct importproduct : itemObj.getImportproducts()){
+                CellValue[] res = new CellValue[15];
+                int i = 0;
+                res[i++] = new CellValue(CellDataType.STRING, stt++);
+                res[i++] = new CellValue(CellDataType.STRING, importproduct.getProductname().getName());
+                res[i++] = new CellValue(CellDataType.STRING, importproduct.getProductCode() != null ? importproduct.getProductCode() : "");
+                res[i++] = new CellValue(CellDataType.STRING, importproduct.getSize() != null ? importproduct.getSize().getName() : "");
+                res[i++] = new CellValue(CellDataType.STRING, importproduct.getThickness() != null ? importproduct.getThickness().getName() : "");
+                res[i++] = new CellValue(CellDataType.STRING, importproduct.getStiffness() != null ? importproduct.getStiffness().getName() : "");
+                res[i++] = new CellValue(CellDataType.STRING, importproduct.getColour() != null ? importproduct.getColour().getName() : "");
+                res[i++] = new CellValue(CellDataType.STRING, importproduct.getOverlaytype() != null ? importproduct.getOverlaytype().getName() : "");
+                originName = "";
+                if(importproduct.getOrigin() != null){
+                    originName = importproduct.getOrigin().getName();
+                }else if(importproduct.getMainUsedMaterial() != null && importproduct.getMainUsedMaterial().getOrigin() != null){
+                    originName = importproduct.getMainUsedMaterial().getOrigin().getName();
+                }else if(importproduct.getMainUsedMaterial() != null && importproduct.getMainUsedMaterial().getMainUsedMaterial() != null && importproduct.getMainUsedMaterial().getMainUsedMaterial().getOrigin() != null){
+                    originName = importproduct.getMainUsedMaterial().getMainUsedMaterial().getOrigin().getName();
+                }
+                res[i++] = new CellValue(CellDataType.STRING, originName);
+                res[i++] = new CellValue(CellDataType.STRING, importproduct.getMarket() != null ? importproduct.getMarket().getName() : "");
+                res[i++] = new CellValue(CellDataType.STRING, importproduct.getWarehouse() != null ? importproduct.getWarehouse().getName() : "");
+                res[i++] = new CellValue(CellDataType.STRING, importproduct.getImportDate() != null ? DateUtils.date2String(importproduct.getImportDate(),"dd/MM/yyyy") : (importproduct.getProduceDate() != null ? DateUtils.date2String(importproduct.getProduceDate(),"dd/MM/yyyy") : ""));
+                res[i++] = new CellValue(CellDataType.STRING, importproduct.getQuantity1() != null ? decimalFormat.format(importproduct.getQuantity1())  : "");
+                res[i++] = new CellValue(CellDataType.STRING, importproduct.getQuantity2Pure() != null ? decimalFormat.format(importproduct.getQuantity2Pure())  : "");
+                res[i++] = new CellValue(CellDataType.STRING, importproduct.getNote() != null ? importproduct.getNote() : "");
+                ExcelUtil.addRow(sheet,startRow++,res,normalFormat,normalFormat,normalFormat,normalFormat);
+                if(importproduct.getQuantity1() != null){
+                    totalMet += importproduct.getQuantity1();
+                }
+                if(importproduct.getQuantity2Pure() != null){
+                    totalKg += importproduct.getQuantity2Pure();
+                }
+            }
+
+            WritableFont boldFont = new WritableFont(WritableFont.TIMES, 12,
+                    WritableFont.BOLD, false,
+                    UnderlineStyle.NO_UNDERLINE,
+                    Colour.BLACK);
+            WritableCellFormat boldCenterFormat = new WritableCellFormat(boldFont);
+            boldCenterFormat.setWrap(true);
+            boldCenterFormat.setAlignment(Alignment.CENTRE);
+            boldCenterFormat.setBorder(jxl.format.Border.ALL, jxl.format.BorderLineStyle.THIN);
+
+            Label tong = new Label(0,startRow,"Tổng: " + itemObj.getImportproducts().size() + " cuộn",boldCenterFormat);
+            sheet.addCell(tong);
+            sheet.mergeCells(0,startRow,3,startRow);
+
+            Label blank = new Label(4,startRow,"",boldCenterFormat);
+            sheet.addCell(blank);
+            sheet.mergeCells(4,startRow,11,startRow);
+            String sMet = totalMet != null && totalMet > 0 ? decimalFormat.format(totalMet)  : "";
+            Label met = new Label(12,startRow,sMet,boldCenterFormat);
+            sheet.addCell(met);
+            String sKg = totalKg != null ? decimalFormat.format(totalKg)  : "";
+            Label kg = new Label(13,startRow,sKg,boldCenterFormat);
+            sheet.addCell(kg);
+            Label note = new Label(14,startRow,"",boldCenterFormat);
+            sheet.addCell(note);
+            workbook.write();
+            workbook.close();
+            response.sendRedirect(request.getSession().getServletContext().getContextPath() + outputFileName);
+        }
+        catch(Exception ex){
+            logger.error(ex.getMessage(), ex);
+        }
     }
 
 
