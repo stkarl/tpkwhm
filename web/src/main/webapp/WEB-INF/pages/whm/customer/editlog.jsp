@@ -86,9 +86,11 @@
 
                 <div class="controls">
                     <security:authorize ifAnyGranted="QUANLYKD,LANHDAO,ADMIN,QUANLYNO">
-                    <a onclick="save();" class="btn btn-success btn-green" style="cursor: pointer;">
-                        <fmt:message key="button.save"/>
-                    </a>
+                        <c:if test="${empty item.pojo.bookProductBill}">
+                            <a onclick="save();" class="btn btn-success btn-green" style="cursor: pointer;">
+                                <fmt:message key="button.save"/>
+                            </a>
+                        </c:if>
                     </security:authorize>
                     <div style="display: inline">
                         <form:hidden path="crudaction" id="crudaction" value="insert-update"/>

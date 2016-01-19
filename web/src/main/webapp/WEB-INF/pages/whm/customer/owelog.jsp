@@ -112,10 +112,14 @@
                             <c:if test="${tableList.type eq Constants.OWE_MINUS && empty tableList.bookProductBill}">
                                 <span class="separator"></span>
                             </c:if>
-                            <a href="${editUrl}?pojo.oweLogID=${tableList.oweLogID}" class="icon-edit tip-top" title="<fmt:message key="label.edit"/>"></a>
+                            <c:if test="${empty tableList.bookProductBill}">
+                                <a href="${editUrl}?pojo.oweLogID=${tableList.oweLogID}" class="icon-edit tip-top" title="<fmt:message key="label.edit"/>"></a>
+                            </c:if>
                             <security:authorize ifNotGranted="QUANLYNO">
-                                <span class="separator"></span>
-                                <a name="deleteLink" onclick="warningDelete(this)" id="${tableList.oweLogID}" class="icon-remove tip-top" title="<fmt:message key="label.delete"/>"></a>
+                                <c:if test="${empty tableList.bookProductBill}">
+                                    <span class="separator"></span>
+                                    <a name="deleteLink" onclick="warningDelete(this)" id="${tableList.oweLogID}" class="icon-remove tip-top" title="<fmt:message key="label.delete"/>"></a>
+                                </c:if>
                             </security:authorize>
                         </security:authorize>
                     </display:column>
