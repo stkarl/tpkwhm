@@ -1,9 +1,7 @@
 package com.banvien.tpk.webapp.controller.whm;
 
 import com.banvien.tpk.core.Constants;
-import com.banvien.tpk.core.domain.Importproduct;
 import com.banvien.tpk.core.dto.ReportBean;
-import com.banvien.tpk.core.dto.SellSummaryDTO;
 import com.banvien.tpk.core.dto.SummaryLiabilityDTO;
 import com.banvien.tpk.core.service.*;
 import com.banvien.tpk.webapp.dto.CellDataType;
@@ -172,5 +170,28 @@ public class ReportLiabilityController extends ApplicationObjectSupport {
         catch(Exception ex){
             logger.error(ex.getMessage(), ex);
         }
+    }
+
+
+    @RequestMapping(value={"/whm/report/customer_active.html"})
+    public ModelAndView cusActive(ReportBean bean,HttpServletRequest request,HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("/whm/report/customer_active");
+        if(bean.getToDate() != null){
+            bean.setToDate(DateUtils.move2TheEndOfDay(new Timestamp(bean.getToDate().getTime())));
+        }else {
+            bean.setToDate(new Date(System.currentTimeMillis()));
+        }
+        if(bean.getCrudaction() != null && ("report".equals(bean.getCrudaction()) || "export".equals(bean.getCrudaction()))){
+            List<SummaryLiabilityDTO> results = this.importProductService.summaryLiability(bean);
+            if(results != null && results.size() > 0){
+                mav.addObject("results",results);
+            }
+            if(bean.getCrudaction() != null && "export".equals(bean.getCrudaction())){
+                exportLiabilitySummary2Excel(bean, results, request, response);
+            }
+        }
+        addData2ModelProduct(mav);
+        mav.addObject(Constants.LIST_MODEL_KEY, bean);
+        return mav;
     }
 }
