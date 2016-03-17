@@ -626,10 +626,10 @@ public class ImportproductHibernateDAO extends
                         Boolean reportCost = bean.getReportCost();
 
                         if(loginWarehouseID != null){
-                            whereClause.append(" AND ip.warehouse.warehouseID = :loginWarehouseID");
+                            whereClause.append(" AND ip.importproductbill.warehouse.warehouseID = :loginWarehouseID");
                         }else{
                             if(warehouseID != null){
-                                whereClause.append(" AND ip.warehouse.warehouseID = :warehouseID");
+                                whereClause.append(" AND ip.importproductbill.warehouse.warehouseID = :warehouseID");
                             }
                         }
                         if(productionPlanID != null){
