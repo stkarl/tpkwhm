@@ -418,7 +418,7 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
         if(bookProducts != null){
             String key;
             for(BookProduct bookProduct : bookProducts){
-                if(bookProduct.getImportProduct().getProductqualitys() != null){
+                if(bookProduct.getImportProduct().getProductqualitys() != null && bookProduct.getImportProduct().getProductqualitys().size() > 0){
                     for(Productquality productquality : bookProduct.getImportProduct().getProductqualitys()){
                         key = bookProduct.getImportProduct().getImportProductID() + "_" + productquality.getQuality().getQualityID();
                         productquality.setPrice(mapProductPrice.get(key));
