@@ -72,6 +72,12 @@ public class ExportproductbillServiceImpl extends GenericServiceImpl<Exportprodu
         this.userDAO = userDAO;
     }
 
+    private BookProductBillDAO bookProductBillDAO;
+
+    public void setBookProductBillDAO(BookProductBillDAO bookProductBillDAO) {
+        this.bookProductBillDAO = bookProductBillDAO;
+    }
+
     @Override
 	protected GenericDAO<Exportproductbill, Long> getGenericDAO() {
 		return exportproductbillDAO;
@@ -333,7 +339,13 @@ public class ExportproductbillServiceImpl extends GenericServiceImpl<Exportprodu
 //            updateDragBackExportBookProduct(bill, Constants.ROOT_MATERIAL_STATUS_AVAILABLE);
         }else{
             updateDragBackExportBookProduct(bill, Constants.ROOT_MATERIAL_STATUS_BOOKED);
+            updateBookProductBill(bill.getBookProductBill());
         }
+    }
+
+    private void updateBookProductBill(BookProductBill bookProductBill) {
+        bookProductBill.setStatus(Constants.BOOK_ALLOW_EXPORT);
+        this.bookProductBillDAO.saveOrUpdate(bookProductBill);
     }
 
     private Exportproductbill updateRejectGeneral(String note, Long billID, Long userID) {

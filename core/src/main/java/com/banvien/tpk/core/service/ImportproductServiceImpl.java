@@ -1405,4 +1405,18 @@ public class ImportproductServiceImpl extends GenericServiceImpl<Importproduct,L
         }
         return mapSizeProductInOutDetailDTO;
     }
+
+
+    @Override
+    public List<CustomerActivityDTO> summaryCustomerActivity(ReportBean bean) {
+        List<CustomerActivityDTO> customerActivityDTOs = new ArrayList<CustomerActivityDTO>();
+
+
+
+
+
+
+        return customerActivityDTOs;
+    }
+
 }

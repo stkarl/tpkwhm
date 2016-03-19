@@ -1,6 +1,7 @@
 package com.banvien.tpk.webapp.controller.whm;
 
 import com.banvien.tpk.core.Constants;
+import com.banvien.tpk.core.dto.CustomerActivityDTO;
 import com.banvien.tpk.core.dto.ReportBean;
 import com.banvien.tpk.core.dto.SummaryLiabilityDTO;
 import com.banvien.tpk.core.service.*;
@@ -182,12 +183,12 @@ public class ReportLiabilityController extends ApplicationObjectSupport {
             bean.setToDate(new Date(System.currentTimeMillis()));
         }
         if(bean.getCrudaction() != null && ("report".equals(bean.getCrudaction()) || "export".equals(bean.getCrudaction()))){
-            List<SummaryLiabilityDTO> results = this.importProductService.summaryLiability(bean);
+            List<CustomerActivityDTO> results = this.importProductService.summaryCustomerActivity(bean);
             if(results != null && results.size() > 0){
                 mav.addObject("results",results);
             }
             if(bean.getCrudaction() != null && "export".equals(bean.getCrudaction())){
-                exportLiabilitySummary2Excel(bean, results, request, response);
+//                exportCusActivitySummary2Excel(bean, results, request, response);
             }
         }
         addData2ModelProduct(mav);

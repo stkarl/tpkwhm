@@ -53,4 +53,6 @@ public interface ImportproductService extends GenericService<Importproduct,Long>
     List<Importproduct> findByCodes(List<String> productCodes);
 
     List<ProductInOutDTO> summaryProductInOut(ProductGeneralBean bean);
+
+    List<CustomerActivityDTO> summaryCustomerActivity(ReportBean bean);
 }
