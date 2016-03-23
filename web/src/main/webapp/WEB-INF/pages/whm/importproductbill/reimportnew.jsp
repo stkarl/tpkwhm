@@ -25,6 +25,14 @@
     <a onclick="closeAlert();" href="#" style="float: right;font-size: larger;color: #C5B0C2;">&times;</a>
     Hãy nhập đủ thông tin bắt buộc trước khi lưu.
 </div>
+
+<c:if test="${not empty messageResponse}">
+    <div class="alert alert-${alertType}">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+            ${messageResponse}
+    </div>
+</c:if>
+
 <div style="color: red; clear: both; font-style: italic; margin-bottom: 12px;">Lưu ý: Nhập Mã gốc để kiểm tra thông tin cũ trước.</div>
 <div id="generalInfor">
     <table class="tbHskt info">
@@ -242,7 +250,7 @@
                             </td>
                             <td><fmt:message key="label.original.code"/></td>
                             <td>
-                                <input counter="${counterSP}" name="reImportProducts[${counterSP}].originalCode" onblur="validateCodeNew(this);" value="${product.originalProduct.productCode}" type="text" class="uppercase span11"/>
+                                <input counter="${counterSP}" name="reImportProducts[${counterSP}].originalCode" onblur="validateCodeNew(this);" value="${!empty product.originalProduct ? product.originalProduct.productCode : product.originalCode}" type="text" class="uppercase span11"/>
                             </td>
                             <td><fmt:message key="label.new.code"/></td>
                             <td>

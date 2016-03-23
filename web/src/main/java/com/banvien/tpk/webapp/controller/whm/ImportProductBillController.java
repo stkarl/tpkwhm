@@ -964,16 +964,20 @@ public class ImportProductBillController extends ApplicationObjectSupport {
         pojo.setWarehouse(warehouse);
         bean.setLoginID(SecurityUtils.getLoginUserId());
         bean.setLoginWarehouseID(SecurityUtils.getPrincipal().getWarehouseID());
+        boolean isUpdate = false;
+        boolean isError = false;
         if(StringUtils.isNotBlank(crudaction) && crudaction.equals("insert-update")) {
             try {
                 if(!bindingResult.hasErrors()) {
 
                     if(pojo.getImportProductBillID() != null && pojo.getImportProductBillID() > 0) {
+                        isUpdate = true;
                         if(bean.getPojo().getNote() == null || !StringUtils.isNotBlank(bean.getPojo().getNote()))
                             bean.getPojo().setNote(this.getMessageSourceAccessor().getMessage("msg.update"));
                         this.importproductbillService.updateReImportProuduct(bean);
                         mav = new ModelAndView("redirect:/whm/importproductbill/reimportlist.html?isUpdate=true");
                     } else {
+                        isUpdate = false;
                         if(bean.getPojo().getNote() == null || !StringUtils.isNotBlank(bean.getPojo().getNote()))
                             bean.getPojo().setNote(this.getMessageSourceAccessor().getMessage("msg.create"));
                         this.importproductbillService.saveReImportProduct(bean);
@@ -982,31 +986,41 @@ public class ImportProductBillController extends ApplicationObjectSupport {
                     return mav;
                 }
             }catch(Exception e) {
+                isError = true;
                 logger.error(e.getMessage(),e);
                 mav.addObject("alertType", "error");
-                mav.addObject("messageResponse", this.getMessageSourceAccessor().getMessage("general.exception.msg"));
-                mav = new ModelAndView("redirect:/whm/importproductbill/reimportlist.html?isError=true");
-                return mav;
+                mav.addObject("messageResponse", e.getMessage().indexOf("ConstraintViolationException") > -1 ? this.getMessageSourceAccessor().getMessage("duplicate.product.code.exception") : e.getMessage());
+                prepareReImportDataToEdit(mav, bean, isUpdate);
             }
         }
-        if(!bindingResult.hasErrors() && bean.getPojo().getImportProductBillID() != null &&bean.getPojo().getImportProductBillID() > 0){
-            try {
-                Importproductbill itemObj = this.importproductbillService.findById(pojo.getImportProductBillID());
-                bean.setPojo(itemObj);
-                setEditable(bean.getPojo());
-                mav.addObject("importProducts", itemObj.getImportproducts());
-            }
-            catch (Exception e) {
-                logger.error("Could not found item " + bean.getPojo().getImportProductBillID(), e);
-            }
-        }else{
-            if(bean.getPojo().getCode() == null){
-                bean.getPojo().setCode(GeneratorUtils.generatePTNTCode());
+        if(!isError){
+            if(!bindingResult.hasErrors() && bean.getPojo().getImportProductBillID() != null &&bean.getPojo().getImportProductBillID() > 0){
+                try {
+                    Importproductbill itemObj = this.importproductbillService.findById(pojo.getImportProductBillID());
+                    bean.setPojo(itemObj);
+                    setEditable(bean.getPojo());
+                    mav.addObject("importProducts", itemObj.getImportproducts());
+                }
+                catch (Exception e) {
+                    logger.error("Could not found item " + bean.getPojo().getImportProductBillID(), e);
+                }
+            }else{
+                if(bean.getPojo().getCode() == null){
+                    bean.getPojo().setCode(GeneratorUtils.generatePTNTCode());
+                }
             }
         }
         addData2Model(mav,bean);
         mav.addObject(Constants.FORM_MODEL_KEY, bean);
         return mav;
+    }
+
+    private void prepareReImportDataToEdit(ModelAndView mav, ImportproductbillBean bean, boolean isUpdate) {
+        if(!isUpdate){
+            bean.getPojo().setImportProductBillID(null);
+        }
+        bean.getPojo().setEditable(Boolean.TRUE);
+        bean.getPojo().setImportproducts(bean.getReImportProducts());
     }
 
     @RequestMapping(value={"/whm/importproductbill/reimportlist.html"})
