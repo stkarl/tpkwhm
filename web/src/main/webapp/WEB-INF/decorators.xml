@@ -3,6 +3,7 @@
         <pattern>/40*.jsp</pattern>
         <pattern>/ajax/*</pattern>
         <pattern>/MobileWS/*</pattern>
+        <pattern>/game/**</pattern>
     </excludes>
 
     <decorator name="default" page="default.jsp">
