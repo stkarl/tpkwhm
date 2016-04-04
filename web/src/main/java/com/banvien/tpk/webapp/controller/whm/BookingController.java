@@ -59,6 +59,9 @@ public class BookingController extends ApplicationObjectSupport {
     @Autowired
     private SaleReasonService saleReasonService;
 
+    @Autowired
+    private ImportproductService importproductService;
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Date.class, new CustomDateEditor("dd/MM/yyyy"));
@@ -167,9 +170,13 @@ public class BookingController extends ApplicationObjectSupport {
     }
 
     @RequestMapping(value="/ajax/removeBookedProduct.html")
-    public void getProvinceByRegion(@RequestParam(value = "bookProductID", required = true) Long bookProductID, HttpServletResponse response)  {
+    public void getProvinceByRegion(@RequestParam(value = "bookProductID", required = true) Long bookProductID,
+                                    @RequestParam(value = "productID", required = true) Long productID,
+                                    HttpServletResponse response)  {
         try{
             this.bookProductService.deleteItem(bookProductID);
+            List<Long> productIds = new ArrayList<Long>();
+            productIds.add(productID);
         }catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -253,6 +260,7 @@ public class BookingController extends ApplicationObjectSupport {
             }
         }
         mav.addObject(Constants.FORM_MODEL_KEY, bean);
+        mav.addObject("loginWarehouseID", SecurityUtils.getPrincipal().getWarehouseID());
         addData2Model(mav);
         return mav;
     }

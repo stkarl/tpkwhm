@@ -50,6 +50,16 @@ public class SearchProductBean extends AbstractBean<Importproduct> {
 
     private Boolean viewInStock = Boolean.FALSE;
 
+    private Map<Long,Long> mapSaleWarehouse;
+
+    public Map<Long, Long> getMapSaleWarehouse() {
+        return mapSaleWarehouse;
+    }
+
+    public void setMapSaleWarehouse(Map<Long, Long> mapSaleWarehouse) {
+        this.mapSaleWarehouse = mapSaleWarehouse;
+    }
+
     public Boolean getViewInStock() {
         return viewInStock;
     }

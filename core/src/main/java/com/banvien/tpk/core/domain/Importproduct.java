@@ -146,6 +146,16 @@ public class Importproduct implements Serializable {
 
     private Customer soldFor;
 
+    private Warehouse saleWarehouse;
+
+    public Warehouse getSaleWarehouse() {
+        return saleWarehouse;
+    }
+
+    public void setSaleWarehouse(Warehouse saleWarehouse) {
+        this.saleWarehouse = saleWarehouse;
+    }
+
     public Customer getSoldFor() {
         return soldFor;
     }

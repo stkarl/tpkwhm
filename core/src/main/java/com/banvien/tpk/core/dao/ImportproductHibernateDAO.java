@@ -337,6 +337,7 @@ public class ImportproductHibernateDAO extends
                         }
                         if(booking){
                             whereClause.append(" AND (ip.productname.code <> :blackProduct OR ip.productname.code IS NULL)");
+                            whereClause.append(" AND (ip.saleWarehouse IS NULL)");
                         }
                         if(reportOverlay){
                             whereClause.append(" AND ip.mainUsedMaterial IS NOT NULL");
@@ -1306,5 +1307,4 @@ public class ImportproductHibernateDAO extends
                     }
                 });
     }
-
 }

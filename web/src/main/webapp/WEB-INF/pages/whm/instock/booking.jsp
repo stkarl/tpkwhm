@@ -11,6 +11,10 @@
             text-align: left;
             padding: 4px 2px 4px 5px;
         }
+        .advance-book,
+        .advance-book td {
+            color: #E14949;
+        }
     </style>
 
 </head>
@@ -102,6 +106,7 @@
     <div class="clear"></div>
 </c:if>
 <c:set var="selectedWarehouse" value="-1"/>
+<c:set var="hadAdvanceBook" value="false"/>
 <c:if test="${not empty bookBill.bookProducts}">
     <div id="tbBookedContent" style="width:100%">
         <table class="tableSadlier table-hover" border="1" style="border-right: 1px;margin: 12px 0 20px 0;width: 1300px;">
@@ -122,12 +127,17 @@
                 <th class="table_header text-center">Kg/m</th>
                 <th class="table_header text-center"><fmt:message key="main.material.note"/></th>
                 <th class="table_header text-center"><fmt:message key="whm.warehouse.name"/></th>
+                <th class="table_header text-center"><fmt:message key="label.sale.warehouse"/></th>
                 <th class="table_header text-center"><fmt:message key="label.produced.date"/></th>
             </tr>
             <c:forEach items="${bookBill.bookProducts}" var="tableList" varStatus="status">
-                <tr class="${status.index % 2 == 0 ? "even text-center" : "odd text-center"}">
+                <c:if test="${!empty tableList.importProduct.saleWarehouse}">
+                    <c:set var="hadAdvanceBook" value="true"/>
+                </c:if>
+
+                <tr class="${status.index % 2 == 0 ? "even text-center" : "odd text-center"}${!empty tableList.importProduct.saleWarehouse ? ' advance-book' : ''}">
                     <td>
-                        <a onclick="removeProduct(this,'${tableList.bookProductID}','${bookBill.bookProductBillID}')" href="#" class="icon-remove tip-top" title="<fmt:message key="label.delete"/>"></a>
+                        <a onclick="removeProduct(this,'${tableList.bookProductID}','${bookBill.bookProductBillID}', '${tableList.importProduct.importProductID}')" href="#" class="icon-remove tip-top" title="<fmt:message key="label.delete"/>"></a>
                     </td>
                     <td>${status.index + 1}</td>
                     <td>${tableList.importProduct.productname.name}</td>
@@ -165,6 +175,7 @@
                         </c:if>
                     </td>
                     <td>${tableList.importProduct.warehouse.name}</td>
+                    <td>${mapWarehouseName[tableList.importProduct.saleWarehouse.warehouseID]}</td>
                     <c:set var="selectedWarehouse" value="${tableList.importProduct.warehouse.warehouseID}"/>
                     <td>
                         <c:choose>
@@ -183,6 +194,9 @@
         </table>
     </div>
     <div class="clear"></div>
+    <c:if test="${hadAdvanceBook}">
+        <div class="advance-book"><fmt:message key="label.advance.book.note"/></div>
+    </c:if>
     <div class="process-control">
         <a onclick="goSetPrice('${bookBill.bookProductBillID}')" class="btn btn-info" style="cursor: pointer;">
             <fmt:message key="go.set.price"/> <i class="icon-arrow-right"></i>
@@ -323,6 +337,7 @@
         <caption><fmt:message key="in.stock.product.list"/></caption>
         <tr>
             <th class="table_header text-center"><input type="checkbox" onclick="checkAllByClass('checkPrd', this);"/></th>
+            <th class="table_header text-center"><fmt:message key="label.sale.warehouse"/></th>
             <th class="table_header text-center"><fmt:message key="label.stt"/></th>
             <th class="table_header text-center"><fmt:message key="label.name"/></th>
             <th class="table_header text-center"><fmt:message key="label.code"/></th>
@@ -344,6 +359,16 @@
                 <td>
                     <input class="checkPrd" type="checkbox" name="bookedProductIDs" value="${tableList.importProductID}" id="selected-${tableList.importProductID}"/>
                     <input type="hidden" value="${tableList.warehouse.warehouseID}" id="warehouse-${tableList.importProductID}"/>
+                </td>
+                <td>
+                    <select onchange="selectProduct('${tableList.importProductID}')" style="width: 110px;" id="sale-warehouse-${tableList.importProductID}" name="mapSaleWarehouse[${tableList.importProductID}]">
+                        <option value="-1" selected>(<fmt:message key="select.sale.warehouse"/>)</option>
+                        <c:forEach items="${warehouses}" var="warehouse">
+                            <c:if test="${warehouse.warehouseID ne tableList.warehouse.warehouseID}">
+                                <option value="${warehouse.warehouseID}">${warehouse.name}</option>
+                            </c:if>
+                        </c:forEach>
+                    </select>
                 </td>
                 <td>${status.index + 1}</td>
                 <td>${tableList.productname.name}</td>
@@ -462,16 +487,23 @@
         submitForm('itemForm');
 
     }
+    function selectProduct(id){
+        $('#selected-'+id).attr("checked", true);
+        $('#selected-'+id).parent("span").addClass("checked");
+    }
+
     function bookProduct(){
         var prdId,
                 hasPrd = false,
+                isAnotherWarehouse = false,
                 sameWarehouse = true;
         $(".checkPrd:checkbox:checked").each(function(){
-            hasPrd = true;
-            prdId = $(this).val();
+            hasPrd = true,
+                    prdId = $(this).val(),
+                    isAnotherWarehouse = $('#sale-warehouse-' + prdId).val() != '-1';
             if(warehouseId == undefined || warehouseId == "-1"){
                 warehouseId = $('#warehouse-' + prdId).val();
-            }else if(warehouseId != undefined && warehouseId != "-1" && warehouseId != $('#warehouse-' + prdId).val()){
+            }else if(warehouseId != undefined && warehouseId != "-1" && warehouseId != $('#warehouse-' + prdId).val() && !isAnotherWarehouse){
                 sameWarehouse = false;
             }
         });
@@ -535,8 +567,8 @@
         });
     }
 
-    function removeProduct(Ele,bookProductID,billId){
-        var bookProductID = bookProductID;
+    function removeProduct(Ele,bookProductID,billId, productID){
+        var bookProductID = bookProductID, productID = productID;
         var textInfo = '<fmt:message key="booked.product.xacnhanxoa.msg" />';
         var form = $("<form class='form-inline'><label>" +textInfo+ "</label></form>");
         var div = bootbox.dialog(form,
@@ -549,7 +581,7 @@
                                 url : '<c:url value="/ajax/removeBookedProduct.html"/>',
                                 type: 'post',
                                 cache: false,
-                                data: {'bookProductID': bookProductID},
+                                data: {'bookProductID': bookProductID, 'productID' : productID},
                                 success: function(data){
                                     var error = data.error;
                                     if (error != null) {

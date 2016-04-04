@@ -37,10 +37,7 @@ import java.io.PrintWriter;
 import java.lang.Boolean;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class InStockController extends ApplicationObjectSupport {
@@ -284,6 +281,7 @@ public class InStockController extends ApplicationObjectSupport {
         }
         mav.addObject("warehouseMaps", warehouseMaps);
         mav.addObject("warehouses", warehouses);
+        mav.addObject("mapWarehouseName", mapWarehouseName(warehouses));
         mav.addObject("productNames", this.productnameService.findAll());
         mav.addObject("sizes", this.sizeService.findAll());
         mav.addObject("thicknesses", this.thicknessService.findAll());
@@ -294,6 +292,14 @@ public class InStockController extends ApplicationObjectSupport {
         mav.addObject("markets", this.marketService.findAll());
         mav.addObject("qualities", this.qualityService.findAll());
 
+    }
+
+    private Map<Long,String> mapWarehouseName(List<Warehouse> warehouses) {
+        Map<Long,String> mapWarehouseName = new HashMap<Long, String>();
+        for(Warehouse warehouse : warehouses){
+            mapWarehouseName.put(warehouse.getWarehouseID(),warehouse.getName());
+        }
+        return mapWarehouseName;
     }
 
     @RequestMapping(value={"/whm/report/instock/material.html"})
@@ -425,14 +431,16 @@ public class InStockController extends ApplicationObjectSupport {
             bean.setBooking(Boolean.TRUE);
             String crudaction = bean.getCrudaction();
             if(crudaction != null && StringUtils.isNotBlank(crudaction) && crudaction.equals("booking") && bean.getBookProductBillID() != null){
-                String codes = this.bookProductBillService.saveOrUpdateBookingBill(bean.getBookedProductIDs(), SecurityUtils.getLoginUserId(), bean.getBookProductBillID());
-                mav.addObject("alertType","success");
+                String codes = this.bookProductBillService.saveOrUpdateBookingBill(bean.getBookedProductIDs(), bean.getMapSaleWarehouse(), SecurityUtils.getLoginUserId(), bean.getBookProductBillID());
                 if(StringUtils.isNotBlank(codes)){
+                    mav.addObject("alertType","error");
                     mav.addObject("messageResponse",this.getMessageSourceAccessor().getMessage("booking.product.partial.completed", new String[] {codes}));
                 }else{
+                    mav.addObject("alertType","success");
                     mav.addObject("messageResponse",this.getMessageSourceAccessor().getMessage("booking.product.completed") );
                 }
             }
+            //@TODO: still get un-updated data;
             executeSearchProduct4Book(bean, request);
             if(bean.getBookProductBillID() != null){
                 BookProductBill bill = this.bookProductBillService.findByIdNoCommit(bean.getBookProductBillID());

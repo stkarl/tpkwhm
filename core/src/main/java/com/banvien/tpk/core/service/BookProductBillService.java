@@ -1,14 +1,17 @@
 package com.banvien.tpk.core.service;
 
+import com.banvien.tpk.core.domain.BookProduct;
 import com.banvien.tpk.core.domain.BookProductBill;
+import com.banvien.tpk.core.domain.Importproduct;
 import com.banvien.tpk.core.dto.BookProductBillBean;
 import com.banvien.tpk.core.exception.ObjectNotFoundException;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface BookProductBillService extends GenericService<BookProductBill,Long> {
-    String saveOrUpdateBookingBill(List<Long> bookedProductIDs,Long loginID, Long billID) throws ObjectNotFoundException;
+    String saveOrUpdateBookingBill(List<Long> bookedProductIDs, Map<Long, Long> mapSaleWarehouse, Long loginID, Long billID) throws ObjectNotFoundException;
 
     Object[] search(BookProductBillBean bean);
 
@@ -27,4 +30,8 @@ public interface BookProductBillService extends GenericService<BookProductBill,L
     String getLatestBookBillNumber();
 
     BookProductBill updatePrice(BookProductBillBean bean);
+
+    List<BookProduct> findByBill(Long bookProductBillID);
+
+    List<Importproduct> findProductInBookBill(Long bookProductBillID);
 }

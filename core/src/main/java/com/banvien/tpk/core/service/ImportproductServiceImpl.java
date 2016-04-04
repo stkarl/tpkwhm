@@ -1418,5 +1418,4 @@ public class ImportproductServiceImpl extends GenericServiceImpl<Importproduct,L
 
         return customerActivityDTOs;
     }
-
 }

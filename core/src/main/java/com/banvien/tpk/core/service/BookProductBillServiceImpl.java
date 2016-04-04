@@ -69,7 +69,7 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
 	}
 
     @Override
-    public String saveOrUpdateBookingBill(List<Long> bookedProductIDs,Long loginID, Long billID) throws ObjectNotFoundException {
+    public String saveOrUpdateBookingBill(List<Long> bookedProductIDs, Map<Long, Long> mapSaleWarehouse, Long loginID, Long billID) throws ObjectNotFoundException {
         String result = "";
         User loginUser = new User();
         loginUser.setUserID(loginID);
@@ -85,15 +85,23 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
             BookProduct bookProduct = new BookProduct();
             bookProduct.setBookProductBill(dbBill);
             Importproduct importproduct = this.importproductDAO.findByIdNoAutoCommit(bookedProductID);
-            if(importproduct.getStatus().equals(Constants.ROOT_MATERIAL_STATUS_AVAILABLE)){
+            if(importproduct.getStatus().equals(Constants.ROOT_MATERIAL_STATUS_AVAILABLE) && importproduct.getSaleWarehouse() == null){
                 bookProduct.setImportProduct(importproduct);
                 this.bookProductDAO.save(bookProduct);
-                listAbleBooked.add(bookedProductID);
+                if(mapSaleWarehouse == null || mapSaleWarehouse.get(bookedProductID) == null || mapSaleWarehouse.get(bookedProductID) < 0){
+                    listAbleBooked.add(bookedProductID);
+                }else{
+                    Warehouse warehouse = new Warehouse();
+                    warehouse.setWarehouseID(mapSaleWarehouse.get(bookedProductID));
+                    importproduct.setSaleWarehouse(warehouse);
+                    this.importproductDAO.update(importproduct);
+                }
             }else{
                 result += StringUtils.isBlank(result) ? importproduct.getProductCode() : ", " + importproduct.getProductCode();
             }
         }
         if(listAbleBooked.size() > 0){
+            this.importproductDAO.updateStatus(listAbleBooked,Constants.ROOT_MATERIAL_STATUS_BOOKED);
             this.importproductDAO.updateStatus(listAbleBooked,Constants.ROOT_MATERIAL_STATUS_BOOKED);
         }
         return result;
@@ -442,6 +450,16 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
         dbBill = bookProductBillDAO.update(dbBill);
         saveOrUpdateOweLog(dbBill);
         return dbBill;
+    }
+
+    @Override
+    public List<BookProduct> findByBill(Long bookProductBillID) {
+        return this.bookProductDAO.findByBookProductBillID(bookProductBillID);
+    }
+
+    @Override
+    public List<Importproduct> findProductInBookBill(Long bookProductBillID) {
+        return this.bookProductDAO.findProductInBookBill(bookProductBillID);
     }
 
     private void saveOrUpdateOweLog(BookProductBill dbBill) {

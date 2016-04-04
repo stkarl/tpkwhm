@@ -135,6 +135,7 @@
             <c:choose>
                 <c:when test="${tableList.importProduct.status == Constants.ROOT_MATERIAL_STATUS_BOOKED}">Chờ xuất</c:when>
                 <c:when test="${tableList.importProduct.status == Constants.ROOT_MATERIAL_STATUS_USED}">Đã xuất</c:when>
+                <c:when test="${!empty tableList.importProduct.advanceBook && tableList.importProduct.advanceBook}">Kho khác</c:when>
                 <c:otherwise>-</c:otherwise>
             </c:choose>
         </display:column>
@@ -168,13 +169,11 @@
             <fmt:formatNumber value="${tableList.importProduct.quantity2Pure}" pattern="###,###" maxFractionDigits="0" minFractionDigits="0"/>
             <c:set var="totalKg" value="${totalKg + tableList.importProduct.quantity2Pure}"/>
         </display:column>
-        <security:authorize ifNotGranted="QUANLYKD">
-            <display:column headerClass="table_header_center" sortable="false" titleKey="<input type=\"checkbox\" onclick=\"checkAllByClass('checkPrd', this);\"/>" style="width: 5%;text-align:center">
-                <c:if test="${tableList.importProduct.status == Constants.ROOT_MATERIAL_STATUS_BOOKED}">
-                    <input class="checkPrd" type="checkbox" name="bookedProductIDs" value="${tableList.importProduct.importProductID}"/>
-                </c:if>
-            </display:column>
-        </security:authorize>
+        <display:column headerClass="table_header_center" sortable="false" titleKey="<input type=\"checkbox\" onclick=\"checkAllByClass('checkPrd', this);\"/>" style="width: 5%;text-align:center">
+            <c:if test="${tableList.importProduct.status == Constants.ROOT_MATERIAL_STATUS_BOOKED && loginWarehouseID eq tableList.importProduct.warehouse.warehouseID}">
+                <input class="checkPrd" type="checkbox" name="bookedProductIDs" value="${tableList.importProduct.importProductID}"/>
+            </c:if>
+        </display:column>
         <display:setProperty name="paging.banner.item_name" value="cuộn tôn"/>
         <display:setProperty name="paging.banner.items_name" value="cuộn tôn"/>
         <display:setProperty name="paging.banner.placement" value=""/>
