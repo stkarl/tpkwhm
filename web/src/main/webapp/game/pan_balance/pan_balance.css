@@ -1,0 +1,177 @@
+body{
+    padding: 0;
+    margin: 0;
+}
+.game-container{
+    width: 800px;
+    background-color: #5a5b5e;
+}
+.game-title {
+    height: 40px;
+    background-color: #e6e7e8;
+}
+
+
+[class*=icon-toolbar-right] {
+    background-image: url(./images/btn/t1.png);
+    background-repeat: no-repeat
+}
+
+.icon-toolbar-right-erase {
+    background-position: 0px 0;
+    height: 58px;
+    width: 66px;
+    display: inline-block;
+}
+.icon-toolbar-right-pen {
+    background-position: -74px 0;
+    height: 58px;
+    width: 66px;
+    display: inline-block;
+}
+.icon-toolbar-right-colors {
+    background-position: -155px 0;
+    height: 58px;
+    width: 78px;
+    display: inline-block;
+}
+.icon-toolbar-right-text {
+    background-position: -244px 0;
+    height: 58px;
+    width: 70px;
+    display: inline-block;
+}
+.icon-toolbar-right-select {
+    background-position: -319px 0;
+    height: 58px;
+    width: 66px;
+    display: inline-block;
+}
+
+[class*=icon-toolbar-top] {
+    background-image: url(./images/btn/t2.png);
+    background-repeat: no-repeat
+}
+
+.icon-toolbar-top-check {
+    background-position: 0px 0;
+    height: 58px;
+    width: 78px;
+    display: inline-block;
+}
+.icon-toolbar-top-print {
+    background-position: -80px 0;
+    height: 58px;
+    width: 78px;
+    display: inline-block;
+}
+
+[class*=icon-toolbar-left] {
+    background-image: url(./images/btn/t3.png);
+    background-repeat: no-repeat
+}
+
+.icon-toolbar-left-copy {
+    background-position: 0px 0;
+    height: 58px;
+    width: 66px;
+    display: inline-block;
+}
+.icon-toolbar-left-group {
+    background-position: -70px 0;
+    height: 58px;
+    width: 88px;
+    display: inline-block;
+}
+.icon-toolbar-left-break {
+    background-position: -161px 0;
+    height: 58px;
+    width: 101px;
+    display: inline-block;
+}
+
+.icon-toolbar-delete {
+    background: url(./images/btn/delete.png) center center no-repeat;
+    height: 58px;
+    width: 66px;
+    display: inline-block;
+}
+
+.icon-toolbar-close {
+    background: url(./images/btn/close.png) center center no-repeat;
+    height: 29px;
+    width: 30px;
+    display: inline-block;
+}
+
+.icon-toolbar-info {
+    background: url(./images/btn/info.png) center center no-repeat;
+    height: 58px;
+    width: 66px;
+    display: inline-block;
+}
+
+.game-header {
+    height: 58px;
+    background-color: #5a5b5e;
+}
+
+.header-left{
+    width: 60%;
+    background-color: #4ba245;
+    display: inline-block;
+    height: 58px;
+    margin-right: 12px;
+}
+.header-mid{
+    width: 160px;
+    display: inline-block;
+    height: 58px;
+    background: #ffffff;
+}
+.header-right{
+    display: inline-block;
+    float: right;
+}
+
+
+.game-footer {
+    height: 58px;
+    background-color: #4F93CA;
+}
+
+.footer-left {
+    display: inline-block;
+    height: 58px;
+    background: #fff;
+    margin-right: 12px;
+}
+.footer-mid {
+    display: inline-block;
+    height: 58px;
+    color: #408AC6;
+}
+
+.footer-right {
+    display: inline-block;
+    height: 58px;
+    float: right;
+}
+
+.footer-tool.blank-space{
+    height: 58px;
+    width: 26px;
+    display: inline-block;
+    color: #3685C3;
+}
+
+
+[class*=icon-toolbar]{
+    cursor:pointer
+}
+
+.game-body {margin: 12px 0;background: #ffffff;}
+
+.game-content {
+    padding: 12px 28px;
+}
