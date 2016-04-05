@@ -102,7 +102,6 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
         }
         if(listAbleBooked.size() > 0){
             this.importproductDAO.updateStatus(listAbleBooked,Constants.ROOT_MATERIAL_STATUS_BOOKED);
-            this.importproductDAO.updateStatus(listAbleBooked,Constants.ROOT_MATERIAL_STATUS_BOOKED);
         }
         return result;
     }
@@ -401,10 +400,20 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
 
     private void pushProductBack(List<BookProduct> bookProducts, Integer status) {
         List<Long> importProductIDs = new ArrayList<Long>();
+        List<Long> advanceSaleProductIDs = new ArrayList<Long>();
         for(BookProduct bookProduct : bookProducts){
-            importProductIDs.add(bookProduct.getImportProduct().getImportProductID()) ;
+            if(bookProduct.getImportProduct().getSaleWarehouse() == null){
+                importProductIDs.add(bookProduct.getImportProduct().getImportProductID()) ;
+            }else{
+                advanceSaleProductIDs.add(bookProduct.getImportProduct().getImportProductID()) ;
+            }
         }
-        this.importproductDAO.updateStatus(importProductIDs,status);
+        if(importProductIDs.size() > 0){
+            this.importproductDAO.updateStatus(importProductIDs,status);
+        }
+        if(advanceSaleProductIDs.size() > 0){
+            this.importproductDAO.removeSaleWarehouse(advanceSaleProductIDs);
+        }
 
     }
 

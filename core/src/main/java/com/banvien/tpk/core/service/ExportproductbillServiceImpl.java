@@ -400,7 +400,14 @@ public class ExportproductbillServiceImpl extends GenericServiceImpl<Exportprodu
         if(dbItem.getExporttype().getCode().equals(Constants.EXPORT_TYPE_CHUYEN_KHO)){
             for(Exportproduct item : dbItem.getExportproducts()){
                 Importproduct importproduct = item.getImportproduct();
-                importproduct.setStatus(Constants.ROOT_MATERIAL_STATUS_AVAILABLE);
+                if(importproduct.getSaleWarehouse() == null){
+                    importproduct.setStatus(Constants.ROOT_MATERIAL_STATUS_AVAILABLE);
+                }else if(importproduct.getSaleWarehouse() != null && importproduct.getSaleWarehouse().getWarehouseID().equals(dbItem.getReceiveWarehouse().getWarehouseID())){
+                    importproduct.setStatus(Constants.ROOT_MATERIAL_STATUS_BOOKED);
+                    importproduct.setSaleWarehouse(null);
+                }else{
+                    importproduct.setStatus(Constants.ROOT_MATERIAL_STATUS_AVAILABLE);
+                }
                 importproduct.setWarehouse(dbItem.getReceiveWarehouse());
                 importproductDAO.update(importproduct);
             }

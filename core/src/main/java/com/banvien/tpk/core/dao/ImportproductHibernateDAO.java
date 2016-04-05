@@ -1307,4 +1307,19 @@ public class ImportproductHibernateDAO extends
                     }
                 });
     }
+
+    @Override
+    public void removeSaleWarehouse(final List<Long> productIds) {
+        getHibernateTemplate().execute(
+                new HibernateCallback<Object>() {
+                    public Object doInHibernate(Session session)
+                            throws HibernateException, SQLException {
+                        StringBuffer sQuery = new StringBuffer("UPDATE importproduct i SET i.saleWarehouseID = null");
+                        sQuery.append(" WHERE i.importProductID IN (:productIds)");
+                        SQLQuery query = session.createSQLQuery(sQuery.toString());
+                        query.setParameterList("productIds", productIds);
+                        return query.executeUpdate();
+                    }
+                });    }
+
 }

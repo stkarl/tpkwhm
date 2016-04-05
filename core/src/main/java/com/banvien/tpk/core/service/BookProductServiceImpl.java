@@ -48,8 +48,11 @@ public class BookProductServiceImpl extends GenericServiceImpl<BookProduct,Long>
         BookProduct dbBookProduct = this.bookProductDAO.findByIdNoAutoCommit(bookProductID);
         if(dbBookProduct == null) throw new ObjectNotFoundException("Not found booked product " + bookProductID);
         Importproduct importproduct = dbBookProduct.getImportProduct();
-        importproduct.setStatus(Constants.ROOT_MATERIAL_STATUS_AVAILABLE);
-        importproduct.setSaleWarehouse(null);
+        if(importproduct.getSaleWarehouse() == null){
+            importproduct.setStatus(Constants.ROOT_MATERIAL_STATUS_AVAILABLE);
+        }else{
+            importproduct.setSaleWarehouse(null);
+        }
         this.importproductDAO.update(importproduct);
         bookProductDAO.delete(bookProductID);
     }

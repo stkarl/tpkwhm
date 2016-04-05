@@ -152,4 +152,6 @@ public interface ImportproductDAO extends GenericDAO<Importproduct,Long> {
     List<Importproduct> findExportedProduct(Date fromDate, Date toDate, Long productNameID, Long warehouseID);
 
     List<Importproduct> findInternalImportedProduct(Date fromDate, Date toDate, Long productNameID, Long warehouseID);
+
+    void removeSaleWarehouse(List<Long> advanceSaleProductIDs);
 }
