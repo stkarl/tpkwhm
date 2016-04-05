@@ -175,8 +175,6 @@ public class BookingController extends ApplicationObjectSupport {
                                     HttpServletResponse response)  {
         try{
             this.bookProductService.deleteItem(bookProductID);
-            List<Long> productIds = new ArrayList<Long>();
-            productIds.add(productID);
         }catch (Exception e) {
             log.error(e.getMessage(), e);
         }
