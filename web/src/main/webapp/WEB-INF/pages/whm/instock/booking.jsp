@@ -137,7 +137,12 @@
 
                 <tr class="${status.index % 2 == 0 ? "even text-center" : "odd text-center"}${!empty tableList.importProduct.saleWarehouse ? ' advance-book' : ''}">
                     <td>
-                        <a onclick="removeProduct(this,'${tableList.bookProductID}','${bookBill.bookProductBillID}', '${tableList.importProduct.importProductID}')" href="#" class="icon-remove tip-top" title="<fmt:message key="label.delete"/>"></a>
+                        <c:if test="${tableList.importProduct.status != Constants.ROOT_MATERIAL_STATUS_USED}">
+                            <a onclick="removeProduct(this,'${tableList.bookProductID}','${bookBill.bookProductBillID}', '${tableList.importProduct.importProductID}')" href="#" class="icon-remove tip-top" title="<fmt:message key="label.delete"/>"></a>
+                        </c:if>
+                        <c:if test="${tableList.importProduct.status == Constants.ROOT_MATERIAL_STATUS_USED}">
+                            Đã xuất
+                        </c:if>
                     </td>
                     <td>${status.index + 1}</td>
                     <td>${tableList.importProduct.productname.name}</td>

@@ -402,7 +402,7 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
         List<Long> importProductIDs = new ArrayList<Long>();
         List<Long> advanceSaleProductIDs = new ArrayList<Long>();
         for(BookProduct bookProduct : bookProducts){
-            if(bookProduct.getImportProduct().getSaleWarehouse() == null){
+            if(bookProduct.getImportProduct().getSaleWarehouse() == null && bookProduct.getImportProduct().getStatus() != Constants.ROOT_MATERIAL_STATUS_USED){
                 importProductIDs.add(bookProduct.getImportProduct().getImportProductID()) ;
             }else{
                 advanceSaleProductIDs.add(bookProduct.getImportProduct().getImportProductID()) ;
