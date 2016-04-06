@@ -265,7 +265,7 @@ public class BookingController extends ApplicationObjectSupport {
     private List<BookProduct> getWaitExportProduct(BookProductBill bill){
         List<BookProduct> bookProducts = new ArrayList<BookProduct>();
         for(BookProduct bookProduct : bill.getBookProducts()){
-            if(bookProduct.getImportProduct().getStatus().equals(Constants.ROOT_MATERIAL_STATUS_BOOKED)){
+            if(bookProduct.getImportProduct().getStatus().equals(Constants.ROOT_MATERIAL_STATUS_BOOKED) || bookProduct.getImportProduct().getSaleWarehouse() != null){
                 bookProducts.add(bookProduct);
             }
         }
