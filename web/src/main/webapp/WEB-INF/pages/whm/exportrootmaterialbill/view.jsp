@@ -269,7 +269,7 @@
     }
 
     function bringBack(ele, pid, eid){
-        bootbox.confirm('Xác nhận cập mang về kho', 'Bạn có chắc chắn muốn trả cuộn tôn về lại kho?', function(r) {
+        bootbox.confirm('Xác nhận trả về kho', 'Bạn có chắc chắn muốn trả cuộn tôn về lại kho?', function(r) {
             if(r){
                 $.ajax({
                     url : '/ajax/product/bringback.html',

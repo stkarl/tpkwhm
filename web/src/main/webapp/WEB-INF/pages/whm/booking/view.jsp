@@ -134,8 +134,8 @@
         <display:column headerClass="table_header_center" sortable="false" titleKey="label.status" class="text-center" style="width: 10%;">
             <c:choose>
                 <c:when test="${tableList.importProduct.status == Constants.ROOT_MATERIAL_STATUS_BOOKED && !empty loginWarehouseID && loginWarehouseID ne tableList.importProduct.warehouse.warehouseID }">${tableList.importProduct.warehouse.name} xuất</c:when>
-                <c:when test="${tableList.importProduct.status == Constants.ROOT_MATERIAL_STATUS_BOOKED}">Chờ xuất</c:when>
-                <c:when test="${tableList.importProduct.status == Constants.ROOT_MATERIAL_STATUS_USED}">Đã xuất</c:when>
+                <c:when test="${tableList.importProduct.status == Constants.ROOT_MATERIAL_STATUS_BOOKED}">${tableList.importProduct.warehouse.name} chờ xuất</c:when>
+                <c:when test="${tableList.importProduct.status == Constants.ROOT_MATERIAL_STATUS_USED}">${tableList.importProduct.warehouse.name} đã xuất</c:when>
                 <c:when test="${!empty tableList.importProduct.saleWarehouse}">Chờ chuyển về ${tableList.importProduct.saleWarehouse.name}</c:when>
                 <c:otherwise>-</c:otherwise>
             </c:choose>
