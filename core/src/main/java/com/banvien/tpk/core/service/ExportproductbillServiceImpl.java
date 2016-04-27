@@ -277,6 +277,7 @@ public class ExportproductbillServiceImpl extends GenericServiceImpl<Exportprodu
                 Long ID = Long.parseLong(id);
                 Exportproductbill bill = this.exportproductbillDAO.findByIdNoAutoCommit(ID);
                 if(bill.getBookProductBill() != null){
+                    updateBookProductBill(bill.getBookProductBill(), Constants.BOOK_ALLOW_EXPORT);
                     updateDragBackExportBookProduct(bill, Constants.ROOT_MATERIAL_STATUS_BOOKED);
                 }else{
                     updateDragBackExportBookProduct(bill, Constants.ROOT_MATERIAL_STATUS_AVAILABLE);
@@ -339,12 +340,12 @@ public class ExportproductbillServiceImpl extends GenericServiceImpl<Exportprodu
 //            updateDragBackExportBookProduct(bill, Constants.ROOT_MATERIAL_STATUS_AVAILABLE);
         }else{
             updateDragBackExportBookProduct(bill, Constants.ROOT_MATERIAL_STATUS_BOOKED);
-            updateBookProductBill(bill.getBookProductBill());
+            updateBookProductBill(bill.getBookProductBill(), Constants.BOOK_ALLOW_EXPORT);
         }
     }
 
-    private void updateBookProductBill(BookProductBill bookProductBill) {
-        bookProductBill.setStatus(Constants.BOOK_ALLOW_EXPORT);
+    private void updateBookProductBill(BookProductBill bookProductBill,Integer status) {
+        bookProductBill.setStatus(status);
         this.bookProductBillDAO.saveOrUpdate(bookProductBill);
     }
 

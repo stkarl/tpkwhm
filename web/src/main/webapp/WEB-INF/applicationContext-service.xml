@@ -210,6 +210,7 @@
         <property name="customerDAO" ref="customerDAO" />
         <property name="productionPlanDAO" ref="productionPlanDAO" />
         <property name="userDAO" ref="userDAO" />
+        <property name="bookProductBillDAO" ref="bookProductBillDAO" />
     </bean>
 
     <bean id="importproductService" class="com.banvien.tpk.core.service.ImportproductServiceImpl">
