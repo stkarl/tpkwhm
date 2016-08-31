@@ -10,9 +10,9 @@
     <link rel="stylesheet" type="text/css" media="all"
           href="<c:url value='/styles/tpk/theme.css'/>"/>
     <link rel="stylesheet" type="text/css" media="print"
-          href="<c:url value='/styles/tpk/print_v1.2.css'/>"/>
+          href="<c:url value='/themes/whm/css/print_v1.2.css'/>"/>
     <link rel="stylesheet" type="text/css"
-          href="<c:url value='/styles/tpk/style.css'/>"/>
+          href="<c:url value='/themes/whm/css/style.css'/>"/>
     <link rel="stylesheet" type="text/css"
           href="<c:url value='/styles/tpk/jquery-lightness/jquery-ui-1.8.10.css'/>"/>
     <link rel="stylesheet" type="text/css" media="all"

@@ -5,8 +5,6 @@
 <div id="footercontent">
     <div class="copyright">
         <fmt:message key="copyright.text"/>
-        <br>
-        Helpdesk : <fmt:message key="label.helpdesk.people"/>
         <a name="hidenWarningLink" id="hidenWarningLink" style="display: none;" ></a>
 	    <a name="deleteConfirmLink" id="deleteConfirmLink" style="display: none;"></a>
     </div>
