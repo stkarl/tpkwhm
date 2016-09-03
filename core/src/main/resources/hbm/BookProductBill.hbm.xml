@@ -40,6 +40,8 @@
         <property name="deliveryDate" column="DeliveryDate"/>
         <property name="billDate" column="BillDate"/>
 
+        <property name="oldFormula" column="OldFormula"/>
+
         <bag name="bookProducts" inverse="true">
 			<key column="bookProductBillID"/>
 			<one-to-many class="com.banvien.tpk.core.domain.BookProduct"/>

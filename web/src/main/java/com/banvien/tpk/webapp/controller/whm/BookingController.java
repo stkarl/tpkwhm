@@ -405,6 +405,7 @@ public class BookingController extends ApplicationObjectSupport {
             model.put("bookSales", bookProductBill.getBookBillSaleReasons());
             model.put("prePaids", this.oweLogService.findPrePaidByBill(bookProductBill.getBookProductBillID()));
             model.put("user", bookProductBill.getCreatedBy());
+            model.put("oldFormula", bookProductBill.getOldFormula());
         } catch (Exception e) {
             log.error(e.getMessage(),e);
         }
@@ -473,6 +474,9 @@ public class BookingController extends ApplicationObjectSupport {
         try {
             if(StringUtils.isNotBlank(crudaction) && crudaction.equals("insert-update")) {
                 if(!bindingResult.hasErrors()) {
+                    if(pojo.getOldFormula() == null){
+                        pojo.setOldFormula(false);
+                    }
                     pojo = this.bookProductBillService.updatePrice(bean);
                     mav = new ModelAndView("redirect:/whm/booking/view.html?pojo.bookProductBillID=" + pojo.getBookProductBillID());
                     return mav;

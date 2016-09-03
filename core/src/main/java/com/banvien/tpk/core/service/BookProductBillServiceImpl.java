@@ -456,6 +456,7 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
         dbBill.setReduceCost(bean.getPojo().getReduceCost());
         dbBill.setReduce(bean.getPojo().getReduce());
         dbBill.setStatus(Constants.BOOK_WAIT_CONFIRM);
+        dbBill.setOldFormula(bean.getPojo().getOldFormula());
         dbBill = bookProductBillDAO.update(dbBill);
         saveOrUpdateOweLog(dbBill);
         return dbBill;

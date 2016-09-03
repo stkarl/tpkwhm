@@ -79,7 +79,7 @@
         <c:forEach items="${bookProducts}" var="bookProduct" varStatus="status">
             <c:set var="product" value="${bookProduct.importProduct}"/>
             <c:set var="kgm" value="${product.quantity2Pure / product.quantity1}"/>
-            <c:set var="isCold" value="${product.productname.code eq Constants.PRODUCT_LANH ? true : false}"/>
+            <c:set var="saleByKg" value="${product.productname.code eq Constants.PRODUCT_LANH || !oldFormula  ? true : false}"/>
 
             <tr>
                 <td>${status.index + 1}</td>
@@ -126,8 +126,8 @@
                     <fmt:formatNumber value="${quantity}" pattern="###,###"/>
                 </td>
                 <td><fmt:formatNumber value="${price}" pattern="###,###"/></td>
-                <td><fmt:formatNumber value="${isCold ? price * kgQuantity : price * quantity}" pattern="###,###"/></td>
-                <c:set var="totalMoney" value="${isCold ? totalMoney + price * kgQuantity : totalMoney + price * quantity}"/>
+                <td><fmt:formatNumber value="${saleByKg ? price * kgQuantity : price * quantity}" pattern="###,###"/></td>
+                <c:set var="totalMoney" value="${saleByKg ? totalMoney + price * kgQuantity : totalMoney + price * quantity}"/>
                 <td><fmt:formatNumber value="${kgm}" pattern="###,###.##"/></td>
             </tr>
             <%--<c:if test="${!empty saleQuantity && saleQuantity != 0}">--%>
@@ -157,13 +157,13 @@
                             <td style="font-style: italic;font-weight: bold">
                             <%--@TODO remove only show Kg for Cold--%>
                                 <c:if test="${status.index != fn:length(product.productqualitys) - 1}">
-                                    <%--<c:if test="${isCold}">--%>
+                                    <%--<c:if test="${saleByKg}">--%>
                                     <fmt:formatNumber value="${productQuality.quantity1 * kgm - productQuality.saleQuantity}" pattern="###,###"/>
                                     <%--</c:if>--%>
                                     <fmt:formatNumber var="kgQuantityOthersRounded" value="${kgQuantityOthersRounded + productQuality.quantity1 * kgm - productQuality.saleQuantity}" pattern="######"/>
                                 </c:if>
                                 <c:if test="${status.index == fn:length(product.productqualitys) - 1}">
-                                    <%--<c:if test="${isCold}">--%>
+                                    <%--<c:if test="${saleByKg}">--%>
                                     <fmt:formatNumber value="${product.quantity2Pure - kgQuantityOthersRounded - productQuality.saleQuantity}" pattern="###,###"/>
                                     <%--</c:if>--%>
                                 </c:if>
@@ -174,11 +174,11 @@
                             <td><fmt:formatNumber value="${productQuality.price}" pattern="###,###"/></td>
                             <td>
                                 <c:set var="tempMoney" value="0"/>
-                                <c:if test="${isCold}">
+                                <c:if test="${saleByKg}">
                                     <fmt:formatNumber var="kgQuantity" value="${productQuality.quantity1 * kgm - productQuality.saleQuantity}" groupingUsed="false" maxFractionDigits="0"/>
                                     <c:set var="tempMoney" value="${productQuality.price * kgQuantity}"/>
                                 </c:if>
-                                <c:if test="${!isCold}">
+                                <c:if test="${!saleByKg}">
                                     <c:set var="tempMoney" value="${productQuality.price * (productQuality.quantity1 - productQuality.saleQuantity)}"/>
                                 </c:if>
                                 <fmt:formatNumber value="${tempMoney}" pattern="###,###"/>

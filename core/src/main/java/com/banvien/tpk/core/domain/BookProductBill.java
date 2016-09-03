@@ -34,6 +34,16 @@ public class BookProductBill implements Serializable {
     private List<OweLog> prePaids;
     private Timestamp billDate;
 
+    private Boolean oldFormula;
+
+    public Boolean getOldFormula() {
+        return oldFormula;
+    }
+
+    public void setOldFormula(Boolean oldFormula) {
+        this.oldFormula = oldFormula;
+    }
+
     public Double getReduceCost() {
         return reduceCost;
     }

@@ -28,7 +28,6 @@
         </div>
         <div class="clear"></div>
         <div class="copyright" style="color: #442b2b;">Copyright &copy; 2014 by Tan Phuoc Khanh. Developed by Khanh Chu.</div>
-        <div class="copyright" style="float: right; text-align: left;color: #442b2b;">Helpdesk : <fmt:message key="label.helpdesk.people"/></div>
         <div class="footer_links">
         </div>
     </div>

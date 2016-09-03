@@ -290,6 +290,7 @@
 
                 <form:hidden path="crudaction" id="crudaction" value="insert-update"/>
                     <form:hidden path="pojo.bookProductBillID"/>
+                    <form:hidden path="pojo.oldFormula"/>
                     <a href="${backUrl}" class="cancel-link">
                         <fmt:message key="button.cancel"/>
                     </a>
@@ -329,7 +330,7 @@
             var productCode = $(this).attr('code');
             var id = $(this).attr('id').split('-')[1];
             var quantity;
-            if(productCode != '${Constants.PRODUCT_LANH}'){
+            if(productCode != '${Constants.PRODUCT_LANH}' && '${item.pojo.oldFormula}' == 'true' ){
                 quantity = $.trim($('#product-' + id).text());
                 if(quantity != '' && quantity.split('m').length > 0){
                     quantity = quantity.split('m')[0];
@@ -407,7 +408,7 @@ function saveExportBill(){
         var productCode = $(ele).attr('code');
         var id = $(ele).attr('id').split('-')[1];
         var quantity;
-        if(productCode != '${Constants.PRODUCT_LANH}'){
+        if(productCode != '${Constants.PRODUCT_LANH}' && '${item.pojo.oldFormula}' == 'true'){
             var quantity = $.trim($('#product-' + id).text());
             if(quantity != '' && quantity.split('m').length > 0){
                 quantity = quantity.split('m')[0];

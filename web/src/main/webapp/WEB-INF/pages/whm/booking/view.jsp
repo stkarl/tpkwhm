@@ -435,7 +435,7 @@
             var productCode = $(this).attr('code');
             var id = $(this).attr('id').split('-')[1];
             var quantity;
-            if(productCode != '${Constants.PRODUCT_LANH}'){
+            if(productCode != '${Constants.PRODUCT_LANH}' && '${item.pojo.oldFormula}' == 'true'){
                 quantity = $.trim($('#product-' + id).text());
                 if(quantity != '' && quantity.split('m').length > 0){
                     quantity = quantity.split('m')[0];
