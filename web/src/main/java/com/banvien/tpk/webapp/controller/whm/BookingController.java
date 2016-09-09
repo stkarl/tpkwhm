@@ -475,7 +475,7 @@ public class BookingController extends ApplicationObjectSupport {
             if(StringUtils.isNotBlank(crudaction) && crudaction.equals("insert-update")) {
                 if(!bindingResult.hasErrors()) {
                     if(pojo.getOldFormula() == null){
-                        pojo.setOldFormula(false);
+                        pojo.setOldFormula(true);
                     }
                     pojo = this.bookProductBillService.updatePrice(bean);
                     mav = new ModelAndView("redirect:/whm/booking/view.html?pojo.bookProductBillID=" + pojo.getBookProductBillID());

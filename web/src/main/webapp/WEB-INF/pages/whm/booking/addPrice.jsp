@@ -330,7 +330,7 @@
             var productCode = $(this).attr('code');
             var id = $(this).attr('id').split('-')[1];
             var quantity;
-            if(productCode != '${Constants.PRODUCT_LANH}' && '${item.pojo.oldFormula}' == 'true' ){
+            if(productCode != '${Constants.PRODUCT_LANH}' && ('${item.pojo.oldFormula}' == 'true' || '${item.pojo.oldFormula}' == '') ){
                 quantity = $.trim($('#product-' + id).text());
                 if(quantity != '' && quantity.split('m').length > 0){
                     quantity = quantity.split('m')[0];
@@ -408,7 +408,7 @@ function saveExportBill(){
         var productCode = $(ele).attr('code');
         var id = $(ele).attr('id').split('-')[1];
         var quantity;
-        if(productCode != '${Constants.PRODUCT_LANH}' && '${item.pojo.oldFormula}' == 'true'){
+        if(productCode != '${Constants.PRODUCT_LANH}' && ('${item.pojo.oldFormula}' == 'true' || '${item.pojo.oldFormula}' == '')){
             var quantity = $.trim($('#product-' + id).text());
             if(quantity != '' && quantity.split('m').length > 0){
                 quantity = quantity.split('m')[0];
