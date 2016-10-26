@@ -137,6 +137,7 @@
             <c:if test="${item.isBlackProduct}">
                 <table class="tbInput">
                     <tr id="tbHead">
+                        <th><fmt:message key="label.product.name"/></th>
                         <th><fmt:message key="label.code"/></th>
                         <th><fmt:message key="label.size"/></th>
                         <th><fmt:message key="label.quantity.pure"/></th>
@@ -145,6 +146,14 @@
                         <th><fmt:message key="label.made.in"/></th>
                     </tr>
                     <tr id="prd">
+                        <td class="inputItemInfo1">
+                            <select class="width4 requiredField" name="productInfo.productName.productNameID" id="sl_prd_name">
+                                <option value="">-<fmt:message key="label.select"/>-</option>
+                                <c:forEach items="${productNames}" var="productName">
+                                    <option value="${productName.productNameID}" <c:if test="${productName.productNameID == product.productname.productNameID}">selected</c:if>>${productName.name}</option>
+                                </c:forEach>
+                            </select>
+                        </td>
                         <td class="inputItemInfo2">
                             <input name="productInfo.code" name="productInfo.code" value="${product.productCode}" type="text" class="width3 uppercase"/>
                         </td>
