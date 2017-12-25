@@ -8,3 +8,99 @@ input.large{
 .sale-info.hide{
     display: none;
 }
+
+body.real-time {
+    font-size: .75em;
+    line-height: 1.666666667em;
+    background: #fff;
+    color: #000;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+.menu-bar {
+    padding: 4px;
+}
+
+.tableSadlier.real-time-table{
+    border: none;
+}
+
+.tableSadlier.real-time-table th {
+    border: 1px solid #343434;
+}
+.tableSadlier.real-time-table td {
+    border: 1px solid #e6e6e6;
+    border-width: 0 1px;
+    color: #5485a2;
+    text-align: right;
+    padding: 4px 8px;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.tableSadlier.real-time-table .table_header {
+    background-color: #000000;
+    vertical-align: middle;
+    text-align: left;
+    padding: 5px 2px;
+    font-size: 32px;
+}
+
+.tableSadlier.real-time-table tr.odd {
+    background: #f2f2f2;
+    border-top: none;
+}
+
+.tableSadlier.real-time-table tr.even {
+    background: #ffffff;
+    border-top: none;
+}
+
+.tableSadlier.real-time-table tr:nth-child(3) td,
+.tableSadlier.real-time-table tr:nth-child(4) td,
+.tableSadlier.real-time-table tr:nth-child(5) td{
+    color: #d4200b;
+}
+.tableSadlier.real-time-table tr:nth-child(6) td,
+.tableSadlier.real-time-table tr:nth-child(7) td{
+    color: #457996;
+}
+
+.tableSadlier.real-time-table tr.total td {
+    color: #ffffff;
+}
+
+.error, .txtl {
+    text-align: left!important;
+}
+
+.txtc {
+    text-align: center!important;
+}
+
+
+.tableSadlier.real-time-table tr.total {
+    background: #000;
+}
+
+.real-time .tableSadlier .table_header,
+.real-time .tableSadlier td{
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.real-time .tableSadlier tr.total {
+    background-color: #97C5A8;
+}
+
+.real-time .tableSadlier tr.first td{
+    color: #ffd700;
+}
+.real-time .tableSadlier tr.second td{
+    color: #c0c0c0;
+}
+.real-time .tableSadlier tr.third td{
+    color: #cd7f32;
+}

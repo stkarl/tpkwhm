@@ -19,82 +19,92 @@
 </div>
 <div id="user-nav" class="navbar">
 <ul class="nav btn-group pull-right">
-    <li class="dropdown" id="menu-data"><a href="#" data-toggle="dropdown" data-target="#menu-data" class="dropdown-toggle"><i class="sc-icon-top-settings"></i> <span class="text"><fmt:message key="whm.menu.data.management"/></span></a>
-        <ul class="dropdown-menu" style="margin-left:-15px;">
-            <security:authorize ifAnyGranted="XUAT_TD,XUAT_TP,ADMIN,LANHDAO,QUANLYKHO,TRUONGCA">
-                <li><a class="menu" href="<c:url value="/whm/productionplan/list.html"/>"><span><fmt:message key="whm.menu.production.plan.list"/></span></a></li>
-            </security:authorize>
-            <security:authorize ifAnyGranted="ADMIN,QUANLYKD">
-                <li><a class="menu" href="<c:url value="/whm/user/list.html"/>"><span><fmt:message key="whm.menu.user.management"/></span></a></li>
-                <security:authorize ifAnyGranted="ADMIN">
-                    <li><a class="menu" href="<c:url value="/whm/warehouse/list.html"/>"><span><fmt:message key="whm.menu.warehouse.management"/></span></a></li>
+    <security:authorize ifAnyGranted="BOARD">
+        <li class="dropdown" id="menu-board">
+            <a href="<c:url value="${prefixURL}/spBoard.html"/>">
+                <i class="sc-icon-top-board"></i> <span class="text"><fmt:message key="whm.menu.board"/></span>
+            </a>
+        </li>
+    </security:authorize>
+    <security:authorize ifNotGranted="BOARD">
+        <li class="dropdown" id="menu-data"><a href="#" data-toggle="dropdown" data-target="#menu-data" class="dropdown-toggle"><i class="sc-icon-top-settings"></i> <span class="text"><fmt:message key="whm.menu.data.management"/></span></a>
+            <ul class="dropdown-menu" style="margin-left:-15px;">
+                <security:authorize ifAnyGranted="XUAT_TD,XUAT_TP,ADMIN,LANHDAO,QUANLYKHO,TRUONGCA">
+                    <li><a class="menu" href="<c:url value="/whm/productionplan/list.html"/>"><span><fmt:message key="whm.menu.production.plan.list"/></span></a></li>
                 </security:authorize>
-            </security:authorize>
-            <%--<li class="divider"></li>--%>
-            <security:authorize ifAnyGranted="NHAP_TD,NHAP_VT,NHAP_TP,ADMIN,LANHDAO,QUANLYKHO,TRUONGCA,NHANVIENKD,QUANLYKD,QUANLYTT,QUANLYNO">
+                <security:authorize ifAnyGranted="ADMIN,QUANLYKD">
+                    <li><a class="menu" href="<c:url value="/whm/user/list.html"/>"><span><fmt:message key="whm.menu.user.management"/></span></a></li>
+                    <security:authorize ifAnyGranted="ADMIN">
+                        <li><a class="menu" href="<c:url value="/whm/warehouse/list.html"/>"><span><fmt:message key="whm.menu.warehouse.management"/></span></a></li>
+                    </security:authorize>
+                </security:authorize>
+                    <%--<li class="divider"></li>--%>
+                <security:authorize ifAnyGranted="NHAP_TD,NHAP_VT,NHAP_TP,ADMIN,LANHDAO,QUANLYKHO,TRUONGCA,NHANVIENKD,QUANLYKD,QUANLYTT,QUANLYNO">
 
-                <li class="dropdown-submenu pull-left"><a href="#" ><fmt:message key="whm.menu.data.basic"/></a>
-                    <ul class="dropdown-menu" style="margin-left: 210px;">
-                        <security:authorize ifNotGranted="NHANVIENKD,QUANLYNO,QUANLYKD">
-                            <li><a class="menu" href="<c:url value="/whm/market/list.html"/>"><span><fmt:message key="whm.menu.market.management"/></span></a></li>
-                            <li><a class="menu" href="<c:url value="/whm/origin/list.html"/>"><span><fmt:message key="whm.menu.origin.management"/></span></a></li>
-                            <li><a class="menu" href="<c:url value="/whm/unit/list.html"/>"><span><fmt:message key="whm.menu.unit.management"/></span></a></li>
-                            <li><a class="menu" href="<c:url value="/whm/warehousemap/list.html"/>"><span><fmt:message key="whm.menu.warehousemap.management"/></span></a></li>
-                            <li><a class="menu" href="<c:url value="/whm/shift/list.html"/>"><span><fmt:message key="whm.menu.shift.management"/></span></a></li>
-                            <li><a class="menu" href="<c:url value="/whm/team/list.html"/>"><span><fmt:message key="whm.menu.team.management"/></span></a></li>
-                        </security:authorize>
-                        <%--<security:authorize ifAnyGranted="QUANLYTT,LANHDAO,ADMIN">--%>
-                            <%--<li><a class="menu" href="<c:url value="/whm/fixexpense/list.html"/>"><span><fmt:message key="whm.fixexpense.title"/></span></a></li>--%>
-                        <%--</security:authorize>--%>
-                        <security:authorize ifAnyGranted="NHANVIENKD,QUANLYKD,LANHDAO,ADMIN,QUANLYNO">
-                            <li><a class="menu" href="<c:url value="/whm/salereason/list.html"/>"><span><fmt:message key="whm.salereason.title"/></span></a></li>
-                        </security:authorize>
-                    </ul>
-                </li>
-                <security:authorize ifNotGranted="NHANVIENKD,QUANLYNO,QUANLYKD">
-                    <li class="dropdown-submenu pull-left"><a href="#" ><fmt:message key="whm.menu.data.material"/></a>
+                    <li class="dropdown-submenu pull-left"><a href="#" ><fmt:message key="whm.menu.data.basic"/></a>
                         <ul class="dropdown-menu" style="margin-left: 210px;">
-                            <li><a class="menu" href="<c:url value="/whm/materialcategory/list.html"/>"><span><fmt:message key="whm.menu.materialcategory.management"/></span></a></li>
-                            <li><a class="menu" href="<c:url value="/whm/material/list.html"/>"><span><fmt:message key="whm.menu.material.management"/></span></a></li>
+                            <security:authorize ifNotGranted="NHANVIENKD,QUANLYNO,QUANLYKD">
+                                <li><a class="menu" href="<c:url value="/whm/market/list.html"/>"><span><fmt:message key="whm.menu.market.management"/></span></a></li>
+                                <li><a class="menu" href="<c:url value="/whm/origin/list.html"/>"><span><fmt:message key="whm.menu.origin.management"/></span></a></li>
+                                <li><a class="menu" href="<c:url value="/whm/unit/list.html"/>"><span><fmt:message key="whm.menu.unit.management"/></span></a></li>
+                                <li><a class="menu" href="<c:url value="/whm/warehousemap/list.html"/>"><span><fmt:message key="whm.menu.warehousemap.management"/></span></a></li>
+                                <li><a class="menu" href="<c:url value="/whm/shift/list.html"/>"><span><fmt:message key="whm.menu.shift.management"/></span></a></li>
+                                <li><a class="menu" href="<c:url value="/whm/team/list.html"/>"><span><fmt:message key="whm.menu.team.management"/></span></a></li>
+                            </security:authorize>
+                                <%--<security:authorize ifAnyGranted="QUANLYTT,LANHDAO,ADMIN">--%>
+                                <%--<li><a class="menu" href="<c:url value="/whm/fixexpense/list.html"/>"><span><fmt:message key="whm.fixexpense.title"/></span></a></li>--%>
+                                <%--</security:authorize>--%>
+                            <security:authorize ifAnyGranted="NHANVIENKD,QUANLYKD,LANHDAO,ADMIN,QUANLYNO">
+                                <li><a class="menu" href="<c:url value="/whm/salereason/list.html"/>"><span><fmt:message key="whm.salereason.title"/></span></a></li>
+                            </security:authorize>
                         </ul>
                     </li>
-                    <li class="dropdown-submenu pull-left"><a href="#" ><fmt:message key="whm.menu.data.product"/></a>
+                    <security:authorize ifNotGranted="NHANVIENKD,QUANLYNO,QUANLYKD">
+                        <li class="dropdown-submenu pull-left"><a href="#" ><fmt:message key="whm.menu.data.material"/></a>
+                            <ul class="dropdown-menu" style="margin-left: 210px;">
+                                <li><a class="menu" href="<c:url value="/whm/materialcategory/list.html"/>"><span><fmt:message key="whm.menu.materialcategory.management"/></span></a></li>
+                                <li><a class="menu" href="<c:url value="/whm/material/list.html"/>"><span><fmt:message key="whm.menu.material.management"/></span></a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu pull-left"><a href="#" ><fmt:message key="whm.menu.data.product"/></a>
+                            <ul class="dropdown-menu" style="margin-left: 210px;">
+                                <li><a class="menu" href="<c:url value="/whm/productname/list.html"/>"><span><fmt:message key="whm.menu.productname.management"/></span></a></li>
+                                <li><a class="menu" href="<c:url value="/whm/thickness/list.html"/>"><span><fmt:message key="whm.menu.thickness.management"/></span></a></li>
+                                <li><a class="menu" href="<c:url value="/whm/stiffness/list.html"/>"><span><fmt:message key="whm.menu.stiffness.management"/></span></a></li>
+                                <li><a class="menu" href="<c:url value="/whm/size/list.html"/>"><span><fmt:message key="whm.menu.size.management"/></span></a></li>
+                                <li><a class="menu" href="<c:url value="/whm/overlaytype/list.html"/>"><span><fmt:message key="whm.menu.overlaytype.management"/></span></a></li>
+                                <li><a class="menu" href="<c:url value="/whm/colour/list.html"/>"><span><fmt:message key="whm.menu.colour.management"/></span></a></li>
+                                <li><a class="menu" href="<c:url value="/whm/quality/list.html"/>"><span><fmt:message key="whm.menu.quality.management"/></span></a></li>
+                            </ul>
+                        </li>
+                    </security:authorize>
+                    <li class="dropdown-submenu pull-left"><a href="#" ><fmt:message key="whm.menu.data.customer"/></a>
                         <ul class="dropdown-menu" style="margin-left: 210px;">
-                            <li><a class="menu" href="<c:url value="/whm/productname/list.html"/>"><span><fmt:message key="whm.menu.productname.management"/></span></a></li>
-                            <li><a class="menu" href="<c:url value="/whm/thickness/list.html"/>"><span><fmt:message key="whm.menu.thickness.management"/></span></a></li>
-                            <li><a class="menu" href="<c:url value="/whm/stiffness/list.html"/>"><span><fmt:message key="whm.menu.stiffness.management"/></span></a></li>
-                            <li><a class="menu" href="<c:url value="/whm/size/list.html"/>"><span><fmt:message key="whm.menu.size.management"/></span></a></li>
-                            <li><a class="menu" href="<c:url value="/whm/overlaytype/list.html"/>"><span><fmt:message key="whm.menu.overlaytype.management"/></span></a></li>
-                            <li><a class="menu" href="<c:url value="/whm/colour/list.html"/>"><span><fmt:message key="whm.menu.colour.management"/></span></a></li>
-                            <li><a class="menu" href="<c:url value="/whm/quality/list.html"/>"><span><fmt:message key="whm.menu.quality.management"/></span></a></li>
+                            <li><a class="menu" href="<c:url value="/whm/region/list.html"/>"><span><fmt:message key="whm.menu.region.management"/></span></a></li>
+                            <li><a class="menu" href="<c:url value="/whm/province/list.html"/>"><span><fmt:message key="whm.menu.province.management"/></span></a></li>
+                            <li><a class="menu" href="<c:url value="/whm/customer/list.html"/>"><span><fmt:message key="whm.menu.customer.management"/></span></a></li>
+                            <security:authorize ifAnyGranted="ADMIN">
+                                <li><a class="menu" href="<c:url value="/whm/customer/import.html"/>"><span>Nạp dữ liệu khách hàng</span></a></li>
+                                <li><a class="menu" href="<c:url value="/whm/customer/importOwe.html"/>"><span>Nạp dữ liệu công nợ khách hàng</span></a></li>
+                            </security:authorize>
                         </ul>
                     </li>
                 </security:authorize>
-                <li class="dropdown-submenu pull-left"><a href="#" ><fmt:message key="whm.menu.data.customer"/></a>
-                    <ul class="dropdown-menu" style="margin-left: 210px;">
-                        <li><a class="menu" href="<c:url value="/whm/region/list.html"/>"><span><fmt:message key="whm.menu.region.management"/></span></a></li>
-                        <li><a class="menu" href="<c:url value="/whm/province/list.html"/>"><span><fmt:message key="whm.menu.province.management"/></span></a></li>
-                        <li><a class="menu" href="<c:url value="/whm/customer/list.html"/>"><span><fmt:message key="whm.menu.customer.management"/></span></a></li>
-                <security:authorize ifAnyGranted="ADMIN">
-                    <li><a class="menu" href="<c:url value="/whm/customer/import.html"/>"><span>Nạp dữ liệu khách hàng</span></a></li>
-                    <li><a class="menu" href="<c:url value="/whm/customer/importOwe.html"/>"><span>Nạp dữ liệu công nợ khách hàng</span></a></li>
-                </security:authorize>
-                </ul>
-                </li>
-            </security:authorize>
-            <security:authorize ifAnyGranted="ADMIN,LANHDAO,QUANLYKHO,MAY_THIET_BI,QUANLYKT">
-                <li><a class="menu" href="<c:url value="/whm/machine/list.html"/>"><span><fmt:message key="whm.menu.machine.management"/></span></a></li>
-                <li><a class="menu" href="<c:url value="/whm/machinecomponent/list.html"/>"><span><fmt:message key="whm.menu.machinecomponent.management"/></span></a></li>
-                <li><a class="menu" href="<c:url value="/whm/maintenance/list.html"/>"><span><fmt:message key="whm.menu.maintenane.management"/></span></a></li>
-                <%--<li class="dropdown-submenu pull-left"><a href="#" ><fmt:message key="whm.menu.data.machine"/></a>--%>
+                <security:authorize ifAnyGranted="ADMIN,LANHDAO,QUANLYKHO,MAY_THIET_BI,QUANLYKT">
+                    <li><a class="menu" href="<c:url value="/whm/machine/list.html"/>"><span><fmt:message key="whm.menu.machine.management"/></span></a></li>
+                    <li><a class="menu" href="<c:url value="/whm/machinecomponent/list.html"/>"><span><fmt:message key="whm.menu.machinecomponent.management"/></span></a></li>
+                    <li><a class="menu" href="<c:url value="/whm/maintenance/list.html"/>"><span><fmt:message key="whm.menu.maintenane.management"/></span></a></li>
+                    <%--<li class="dropdown-submenu pull-left"><a href="#" ><fmt:message key="whm.menu.data.machine"/></a>--%>
                     <%--<ul class="dropdown-menu" style="margin-left: 210px;">--%>
-                        <%----%>
+                    <%----%>
                     <%--</ul>--%>
-                <%--</li>--%>
-            </security:authorize>
-        </ul>
-    </li>
-    <security:authorize ifNotGranted="NHANVIENKD,QUANLYNO,QUANLYKD">
+                    <%--</li>--%>
+                </security:authorize>
+            </ul>
+        </li>
+    </security:authorize>
+
+    <security:authorize ifNotGranted="NHANVIENKD,QUANLYNO,QUANLYKD,BOARD">
         <li class="dropdown" id="menu-import"><a href="#" data-toggle="dropdown" data-target="#menu-import" class="dropdown-toggle"><i class="sc-icon-top-import"></i> <span class="text"><fmt:message key="whm.menu.import"/></span></a>
             <ul class="dropdown-menu" style="margin-left:-15px;">
                 <security:authorize ifAnyGranted="ADMIN,NHAP_VT,NHANVIENTT,QUANLYTT,QUANLYKHO,LANHDAO">
@@ -213,6 +223,9 @@
                         </ul>
                     </li>
                     <li><a class="menu" href="<c:url value="/whm/customer/owelog.html"/>"><span><fmt:message key="label.owe.log"/></span></a></li>
+                    <li><a class="menu" href="<c:url value="/whm/report/oweDaily.html"/>"><span><fmt:message key="label.daily.own"/></span></a></li>
+                    <li><a class="menu" href="<c:url value="/whm/report/salesPerformance.html"/>"><span><fmt:message key="label.sales.performance"/></span></a></li>
+
                 </security:authorize>
             </ul>
         </li>

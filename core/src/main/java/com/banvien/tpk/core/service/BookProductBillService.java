@@ -3,7 +3,10 @@ package com.banvien.tpk.core.service;
 import com.banvien.tpk.core.domain.BookProduct;
 import com.banvien.tpk.core.domain.BookProductBill;
 import com.banvien.tpk.core.domain.Importproduct;
+import com.banvien.tpk.core.domain.User;
 import com.banvien.tpk.core.dto.BookProductBillBean;
+import com.banvien.tpk.core.dto.SalePerformanceDTO;
+import com.banvien.tpk.core.dto.SalesPerformanceBean;
 import com.banvien.tpk.core.exception.ObjectNotFoundException;
 
 import java.util.List;
@@ -34,4 +37,6 @@ public interface BookProductBillService extends GenericService<BookProductBill,L
     List<BookProduct> findByBill(Long bookProductBillID);
 
     List<Importproduct> findProductInBookBill(Long bookProductBillID);
+
+    List<SalePerformanceDTO> salesPerformance(SalesPerformanceBean bean);
 }

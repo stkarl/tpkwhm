@@ -3,8 +3,7 @@ package com.banvien.tpk.core.service;
 import com.banvien.tpk.core.Constants;
 import com.banvien.tpk.core.dao.*;
 import com.banvien.tpk.core.domain.*;
-import com.banvien.tpk.core.dto.BookProductBillBean;
-import com.banvien.tpk.core.dto.SuggestPriceDTO;
+import com.banvien.tpk.core.dto.*;
 import com.banvien.tpk.core.exception.ObjectNotFoundException;
 import com.banvien.tpk.core.util.DateUtils;
 import com.banvien.tpk.core.util.GeneratorUtils;
@@ -61,6 +60,12 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
 
     public void setBookBillSaleReasonDAO(BookBillSaleReasonDAO bookBillSaleReasonDAO) {
         this.bookBillSaleReasonDAO = bookBillSaleReasonDAO;
+    }
+
+    private UserDAO userDAO;
+
+    public void setUserDAO(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     @Override
@@ -508,5 +513,118 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
             quantitySaleMap.put(key, suggestPriceDTO.getSaleQuantity());
         }
         return new Object[]{priceMap, priceSaleMap, quantitySaleMap} ;
+    }
+
+
+    @Override
+    public List<SalePerformanceDTO> salesPerformance(SalesPerformanceBean bean) {
+        Map<String,Object> properties = new HashMap<String,Object>();
+        StringBuffer whereClause = new StringBuffer(" status >= ");
+        whereClause.append(Constants.BOOK_ALLOW_EXPORT);
+        if(bean.getFromDate() != null){
+            whereClause.append(" AND confirmedDate >= '").append(bean.getFromDate()).append("'");
+        }
+        if(bean.getToDate() != null){
+            whereClause.append(" AND confirmedDate <= '").append(bean.getToDate()).append("'");
+        }
+        List<BookProductBill> bookProductBills =
+                bookProductBillDAO.findByProperties(properties, "confirmedDate", "2", true, whereClause.toString());
+
+        Map<String, Object> salesmanProperties = new HashMap<String, Object>();
+
+        salesmanProperties.put("role", Constants.NVKD_ROLE);
+        List<User> users = userDAO.findByProperties(salesmanProperties, "fullname", Constants.SORT_ASC, true, null);
+        List<SalePerformanceDTO> salePerformanceDTOs = summaryBySalesman(bookProductBills, bean.getToDate());
+        List<User> rankedSalesman = new ArrayList<User>();
+        for(SalePerformanceDTO salePerformanceDTO : salePerformanceDTOs){
+            rankedSalesman.add(salePerformanceDTO.getSalesman());
+        }
+        for(User user : users){
+            if(!rankedSalesman.contains(user)){
+                SalePerformanceDTO salePerformanceDTO = new SalePerformanceDTO(user);
+                salePerformanceDTOs.add(salePerformanceDTO);
+            }
+        }
+        return salePerformanceDTOs;
+    }
+
+    private List<SalePerformanceDTO> summaryBySalesman(List<BookProductBill> bookProductBills, final Date toDate) {
+        final String sToDate = DateUtils.date2String(toDate, "ddMMyyyy");
+        Map<User, SalePerformanceDTO> salesPerformance = computeDailyPerformance(bookProductBills);
+        int i = 0;
+        List<SalePerformanceDTO> salePerformanceDTOs = new ArrayList<SalePerformanceDTO>(salesPerformance.values());
+        Collections.sort(salePerformanceDTOs, new Comparator<SalePerformanceDTO>() {
+            public int compare(SalePerformanceDTO one, SalePerformanceDTO other) {
+                SalesByDateDTO oneSalesDate = one.getSalesByDates().get(one.getSalesman().getUserID() + "_" + sToDate);
+                Double oneSales = oneSalesDate != null ? oneSalesDate.getWeight() : 0d;
+                SalesByDateDTO otherSalesDate = other.getSalesByDates().get(other.getSalesman().getUserID() + "_" + sToDate);
+                Double otherSales = otherSalesDate != null ? otherSalesDate.getWeight() : 0d;
+                return otherSales.compareTo(oneSales) != 0 ? otherSales.compareTo(oneSales) : other.getTotalWeight().compareTo(one.getTotalWeight());
+            }
+        });
+        return salePerformanceDTOs;
+    }
+
+    private Map<User, SalePerformanceDTO> computeDailyPerformance(List<BookProductBill> bookProductBills) {
+        Map<User, SalePerformanceDTO> overallPerformance = new HashMap<User, SalePerformanceDTO>();
+        String smDate;
+        for(BookProductBill bill : bookProductBills){
+            smDate = bill.getCreatedBy().getUserID() + "_" + DateUtils.date2String(bill.getConfirmedDate(), "ddMMyyyy");
+
+            SalePerformanceDTO salePerformance = overallPerformance.get(bill.getCreatedBy());
+            if(salePerformance == null){
+                salePerformance = new SalePerformanceDTO(bill.getCreatedBy());
+                SalesByDateDTO salesByDate = new SalesByDateDTO(bill.getConfirmedDate(), bill.getCreatedBy());
+                addSalesByDate(salePerformance, salesByDate, bill);
+
+                Map<String, SalesByDateDTO> mapSmSales = new HashMap<String, SalesByDateDTO>();
+                mapSmSales.put(smDate, salesByDate);
+                salePerformance.setSalesByDates(mapSmSales);
+                overallPerformance.put(bill.getCreatedBy(), salePerformance);
+            }else{
+                SalesByDateDTO salesByDate = salePerformance.getSalesByDates().get(smDate);
+                if(salesByDate == null){
+                    salesByDate = new SalesByDateDTO(bill.getConfirmedDate(), bill.getCreatedBy() );
+                    addSalesByDate(salePerformance, salesByDate, bill);
+                    salePerformance.getSalesByDates().put(smDate, salesByDate);
+                }else{
+                    addSalesByDate(salePerformance, salesByDate, bill);
+                }
+
+
+
+            }
+        }
+        return overallPerformance;
+    }
+
+    private void addSalesByDate(SalePerformanceDTO salesByMonth, SalesByDateDTO salesByDate, BookProductBill bill) {
+        Double quantityPerBill = 0d;
+        for(BookProduct product : bill.getBookProducts()){
+            quantityPerBill += product.getImportProduct().getQuantity2Pure();
+            salesByDate.setWeight(salesByDate.getWeight() + product.getImportProduct().getQuantity2Pure());
+            salesByMonth.setTotalWeight(salesByMonth.getTotalWeight() + product.getImportProduct().getQuantity2Pure());
+
+        }
+        computeCustomerConsumption(salesByMonth, salesByDate, bill, quantityPerBill);
+        salesByDate.setNoCustomer(salesByDate.getCustomerConsumption().size());
+        salesByMonth.setTotalCustomer(salesByMonth.getCustomerConsumption().size());
+    }
+
+    private void computeCustomerConsumption(SalePerformanceDTO salePerformance, SalesByDateDTO salesByDate, BookProductBill bill, Double quantityPerBill) {
+        Map<Customer, Double> customerConsumptionByMonth = salePerformance.getCustomerConsumption();
+        computeCustomerConsumptionDetail(customerConsumptionByMonth, bill.getCustomer(), quantityPerBill);
+
+        Map<Customer, Double> customerConsumption = salesByDate.getCustomerConsumption();
+        computeCustomerConsumptionDetail(customerConsumption, bill.getCustomer(), quantityPerBill);
+    }
+
+    private void computeCustomerConsumptionDetail(Map<Customer, Double> customerConsumption, Customer customer, Double quantityPerBill){
+        Double currentConsumption = customerConsumption.get(customer);
+        if(currentConsumption == null){
+            customerConsumption.put(customer, quantityPerBill);
+        }else{
+            customerConsumption.put(customer, currentConsumption + quantityPerBill);
+        }
     }
 }

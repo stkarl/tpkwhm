@@ -19,7 +19,7 @@
         <intercept-url pattern="/forgotpwd.html" access="ROLE_ANONYMOUS"/>
 
         <intercept-url pattern="/dcdt/**" access="ADMIN,ASM,SE,RSM,AUDITOR,DISTRIBUTOR"/>
-        <intercept-url pattern="/whm/**" access="ADMIN,NHANVIENKHO,NHANVIENTT,NHANVIENKD,QUANLYKHO,QUANLYTT,QUANLYKD,LANHDAO,TRUONGCA,QUANLYKT,QUANLYNO"/>
+        <intercept-url pattern="/whm/**" access="ADMIN,NHANVIENKHO,NHANVIENTT,NHANVIENKD,QUANLYKHO,QUANLYTT,QUANLYKD,LANHDAO,TRUONGCA,QUANLYKT,QUANLYNO,BOARD"/>
 
         <intercept-url pattern="/whm/user/**" access="ADMIN" />
         <intercept-url pattern="/whm/warehouse/**" access="ADMIN" />
