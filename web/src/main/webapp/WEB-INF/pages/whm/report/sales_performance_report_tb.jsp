@@ -10,17 +10,17 @@
 <div class="tb_left">
     <table class="tableSadlier">
         <tr>
-            <th class="table_header text-center"><fmt:message key="label.stt"/></th>
-            <th class="table_header text-center"><fmt:message key="label.staff"/></th>
+            <th class="table_header text-center stt"><fmt:message key="label.stt"/></th>
+            <th class="table_header text-center staff-name"><fmt:message key="label.staff"/></th>
         </tr>
         <tr>
-            <th style="color:#97C5A8;" class="table_header text-center"><fmt:message key="label.stt"/></th>
-            <th style="color:#97C5A8;" class="table_header text-center"><fmt:message key="label.staff"/></th>
+            <th style="color:#97C5A8;" class="table_header text-center stt"><fmt:message key="label.stt"/></th>
+            <th style="color:#97C5A8;" class="table_header text-center staff-name"><fmt:message key="label.staff"/></th>
         </tr>
         <c:forEach items="${results}" var="result" varStatus="status">
             <tr class="${status.index % 2 == 0 ? "even" : "odd"} ${status.index == 0 ? 'first' : status.index == 1 ? 'second' : status.index == 2 ? 'third' : ''}">
-                <td class="txtc">${status.index + 1}</td>
-                <td class="txtl">${result.salesman.fullname}</td>
+                <td class="stt txtc">${status.index + 1}</td>
+                <td class="txtl staff-name">${result.salesman.fullname}</td>
             </tr>
         </c:forEach>
         <tr class="${fn:length(results) + 1 % 2 == 0 ? "odd": "even"} total" style="font-weight: bold">
@@ -28,7 +28,7 @@
         </tr>
     </table>
 </div>
-<div id="tbContent" style="width:80%;">
+<div id="tbContent">
     <div class="tb_center">
         <table class="tableSadlier">
             <tr>
@@ -62,10 +62,18 @@
                         <%--<c:set value="${totalDateCustomer + dailySales.noCustomer}" var="totalDateCustomer"/>--%>
                         <%--<c:set value="${totalMonthWeight + result.totalWeight}" var="totalMonthWeight"/>--%>
                         <%--<c:set value="${totalMonthCustomer + result.totalCustomer}" var="totalMonthCustomer"/>--%>
-                        <td><fmt:formatNumber value="${!empty dailySales.weight ? dailySales.weight : 0}" pattern="###,###" maxFractionDigits="3" minFractionDigits="0"/></td>
+                        <td>
+                            <a data-html="true" class="tip-right" title="${dailySales.consumptionHTML}">
+                                <fmt:formatNumber value="${!empty dailySales.weight ? dailySales.weight : 0}" pattern="###,###" maxFractionDigits="3" minFractionDigits="0"/>
+                            </a>
+                        </td>
                         <td>${!empty dailySales.noCustomer ? dailySales.noCustomer : 0}</td>
                     </c:forEach>
-                    <td><fmt:formatNumber value="${result.totalWeight}" pattern="###,###" maxFractionDigits="3" minFractionDigits="0"/></td>
+                    <td>
+                        <a data-html="true" class="tip-bottom" title="${result.consumptionHTML}">
+                            <fmt:formatNumber value="${result.totalWeight}" pattern="###,###" maxFractionDigits="3" minFractionDigits="0"/>
+                        </a>
+                    </td>
                     <td>${result.totalCustomer}</td>
                 </tr>
             </c:forEach>

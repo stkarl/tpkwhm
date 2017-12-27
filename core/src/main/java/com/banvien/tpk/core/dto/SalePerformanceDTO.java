@@ -2,6 +2,7 @@ package com.banvien.tpk.core.dto;
 
 import com.banvien.tpk.core.domain.Customer;
 import com.banvien.tpk.core.domain.User;
+import com.banvien.tpk.core.util.HTMLGeneratorUtil;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -63,5 +64,9 @@ public class SalePerformanceDTO implements Serializable {
 
     public void setCustomerConsumption(Map<Customer, Double> customerConsumption) {
         this.customerConsumption = customerConsumption;
+    }
+
+    public String getConsumptionHTML(){
+        return HTMLGeneratorUtil.createConsumptionHTML(customerConsumption);
     }
 }

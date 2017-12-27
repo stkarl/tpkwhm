@@ -2,12 +2,12 @@ package com.banvien.tpk.core.dto;
 
 import com.banvien.tpk.core.domain.Customer;
 import com.banvien.tpk.core.domain.User;
+import com.banvien.tpk.core.util.HTMLGeneratorUtil;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -63,5 +63,9 @@ public class SalesByDateDTO implements Serializable {
 
     public void setSalesman(User salesman) {
         this.salesman = salesman;
+    }
+
+    public String getConsumptionHTML(){
+        return HTMLGeneratorUtil.createConsumptionHTML(customerConsumption);
     }
 }

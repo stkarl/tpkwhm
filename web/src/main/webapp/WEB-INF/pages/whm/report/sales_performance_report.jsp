@@ -9,16 +9,46 @@
     <style>
         .tb_left {
             float: left;
-            width: 20%;
+            /*width: 24%;*/
         }
         .tb_center {
             float: left;
-            width: 80%;
+            width: 75%;
+        }
+        #tbContent{
+            width: 75%;
         }
 
         .tb_left .tableSadlier,
         .tb_center .tableSadlier{
             margin-top: 12px;
+        }
+
+        .tableSadlier .table_header {
+            min-width: 64px;
+        }
+        .stt{
+            width: 24px;
+            min-width: 0;
+        }
+
+        .tableSadlier th.table_header:first-child {
+            padding-left: 2px;
+        }
+        .tableSadlier td:first-child {
+            padding-left: 4px;
+        }
+
+        #tbContent  .tableSadlier tr td{
+            text-align: right;
+        }
+
+        .tooltip-inner {
+            width: 200px;
+        }
+
+        #tbContent {
+            margin-bottom: 240px;
         }
 
     </style>
@@ -64,9 +94,9 @@
             <%--<div id="tbContent" style="width:100%">--%>
 
             <%--</div>--%>
-
-            <jsp:include page="sales_performance_report_tb.jsp"/>
-
+            <c:if test="${!empty results && fn:length(results) > 0}">
+                <jsp:include page="sales_performance_report_tb.jsp"/>
+            </c:if>
             <form:hidden path="crudaction" id="crudaction"/>
         </form:form>
     </div>
