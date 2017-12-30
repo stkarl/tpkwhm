@@ -65,7 +65,7 @@ public class SalesPerformanceController extends ApplicationObjectSupport {
         mav.addObject(Constants.LIST_MODEL_KEY, bean);
         if((bean.getToDate().getTime() - bean.getFromDate().getTime())/(24 * 3600000L) > 31 ||
                 bean.getToDate().getTime() - bean.getFromDate().getTime() < 0){
-            mav.addObject("alertType","alert");
+            mav.addObject("alertType","error");
             mav.addObject("messageResponse", this.getMessageSourceAccessor().getMessage("invalid.date.range"));
             return mav;
         }

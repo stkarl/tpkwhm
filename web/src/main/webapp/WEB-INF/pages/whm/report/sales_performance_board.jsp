@@ -61,7 +61,7 @@
                     $('#container').html(res.responseText);
                 }
                 $(".ajax-progress").hide();
-                setTimeout(loadBoard,5000);
+                setTimeout(loadBoard,60000);
             },
             error: function(){
                 window.location.reload();

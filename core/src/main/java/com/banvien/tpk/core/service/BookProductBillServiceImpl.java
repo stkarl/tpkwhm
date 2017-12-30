@@ -533,6 +533,7 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
         Map<String, Object> salesmanProperties = new HashMap<String, Object>();
 
         salesmanProperties.put("role", Constants.NVKD_ROLE);
+        salesmanProperties.put("status", Constants.TPK_USER_ACTIVE);
         List<User> users = userDAO.findByProperties(salesmanProperties, "fullname", Constants.SORT_ASC, true, null);
         List<SalePerformanceDTO> salePerformanceDTOs = summaryBySalesman(bookProductBills, bean.getToDate());
         List<User> rankedSalesman = new ArrayList<User>();

@@ -90,8 +90,11 @@
                 <display:column headerClass="table_header_center" sortable="false" title="STT" class="text-center" style="width: 2%;">
                     ${tableList_rowNum}
                 </display:column>
-                <display:column headerClass="table_header_center" property="description" titleKey="label.description" class="text-center" style="width: 40%;"/>
+                <display:column headerClass="table_header_center" property="description" titleKey="label.description" class="text-center" style="width: 30%;"/>
                 <display:column headerClass="table_header large" property="customer.name" titleKey="label.customer" style="width: 10%;"/>
+                <display:column headerClass="table_header large" titleKey="confirm.date" style="width: 10%;">
+                    <fmt:formatDate value="${tableList.confirmedDate}" pattern="dd/MM/yyyy"/>
+                </display:column>
                 <display:column headerClass="table_header large" titleKey="delivery.date" style="width: 10%;">
                     <fmt:formatDate value="${tableList.deliveryDate}" pattern="dd/MM/yyyy"/>
                 </display:column>

@@ -63,34 +63,47 @@
                         <%--<c:set value="${totalMonthWeight + result.totalWeight}" var="totalMonthWeight"/>--%>
                         <%--<c:set value="${totalMonthCustomer + result.totalCustomer}" var="totalMonthCustomer"/>--%>
                         <td>
-                            <a data-html="true" class="tip-right" title="${dailySales.consumptionHTML}">
-                                <fmt:formatNumber value="${!empty dailySales.weight ? dailySales.weight : 0}" pattern="###,###" maxFractionDigits="3" minFractionDigits="0"/>
+                            <fmt:formatNumber var="fmtWeight" value="${!empty dailySales.weight ? dailySales.weight : 0}" pattern="###,###" maxFractionDigits="3" minFractionDigits="0"/>
+                            <a data-html="true" class="tip-right dailyWeight${currentDate}" Weight="${fmtWeight}" title="${dailySales.consumptionHTML}">
+                                ${fmtWeight}
                             </a>
                         </td>
-                        <td>${!empty dailySales.noCustomer ? dailySales.noCustomer : 0}</td>
+                        <td>
+                            <c:set var="fmtCustomer" value="${!empty dailySales.noCustomer ? dailySales.noCustomer : 0}"/>
+                            <span class="dailyCustomer${currentDate}" Customer="${fmtCustomer}">
+                                ${fmtCustomer}
+                            </span>
+                        </td>
                     </c:forEach>
                     <td>
-                        <a data-html="true" class="tip-bottom" title="${result.consumptionHTML}">
+                        <a data-html="true" class="tip-bottom monthlyWeight" Weight="${result.totalWeight}" title="${result.consumptionHTML}" >
                             <fmt:formatNumber value="${result.totalWeight}" pattern="###,###" maxFractionDigits="3" minFractionDigits="0"/>
                         </a>
                     </td>
-                    <td>${result.totalCustomer}</td>
+                    <td>
+                        <span class="monthlyCustomer" Customer="${result.totalCustomer}">
+                                ${result.totalCustomer}
+                        </span>
+                    </td>
                 </tr>
             </c:forEach>
             <tr class="${fn:length(results) + 1 % 2 == 0 ? "odd": "even"} total" style="font-weight: bold">
                 <c:forEach var="date" items="${dates}">
+                    <fmt:formatDate var="currentDate" value="${date}" pattern="ddMMyyyy"/>
                     <td>
-                        0<%--<fmt:formatNumber value="${totalDateWeight}" pattern="###,###" maxFractionDigits="3" minFractionDigits="0"/>--%>
+                        <span class="totalDailyWeight" date="${currentDate}">0</span>
+                        <%--<fmt:formatNumber value="${totalDateWeight}" pattern="###,###" maxFractionDigits="3" minFractionDigits="0"/>--%>
                     </td>
                     <td>
-                        0<%--${totalDateCustomer}--%>
+                        <span class="totalDailyCustomer"  date="${currentDate}">0</span>
+                        <%--${totalDateCustomer}--%>
                     </td>
                 </c:forEach>
                 <td>
-                    0<%--<fmt:formatNumber value="${totalMonthWeight}" pattern="###,###" maxFractionDigits="3" minFractionDigits="0"/>--%>
+                    <span class="totalMonthlyWeight">0</span>
                 </td>
                 <td>
-                0<%--${totalMonthCustomer}--%>
+                    <span class="totalMonthlyCustomer">0</span>
                 </td>
             </tr>
         </table>

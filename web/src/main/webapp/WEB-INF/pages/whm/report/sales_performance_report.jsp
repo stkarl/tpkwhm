@@ -58,6 +58,12 @@
 <div class="row-fluid data_content">
     <div class="content-header"><fmt:message key="summary.sales.performance.title"/></div>
     <div class="clear"></div>
+    <c:if test="${not empty messageResponse}">
+        <div class="alert alert-${alertType}">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+                ${messageResponse}
+        </div>
+    </c:if>
     <div class="report-filter">
         <form:form commandName="items" action="${urlForm}" id="itemForm" method="post" autocomplete="off" name="itemForm">
             <table class="tbReportFilter" style="margin-bottom: 12px;">
@@ -131,7 +137,27 @@
 //            $("#itemForm").submit();
 //        });
         $('#tbContent').jScrollPane();
+
+        computeTotal('Weight');
+        computeTotal('Customer');
     });
+
+    function computeTotal(type){
+        $('.totalDaily' + type).each(function(){
+            var total = 0;
+            var date = $(this).attr('date');
+            $('.daily' + type + date).each(function(){
+                total += eval($(this).attr(type).replace(',', ''));
+            });
+            $(this).text(numeral(total).format('###,###'));
+        });
+
+        var total = 0;
+        $('.monthly' + type).each(function(){
+            total += eval($(this).attr(type).replace(',', ''));
+        });
+        $('.totalMonthly' + type).text(numeral(total).format('###,###'));
+    }
 </script>
 </body>
 </html>
