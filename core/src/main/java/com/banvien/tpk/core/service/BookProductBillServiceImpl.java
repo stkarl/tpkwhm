@@ -261,6 +261,9 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
             }
             dbBill.setBillDate(bean.getPojo().getBillDate());
             dbBill.setCustomer(bean.getPojo().getCustomer());
+            if(bean.getPojo().getBankAccount() != null && !bean.getPojo().getBankAccount().isEmpty()){
+                dbBill.setBankAccount(bean.getPojo().getBankAccount());
+            }
         }else{
             dbBill = bean.getPojo();
             String title = bean.getTitle();

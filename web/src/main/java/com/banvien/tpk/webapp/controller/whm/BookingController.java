@@ -113,6 +113,7 @@ public class BookingController extends ApplicationObjectSupport {
             customers = this.customerService.findAll();
         }
         mav.addObject("customers",customers);
+        mav.addObject("defaultBankAccount", GeneratorUtils.defaultBankAccount);
     }
 
     @RequestMapping("/whm/booking/edit.html")

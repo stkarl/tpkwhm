@@ -21,5 +21,5 @@ public interface SettingService extends GenericService<Setting,Long> {
 
     List<Setting> findSetting4WithPrefix(String prefix);
 
-    public Setting findByFieldName(String fieldName) throws ObjectNotFoundException;
+    Setting findByFieldName(String fieldName) throws ObjectNotFoundException;
 }

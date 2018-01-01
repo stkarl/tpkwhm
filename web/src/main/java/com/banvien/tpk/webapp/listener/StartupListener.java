@@ -71,7 +71,18 @@ public class StartupListener implements ServletContextListener {
         setMaxPTNTONCode(ctx);
         setMaxBookBillNumber(ctx);
 
+        initGlobalMessage(ctx);
+
         setupContext(context);
+    }
+
+    private void initGlobalMessage(ApplicationContext ctx) {
+        SettingService settingService = ctx.getBean(SettingService.class);
+        try {
+            GeneratorUtils.defaultBankAccount = settingService.findByFieldName(Constants.SETTING_DEFAULT_BANK_ACCOUNT).getFieldValue();
+        } catch (Exception e) {
+            log.error(e);
+        }
     }
 
     private void setMaxBookBillNumber(ApplicationContext ctx) {
@@ -160,7 +171,6 @@ public class StartupListener implements ServletContextListener {
      */
     public static void setupContext(ServletContext context) {
         ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-
     }
 
     /**

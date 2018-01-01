@@ -56,6 +56,24 @@
                     </div>
                 </div>
 
+                <div class="pane_info">
+                    <div class="pane_title">Thông tin chuyển khoản</div>
+                    <div class="pane_content">
+                        <div class="control-group">
+                            <label class="control-label">Mặc định:</label>
+                            <div class="controls">
+                                <div style="padding-top: 5px;font-weight: bold;">
+                                        ${defaultBankAccount}
+                                </div>
+                            </div>
+                            <label class="control-label">Khác</label>
+                            <div class="controls">
+                                <form:textarea path="pojo.bankAccount"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <table class="tableSadlier table-hover">
                     <caption><fmt:message key="money.reduce.if.any"/></caption>
                     <tr>
