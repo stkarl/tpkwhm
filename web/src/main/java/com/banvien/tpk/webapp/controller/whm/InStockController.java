@@ -118,6 +118,7 @@ public class InStockController extends ApplicationObjectSupport {
         bean.setViewInStock(Boolean.TRUE);
         try {
             executeSearchProduct(bean, request);
+            findBookedBy(bean, mav);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
@@ -127,6 +128,18 @@ public class InStockController extends ApplicationObjectSupport {
         addData2ModelProduct(mav);
         mav.addObject(Constants.LIST_MODEL_KEY, bean);
         return mav;
+    }
+
+    private void findBookedBy(SearchProductBean bean, ModelAndView mav) {
+        if(bean.getStatus() == null ||  !Constants.ROOT_MATERIAL_STATUS_BOOKED.equals(bean.getStatus())){
+            return;
+        }
+        List<Long> productIds = new ArrayList<Long>();
+        for(Importproduct importproduct : bean.getListResult()){
+            productIds.add(importproduct.getImportProductID());
+        }
+        Map<Long,User> mapBookedUser = bookProductBillService.findBookedUser(productIds);
+        mav.addObject("bookedUser", mapBookedUser);
     }
 
     @RequestMapping(value={"/whm/instock/location/product.html"})

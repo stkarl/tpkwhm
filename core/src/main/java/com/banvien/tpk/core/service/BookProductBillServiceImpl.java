@@ -631,4 +631,32 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
             customerConsumption.put(customer, currentConsumption + quantityPerBill);
         }
     }
+
+
+    @Override
+    public Map<Long, User> findBookedUser(List<Long> productIds) {
+        Map<Long, User> result = new HashMap<Long, User>();
+        StringBuilder whereClause = new StringBuilder(" importProduct.importProductID IN (");
+        whereClause.append(listToString(productIds)).append(")");
+        List<BookProduct> bookProducts =
+                bookProductDAO.findByProperties(new HashMap<String,Object>(), null, null, true, whereClause.toString());
+        for(BookProduct bookProduct : bookProducts){
+            result.put(bookProduct.getImportProduct().getImportProductID(), bookProduct.getBookProductBill().getCreatedBy());
+        }
+        return result;
+    }
+
+    private StringBuilder listToString(List<Long> productIds) {
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        for(Long id : productIds){
+            if(i == 0){
+                sb.append(id);
+            }else{
+                sb.append(",").append(id);
+            }
+            i++;
+        }
+        return sb;
+    }
 }

@@ -39,4 +39,6 @@ public interface BookProductBillService extends GenericService<BookProductBill,L
     List<Importproduct> findProductInBookBill(Long bookProductBillID);
 
     List<SalePerformanceDTO> salesPerformance(SalesPerformanceBean bean);
+
+    Map<Long,User> findBookedUser(List<Long> productIds);
 }
