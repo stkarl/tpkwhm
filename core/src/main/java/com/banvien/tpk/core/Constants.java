@@ -259,6 +259,8 @@ public final class Constants {
 
     public static final String SETTING_DEFAULT_BANK_ACCOUNT = "default.bank.account";
 
+    public static final String SETTING_PRICE_TYPE_C = "price.type.c";
+
 
 
 

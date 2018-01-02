@@ -14,6 +14,7 @@ public class GeneratorUtils {
 
     public static String defaultBankAccount = "";
 
+    public static int priceTypeC = 70;
 
     public static String generatePTNTCode(){
         Long res = MAX_PTN_TON_UID + 1;

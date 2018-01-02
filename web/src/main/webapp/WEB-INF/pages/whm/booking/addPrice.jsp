@@ -169,7 +169,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <input style="width:80px;" code="${product.productname.code}" id="price-${product.importProductID}_A" name="suggestedItems[${counter - 1}].price" value="<fmt:formatNumber value="${price}" pattern="###,###" maxFractionDigits="2" minFractionDigits="0"/>" type="text" class="inputFractionNumber width2" onblur="calMoney(this);"/>
+                                    <input style="width:80px;" code="${product.productname.code}" id="price-${product.importProductID}_A" name="suggestedItems[${counter - 1}].price" value="<fmt:formatNumber value="${price}" pattern="###,###" maxFractionDigits="2" minFractionDigits="0"/>" type="text" class="inputFractionNumber width2" onblur="calMoneyA(this);"/>
                                     <input type="hidden" name="suggestedItems[${counter - 1}].itemID" value="${product.importProductID}"/>
                                 </td>
                                 <td id="money-${product.importProductID}_A" class="money"></td>
@@ -401,6 +401,18 @@ function saveExportBill(){
                 $(this).val(numeral().unformat($(this).val()));
             }
         });
+    }
+
+    function calMoneyA(ele){
+        calMoney(ele);
+
+        var price = $(ele).val() != '' ? numeral().unformat($(ele).val()) : 0;
+        var id = $(ele).attr('id').split('-')[1];
+        var idTypeC = id.replace('A','C');
+        var priceC = Math.round(price * eval(${priceTypeC}) / 100);
+        var $inputPriceC = $('#price-'+idTypeC);
+        $inputPriceC.val(numeral(parseFloat(priceC)).format('###,###'));
+        calMoney($inputPriceC);
     }
 
     function calMoney(ele){
