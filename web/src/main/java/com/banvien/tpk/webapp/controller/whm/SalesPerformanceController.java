@@ -115,6 +115,11 @@ public class SalesPerformanceController extends ApplicationObjectSupport {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(bean.getToDate().getTime());
         calendar.set(Calendar.DATE, 1);
+        calendar.set(Calendar.AM_PM, Calendar.AM);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
         bean.setFromDate(new Timestamp(calendar.getTimeInMillis()));
         computeSalesPerformance(bean, mav);
         mav.addObject(Constants.LIST_MODEL_KEY, bean);

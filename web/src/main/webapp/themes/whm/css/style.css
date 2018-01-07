@@ -87,7 +87,7 @@ body.real-time {
 
 .real-time .tableSadlier .table_header,
 .real-time .tableSadlier td{
-    font-size: 32px;
+    font-size: 26px;
     font-weight: bold;
 }
 
@@ -99,7 +99,8 @@ body.real-time {
     color: #ffd700;
 }
 .real-time .tableSadlier tr.second td{
-    color: #c0c0c0;
+    color: #595959;
+    /*color: #c0c0c0;*/
 }
 .real-time .tableSadlier tr.third td{
     color: #cd7f32;
