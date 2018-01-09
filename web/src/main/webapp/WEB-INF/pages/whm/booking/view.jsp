@@ -399,7 +399,10 @@
     <div style="display: inline">
         <security:authorize ifAnyGranted="QUANLYKD,NHANVIENKD,QUANLYTT,LANHDAO,QUANLYNO">
             <a class="btn btn-primary" onclick="printShippingBill(${item.pojo.bookProductBillID});"><i class="icon-print"></i> <fmt:message key="button.print.ship.bill"/></a>
-            <a class="btn btn-primary" onclick="printShippingConfirmBill(${item.pojo.bookProductBillID});"><i class="icon-print"></i> <fmt:message key="button.print.ship.confirm.bill"/></a>
+            <%--<a class="btn btn-primary" onclick="printShippingConfirmBill(${item.pojo.bookProductBillID});"><i class="icon-print"></i> <fmt:message key="button.print.ship.confirm.bill"/></a>--%>
+
+            <a class="btn btn-primary" onclick="printShippingConfirmBill2(${item.pojo.bookProductBillID});"><i class="icon-print"></i> <fmt:message key="button.print.ship.confirm.bill"/></a>
+            <a class="btn btn-primary" onclick="printOweConfirmBill(${item.pojo.bookProductBillID});"><i class="icon-print"></i> <fmt:message key="button.print.owe.confirm.bill"/></a>
         </security:authorize>
         <form:hidden path="crudaction" id="crudaction" value="insert-update"/>
         <form:hidden path="pojo.bookProductBillID"/>
@@ -498,5 +501,15 @@
     function printShippingConfirmBill(billId){
         <%--window.location.href = "<c:url value='/ajax/printShippingConfirmBill.html?bookProductBillId='/>" + billId;--%>
         document.getElementById("printout").src = "<c:url value='/ajax/printShippingConfirmBill.html?bookProductBillId='/>" + billId;
+    }
+
+    function printShippingConfirmBill2(billId){
+        <%--window.location.href = "<c:url value='/ajax/printShippingConfirmBill2.html?bookProductBillId='/>" + billId;--%>
+        document.getElementById("printout").src = "<c:url value='/ajax/printShippingConfirmBill2.html?bookProductBillId='/>" + billId;
+    }
+
+    function printOweConfirmBill(billId){
+        <%--window.location.href = "<c:url value='/ajax/printOweConfirmBill.html?bookProductBillId='/>" + billId;--%>
+        document.getElementById("printout").src = "<c:url value='/ajax/printOweConfirmBill.html?bookProductBillId='/>" + billId;
     }
 </script>
