@@ -226,13 +226,19 @@ public class BookingController extends ApplicationObjectSupport {
         }else if (StringUtils.isNotBlank(crudaction) && crudaction.equals("approve")){
             try {
                 if(!bindingResult.hasErrors()) {
-                    if(pojo.getBookProductBillID() != null && pojo.getBookProductBillID() > 0) {
-                        if(bean.getPojo().getNote() == null || !StringUtils.isNotBlank(bean.getPojo().getNote()))
-                            bean.getPojo().setNote(this.getMessageSourceAccessor().getMessage("msg.approve"));
-                        this.bookProductBillService.updateConfirm(bean.getPojo().getBookProductBillID(),SecurityUtils.getLoginUserId());
-                        mav = new ModelAndView("redirect:/whm/booking/list.html?isUpdate=true");
-                    }
-                    return mav;
+                        if(pojo.getBookProductBillID() != null && pojo.getBookProductBillID() > 0) {
+                            boolean allowConfirm = bookProductBillService.checkAllowConfirm(pojo.getBookProductBillID());
+                            if(allowConfirm){
+                                if(bean.getPojo().getNote() == null || !StringUtils.isNotBlank(bean.getPojo().getNote()))
+                                    bean.getPojo().setNote(this.getMessageSourceAccessor().getMessage("msg.approve"));
+                                this.bookProductBillService.updateConfirm(bean.getPojo().getBookProductBillID(),SecurityUtils.getLoginUserId());
+                                mav = new ModelAndView("redirect:/whm/booking/list.html?isUpdate=true");
+                            }else{
+                                mav.addObject("alertType", "error");
+                                mav.addObject("messageResponse", this.getMessageSourceAccessor().getMessage("not.allow.confirm.book"));
+                            }
+                        }
+                        return mav;
                 }
             }catch(Exception e) {
                 logger.error(e.getMessage(), e);
@@ -264,6 +270,7 @@ public class BookingController extends ApplicationObjectSupport {
         addData2Model(mav);
         return mav;
     }
+
     private List<BookProduct> getWaitExportProduct(BookProductBill bill){
         List<BookProduct> bookProducts = new ArrayList<BookProduct>();
         for(BookProduct bookProduct : bill.getBookProducts()){

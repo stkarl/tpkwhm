@@ -41,4 +41,6 @@ public interface BookProductBillService extends GenericService<BookProductBill,L
     List<SalePerformanceDTO> salesPerformance(SalesPerformanceBean bean);
 
     Map<Long,User> findBookedUser(List<Long> productIds);
+
+    boolean checkAllowConfirm(Long bookProductBillID);
 }

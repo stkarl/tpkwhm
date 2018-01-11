@@ -646,6 +646,11 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
         return result;
     }
 
+    @Override
+    public boolean checkAllowConfirm(Long bookProductBillID) {
+        return true;
+    }
+
     private StringBuilder listToString(List<Long> productIds) {
         StringBuilder sb = new StringBuilder();
         int i = 0;

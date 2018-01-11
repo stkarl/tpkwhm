@@ -359,13 +359,13 @@ public class ImportproductHibernateDAO extends
                         tailerQuery.append(" ORDER BY ip.");
 
                         if(StringUtils.isBlank(bean.getSortExpression())){
-                            tailerQuery.append("productCode ASC");
+                            tailerQuery.append("productCode");
                         }else{
                             tailerQuery.append(bean.getSortExpression());
                         }
                         if(StringUtils.isBlank(bean.getSortDirection()) || bean.getSortDirection().equals("2")){
                             tailerQuery.append(" DESC");
-                        }else if(bean.getSortDirection().equals("1")){
+                        }else{
                             tailerQuery.append(" ASC");
                         }
 
