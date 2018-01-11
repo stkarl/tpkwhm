@@ -525,13 +525,13 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
         StringBuffer whereClause = new StringBuffer(" status >= ");
         whereClause.append(Constants.BOOK_ALLOW_EXPORT);
         if(bean.getFromDate() != null){
-            whereClause.append(" AND confirmedDate >= '").append(bean.getFromDate()).append("'");
+            whereClause.append(" AND deliveryDate >= '").append(bean.getFromDate()).append("'");
         }
         if(bean.getToDate() != null){
-            whereClause.append(" AND confirmedDate <= '").append(bean.getToDate()).append("'");
+            whereClause.append(" AND deliveryDate <= '").append(bean.getToDate()).append("'");
         }
         List<BookProductBill> bookProductBills =
-                bookProductBillDAO.findByProperties(properties, "confirmedDate", "2", true, whereClause.toString());
+                bookProductBillDAO.findByProperties(properties, "deliveryDate", "2", true, whereClause.toString());
 
         Map<String, Object> salesmanProperties = new HashMap<String, Object>();
 
@@ -573,12 +573,12 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
         Map<User, SalePerformanceDTO> overallPerformance = new HashMap<User, SalePerformanceDTO>();
         String smDate;
         for(BookProductBill bill : bookProductBills){
-            smDate = bill.getCreatedBy().getUserID() + "_" + DateUtils.date2String(bill.getConfirmedDate(), "ddMMyyyy");
+            smDate = bill.getCreatedBy().getUserID() + "_" + DateUtils.date2String(bill.getDeliveryDate(), "ddMMyyyy");
 
             SalePerformanceDTO salePerformance = overallPerformance.get(bill.getCreatedBy());
             if(salePerformance == null){
                 salePerformance = new SalePerformanceDTO(bill.getCreatedBy());
-                SalesByDateDTO salesByDate = new SalesByDateDTO(bill.getConfirmedDate(), bill.getCreatedBy());
+                SalesByDateDTO salesByDate = new SalesByDateDTO(bill.getDeliveryDate(), bill.getCreatedBy());
                 addSalesByDate(salePerformance, salesByDate, bill);
 
                 Map<String, SalesByDateDTO> mapSmSales = new HashMap<String, SalesByDateDTO>();
@@ -588,15 +588,12 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
             }else{
                 SalesByDateDTO salesByDate = salePerformance.getSalesByDates().get(smDate);
                 if(salesByDate == null){
-                    salesByDate = new SalesByDateDTO(bill.getConfirmedDate(), bill.getCreatedBy() );
+                    salesByDate = new SalesByDateDTO(bill.getDeliveryDate(), bill.getCreatedBy() );
                     addSalesByDate(salePerformance, salesByDate, bill);
                     salePerformance.getSalesByDates().put(smDate, salesByDate);
                 }else{
                     addSalesByDate(salePerformance, salesByDate, bill);
                 }
-
-
-
             }
         }
         return overallPerformance;
