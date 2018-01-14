@@ -21,6 +21,13 @@
 <div id="container-fluid data_content_box">
 <div class="row-fluid data_content">
 <div class="content-header"><fmt:message key="booking.bill.view.title"/></div>
+    <div class="clear"></div>
+    <c:if test="${not empty messageResponse}">
+        <div class="alert alert-${alertType}">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+                ${messageResponse}
+        </div>
+    </c:if>
 <div class="clear"></div>
 <div id="generalInfo">
     <table class="tbHskt info">
@@ -391,9 +398,17 @@
             <a onclick="rejectBill()" class="btn btn-danger" style="cursor: pointer;">
                 <fmt:message key="button.reject"/>
             </a>
-            <a onclick="approveBill()" class="btn btn-success" style="cursor: pointer;">
-                <fmt:message key="button.accept"/>
-            </a>
+            <c:if test="${allowConfirm}">
+                <a onclick="approveBill()" class="btn btn-success" style="cursor: pointer;">
+                    <fmt:message key="button.accept"/>
+                </a>
+            </c:if>
+            <c:if test="${!allowConfirm}">
+                <fmt:message var="notAllowConfirmTitle" key="not.allow.confirm.book"/>
+                <a class="btn btn-success tip-top" disabled="disabled" title="<fmt:message key="not.allow.confirm.book"/>" style="cursor: pointer;">
+                    <fmt:message key="button.accept"/>
+                </a>
+            </c:if>
         </security:authorize>
     </c:if>
     <div style="display: inline">

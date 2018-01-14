@@ -233,12 +233,12 @@ public class BookingController extends ApplicationObjectSupport {
                                     bean.getPojo().setNote(this.getMessageSourceAccessor().getMessage("msg.approve"));
                                 this.bookProductBillService.updateConfirm(bean.getPojo().getBookProductBillID(),SecurityUtils.getLoginUserId());
                                 mav = new ModelAndView("redirect:/whm/booking/list.html?isUpdate=true");
+                                return mav;
                             }else{
                                 mav.addObject("alertType", "error");
                                 mav.addObject("messageResponse", this.getMessageSourceAccessor().getMessage("not.allow.confirm.book"));
                             }
                         }
-                        return mav;
                 }
             }catch(Exception e) {
                 logger.error(e.getMessage(), e);
@@ -261,6 +261,7 @@ public class BookingController extends ApplicationObjectSupport {
                 }
                 bean.setPojo(dbItem);
                 mav.addObject("owe", this.oweLogService.findCustomerOweUtilDate(dbItem.getCustomer().getCustomerID(), dbItem.getBillDate()));
+                mav.addObject("allowConfirm", bookProductBillService.checkAllowConfirm(pojo.getBookProductBillID()));
             } catch (Exception e) {
                 logger.error("Could not found item " + bean.getPojo().getBookProductBillID(), e);
             }

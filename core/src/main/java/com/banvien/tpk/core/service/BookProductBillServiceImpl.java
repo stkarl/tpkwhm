@@ -645,7 +645,18 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
 
     @Override
     public boolean checkAllowConfirm(Long bookProductBillID) {
-        return true;
+        boolean checker = true;
+        BookProductBill bill = this.bookProductBillDAO.findByIdNoAutoCommit(bookProductBillID);
+        for(BookProduct bookProduct : bill.getBookProducts()){
+            Importproduct product = bookProduct.getImportProduct();
+            if(Constants.ROOT_MATERIAL_STATUS_WAIT_CONFIRM.equals(product.getStatus())
+                    || Constants.ROOT_MATERIAL_STATUS_EXPORTING.equals(product.getStatus())
+                    || product.getSaleWarehouse() != null){
+                checker = false;
+                break;
+            }
+        }
+        return checker;
     }
 
     private StringBuilder listToString(List<Long> productIds) {
