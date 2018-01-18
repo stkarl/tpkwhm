@@ -223,7 +223,7 @@
                         </ul>
                     </li>
                     <li><a class="menu" href="<c:url value="/whm/customer/owelog.html"/>"><span><fmt:message key="label.owe.log"/></span></a></li>
-                    <li><a class="menu" href="<c:url value="/whm/report/oweDaily.html"/>"><span><fmt:message key="label.daily.own"/></span></a></li>
+                    <li><a class="menu" href="<c:url value="/whm/report/dailyOwe.html"/>"><span><fmt:message key="label.daily.own"/></span></a></li>
                     <li><a class="menu" href="<c:url value="/whm/report/salesPerformance.html"/>"><span><fmt:message key="label.sales.performance"/></span></a></li>
 
                 </security:authorize>

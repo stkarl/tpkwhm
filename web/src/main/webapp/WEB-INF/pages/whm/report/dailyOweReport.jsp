@@ -13,10 +13,10 @@
         }
         .tb_center {
             float: left;
-            width: 75%;
+            /*width: 690px;*/
         }
         #tbContent{
-            width: 75%;
+            width: 725px;
         }
 
         .tb_left .tableSadlier,
@@ -24,11 +24,20 @@
             margin-top: 12px;
         }
 
-        .tableSadlier .table_header {
-            min-width: 64px;
+        .tableSadlier .stt {
+            min-width: 26px!important;
         }
+
+        .tableSadlier .table_header {
+            min-width: 86px;
+        }
+
+        .tableSadlier .cus-name {
+            max-width: 172px!important;
+        }
+
         .stt{
-            width: 24px;
+            width: 26px;
             min-width: 0;
         }
 
@@ -53,7 +62,7 @@
 
     </style>
 </head>
-<c:url var="urlForm" value="/whm/report/salesPerformance.html"></c:url>
+<c:url var="urlForm" value="/whm/report/dailyOwe.html"></c:url>
 <body>
 <div class="row-fluid data_content">
     <div class="content-header"><fmt:message key="summary.sales.performance.title"/></div>
@@ -101,7 +110,7 @@
 
             <%--</div>--%>
             <c:if test="${!empty results && fn:length(results) > 0}">
-                <jsp:include page="sales_performance_report_tb.jsp"/>
+                <jsp:include page="daily_owe_report_tb.jsp"/>
             </c:if>
             <form:hidden path="crudaction" id="crudaction"/>
         </form:form>
@@ -138,25 +147,34 @@
 //        });
         $('#tbContent').jScrollPane();
 
-        computeTotal('Weight');
-        computeTotal('Customer');
+        computeTotal('buy');
+        computeTotal('pay');
+        computeTotalOwe();
     });
 
     function computeTotal(type){
-        $('.totalDaily' + type).each(function(){
+        $('.total-daily-' + type).each(function(){
             var total = 0;
             var date = $(this).attr('date');
-            $('.daily' + type + date).each(function(){
+            $('.daily-' + type + date).each(function(){
                 total += numeral().unformat($(this).attr(type));
             });
             $(this).text(numeral(total).format('###,###'));
         });
 
         var total = 0;
-        $('.monthly' + type).each(function(){
+        $('.total-' + type).each(function(){
             total += numeral().unformat($(this).attr(type));
         });
-        $('.totalMonthly' + type).text(numeral(total).format('###,###'));
+        $('.total-final-' + type).text(numeral(total).format('###,###'));
+    }
+
+    function computeTotalOwe(){
+        var total = 0;
+        $('.finalOwe').each(function(){
+            total += numeral().unformat($(this).attr('owe'));
+        });
+        $('.totalFinalOwe').text(numeral(total).format('###,###'));
     }
 </script>
 </body>

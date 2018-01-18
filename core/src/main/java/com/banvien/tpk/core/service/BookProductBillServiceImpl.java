@@ -555,7 +555,6 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
     private List<SalePerformanceDTO> summaryBySalesman(List<BookProductBill> bookProductBills, final Date toDate) {
         final String sToDate = DateUtils.date2String(toDate, "ddMMyyyy");
         Map<User, SalePerformanceDTO> salesPerformance = computeDailyPerformance(bookProductBills);
-        int i = 0;
         List<SalePerformanceDTO> salePerformanceDTOs = new ArrayList<SalePerformanceDTO>(salesPerformance.values());
         Collections.sort(salePerformanceDTOs, new Comparator<SalePerformanceDTO>() {
             public int compare(SalePerformanceDTO one, SalePerformanceDTO other) {

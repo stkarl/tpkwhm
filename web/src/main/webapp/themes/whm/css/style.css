@@ -80,6 +80,9 @@ body.real-time {
     text-align: center!important;
 }
 
+.txtr {
+    text-align: right!important;
+}
 
 .tableSadlier.real-time-table tr.total {
     background: #000;
