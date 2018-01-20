@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="<c:url value='/themes/whm/bootstrap/select2.css' />" />
     <link rel="stylesheet" href="<c:url value='/themes/whm/bootstrap/bootstrap-responsive.css' />" />
     <link rel="stylesheet" media="print" href="<c:url value='/themes/whm/css/print_v1.2.css' />" />
-    <link rel="stylesheet" href="<c:url value='/themes/whm/css/style.css' />" />
+    <link rel="stylesheet" href="<c:url value='/themes/whm/css/style_v1.0.css' />" />
     <link rel='stylesheet' type='text/css' href='/themes/whm/bootstrap/datepicker.css' />
 
 

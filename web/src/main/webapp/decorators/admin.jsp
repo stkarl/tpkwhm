@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" media="print"
           href="<c:url value='/styles/${appConfig["csstheme"]}/print_v1.2.css'/>"/>
     <link rel="stylesheet" type="text/css"
-          href="<c:url value='/styles/${appConfig["csstheme"]}/style.css'/>"/>
+          href="<c:url value='/styles/${appConfig["csstheme"]}/style_v1.0.css'/>"/>
     <link rel="stylesheet" type="text/css"
           href="<c:url value='/styles/${appConfig["csstheme"]}/jquery-lightness/jquery-ui-1.8.10.css'/>"/>
     <link rel="stylesheet" type="text/css" media="all"
