@@ -105,8 +105,8 @@ public class SalesPerformanceController extends ApplicationObjectSupport {
     @RequestMapping(value = "/ajax/salesPerformance.html")
     public ModelAndView machineLog(SalesPerformanceBean bean, HttpServletRequest request, HttpServletResponse response) {
         ModelAndView mav = new ModelAndView("/whm/report/sales_performance_tb");
-        Date toDate = DateUtils.string2Date("07112017", "ddMMyyyy");
-        bean.setToDate(new Timestamp(toDate.getTime()));
+//        Date toDate = DateUtils.string2Date("07112017", "ddMMyyyy");
+//        bean.setToDate(new Timestamp(toDate.getTime()));
         if (bean.getToDate() == null) {
             bean.setToDate(new Timestamp(System.currentTimeMillis()));
         } else {

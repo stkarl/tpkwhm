@@ -98,7 +98,7 @@
                     }
                     $(".ajax-progress").hide();
                     var sleepHideDetail = $('.salesman-row').length * sleepEachSalesman;
-                    var sleepLoadBoard = sleepHideDetail + 30000;
+                    var sleepLoadBoard = sleepHideDetail + sleepShowDetail;
                     setTimeout(function(){
                         $('.customer-detail').removeClass('hide');
                         $('.salesman-row').each(function(index,ele){
@@ -107,7 +107,7 @@
                                 $('html, body').animate({
                                     scrollTop: $target.offset().top
                                 }, scrollSpeed);
-                            },sleepEachSalesman * (index + 1));
+                            },sleepEachSalesman * index);
                         });
                         setTimeout(function(){
                             $('html, body').animate({
