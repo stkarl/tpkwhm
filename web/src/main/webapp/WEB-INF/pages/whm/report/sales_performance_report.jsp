@@ -47,9 +47,25 @@
             width: 200px;
         }
 
-        #tbContent {
-            margin-bottom: 240px;
+        /*#tbContent {*/
+            /*margin-bottom: 240px;*/
+        /*}*/
+
+        .tableSadlier tr.customer-detail td {
+            border-bottom: 1px dashed #c3c3c3;
         }
+
+        .tableSadlier tr.customer-detail {
+            background: #eeeeee;
+        }
+
+        .tableSadlier tr.even {
+            background: #E9F3FB;
+            border-top: 1px solid #D2D5D4;
+            color: #000000;
+        }
+
+
 
     </style>
 </head>
