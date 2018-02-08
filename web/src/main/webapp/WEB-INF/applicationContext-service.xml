@@ -57,6 +57,7 @@
         <property name="customerDAO" ref="customerDAO"/>
         <property name="bookBillSaleReasonDAO" ref="bookBillSaleReasonDAO"/>
         <property name="userDAO" ref="userDAO"/>
+        <property name="userCustomerDAO" ref="userCustomerDAO"/>
     </bean>
 
     <bean id="userModuleService" class="com.banvien.tpk.core.service.UserModuleServiceImpl">

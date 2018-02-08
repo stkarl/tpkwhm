@@ -8,6 +8,7 @@ import java.util.Date;
 public class SalesPerformanceBean extends AbstractBean<SalePerformanceDTO> {
     private Date fromDate;
     private Date toDate;
+    private boolean showLessBuy = false;
 
     public SalesPerformanceBean() {
         this.pojo = new SalePerformanceDTO();
@@ -27,5 +28,13 @@ public class SalesPerformanceBean extends AbstractBean<SalePerformanceDTO> {
 
     public void setToDate(Date toDate) {
         this.toDate = toDate;
+    }
+
+    public boolean isShowLessBuy() {
+        return showLessBuy;
+    }
+
+    public void setShowLessBuy(boolean showLessBuy) {
+        this.showLessBuy = showLessBuy;
     }
 }

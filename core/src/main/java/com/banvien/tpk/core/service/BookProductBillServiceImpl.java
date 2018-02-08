@@ -68,6 +68,12 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
         this.userDAO = userDAO;
     }
 
+    private UserCustomerDAO userCustomerDAO;
+
+    public void setUserCustomerDAO(UserCustomerDAO userCustomerDAO) {
+        this.userCustomerDAO = userCustomerDAO;
+    }
+
     @Override
 	protected GenericDAO<BookProductBill, Long> getGenericDAO() {
 		return bookProductBillDAO;
@@ -549,7 +555,54 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
                 salePerformanceDTOs.add(salePerformanceDTO);
             }
         }
+        if(bean.isShowLessBuy()){
+            computeLessBuyCustomer(bean, salePerformanceDTOs);
+        }
         return salePerformanceDTOs;
+    }
+
+    private void computeLessBuyCustomer(SalesPerformanceBean bean, List<SalePerformanceDTO> salePerformanceDTOs){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(bean.getFromDate().getTime() - 10 * 24 * 3600000L);
+        Date startDate = new Date(calendar.getTimeInMillis());
+        List<Customer> regularCustomers = bookProductBillDAO.findCustomerBuyRecentTime(startDate, bean.getFromDate());
+        Map<Long,Customer> mapRegularCustomer = new HashMap<Long, Customer>();
+        for(Customer customer : regularCustomers){
+            mapRegularCustomer.put(customer.getCustomerID(), customer);
+        }
+        
+        List<UserCustomer> userCustomers = userCustomerDAO.findAll();
+        Map<Long, List<Customer>> mapSmCustomer = new HashMap<Long, List<Customer>>();
+        for(UserCustomer userCustomer : userCustomers){
+            List<Customer> smCustomers = mapSmCustomer.get(userCustomer.getUser().getUserID());
+            if(smCustomers == null){
+                smCustomers = new ArrayList<Customer>();
+                smCustomers.add(userCustomer.getCustomer());
+                mapSmCustomer.put(userCustomer.getUser().getUserID(), smCustomers);
+            }else{
+                smCustomers.add(userCustomer.getCustomer());
+            }
+        }
+        
+        for(SalePerformanceDTO salePerformanceDTO : salePerformanceDTOs){
+            List<Customer> smCustomers = mapSmCustomer.get(salePerformanceDTO.getSalesman().getUserID());
+            for(Customer customer : smCustomers){
+                if(!mapRegularCustomer.containsKey(customer.getCustomerID())){
+                    if(salePerformanceDTO.getCustomerConsumption().containsKey(customer)){
+                        salePerformanceDTO.getLessBuyCustomer().put(customer, true);
+                    }else{
+                        salePerformanceDTO.getWontBuyCustomer().add(customer);
+                    }
+                }
+            }
+        }
+        for(SalePerformanceDTO salePerformanceDTO : salePerformanceDTOs){
+            Collections.sort(salePerformanceDTO.getWontBuyCustomer(), new Comparator<Customer>() {
+                public int compare(Customer one, Customer other) {
+                    return other.getProvince().getName().compareTo(one.getProvince().getName());
+                }
+            });
+        }
     }
 
     private List<SalePerformanceDTO> summaryBySalesman(List<BookProductBill> bookProductBills, final Date toDate) {

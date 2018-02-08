@@ -121,8 +121,21 @@ public class SalesPerformanceController extends ApplicationObjectSupport {
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         bean.setFromDate(new Timestamp(calendar.getTimeInMillis()));
+        showingLessBuyCustomer(bean);
         computeSalesPerformance(bean, mav);
         mav.addObject(Constants.LIST_MODEL_KEY, bean);
         return mav;
+    }
+
+    private void showingLessBuyCustomer(SalesPerformanceBean bean) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        boolean checker = dayOfMonth == 1 || dayOfMonth == 10 || dayOfMonth == 20 ||
+                (dayOfWeek == Calendar.MONDAY && dayOfMonth + 1 == 2) ||
+                (dayOfWeek == Calendar.SATURDAY && (dayOfMonth + 1 == 10 || dayOfMonth + 1 == 20));
+//        checker = true;
+        bean.setShowLessBuy(checker);
     }
 }

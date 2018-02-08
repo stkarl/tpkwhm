@@ -72,6 +72,10 @@
             display: none;
         }
 
+        .real-time .tableSadlier tr.customer-detail.warning-customer td {
+            color: #ff0000;
+        }
+
     </style>
 </head>
 <%--<div class="ajax-progress"></div>--%>

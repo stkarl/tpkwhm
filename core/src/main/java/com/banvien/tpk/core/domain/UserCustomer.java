@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class UserCustomer implements Serializable {
 
 	private Long userCustomerID;
-	 private User user;
+    private User user;
     private Customer customer;
 
     public Long getUserCustomerID() {

@@ -5,6 +5,7 @@ import com.banvien.tpk.core.domain.User;
 import com.banvien.tpk.core.util.HTMLGeneratorUtil;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,9 @@ public class SalePerformanceDTO implements Serializable {
     private Map<String, SalesByDateDTO> salesByDates = new HashMap<String, SalesByDateDTO>();
     private Double totalWeight = 0d;
     private int totalCustomer = 0;
-    Map<Customer, Double> customerConsumption = new HashMap<Customer, Double>();
+    private Map<Customer, Double> customerConsumption = new HashMap<Customer, Double>();
+    private Map<Customer, Boolean> lessBuyCustomer = new HashMap<Customer, Boolean>();
+    private List<Customer> wontBuyCustomer = new ArrayList<Customer>();
 
     public SalePerformanceDTO() {
     }
@@ -68,5 +71,21 @@ public class SalePerformanceDTO implements Serializable {
 
     public String getConsumptionHTML(){
         return HTMLGeneratorUtil.createConsumptionHTML(customerConsumption);
+    }
+
+    public Map<Customer, Boolean> getLessBuyCustomer() {
+        return lessBuyCustomer;
+    }
+
+    public void setLessBuyCustomer(Map<Customer, Boolean> lessBuyCustomer) {
+        this.lessBuyCustomer = lessBuyCustomer;
+    }
+
+    public List<Customer> getWontBuyCustomer() {
+        return wontBuyCustomer;
+    }
+
+    public void setWontBuyCustomer(List<Customer> wontBuyCustomer) {
+        this.wontBuyCustomer = wontBuyCustomer;
     }
 }

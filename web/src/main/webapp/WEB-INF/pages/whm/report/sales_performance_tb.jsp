@@ -60,7 +60,7 @@
             <c:forEach var="monthlyCustomer" items="${result.customerConsumption}">
                 <c:set var="customer" value="${monthlyCustomer.key}"/>
                 <c:set var="dailyCustomerValue" value="${dailySales.customerConsumption[customer]}"/>
-                <tr class="customer-detail hide ${fn:length(result.customerConsumption) > 15 ? 'more-than-15' : 'less-than-15'}">
+                <tr class="customer-detail hide ${fn:length(result.customerConsumption) > 15 || items.showLessBuy ? 'more-than-15' : 'less-than-15'} ${result.lessBuyCustomer[customer] ? 'warning-customer' : ''}">
                     <td colspan="2" class="txtr">${customer.name} - ${customer.province.name}</td>
                     <td><fmt:formatNumber value="${dailyCustomerValue}" pattern="###,###" maxFractionDigits="3" minFractionDigits="0"/></td>
                     <td>
@@ -71,6 +71,23 @@
                     <td></td>
                 </tr>
             </c:forEach>
+            <fmt:formatNumber var="maxGroup" value="${(fn:length(result.wontBuyCustomer) / 3) + ((fn:length(result.wontBuyCustomer) / 3) % 1 == 0 ? 0 : 0.5)}" type="number" pattern="#" />
+            <c:forEach var="group" begin="1" end="${maxGroup}">
+                <tr class="customer-detail hide more-than-15 warning-customer">
+                    <c:forEach var="customer" items="${result.wontBuyCustomer}" begin="${group*3 - 3}" end="${group*3 - 1}">
+                        <td colspan="2" class="txtr">${customer.name} - ${customer.province.name}</td>
+                    </c:forEach>
+                </tr>
+            </c:forEach>
+            <%--<c:forEach var="customer" items="${result.wontBuyCustomer}">--%>
+                <%--<tr class="customer-detail hide more-than-15 warning-customer">--%>
+                    <%--<td colspan="2" class="txtr">${customer.name} - ${customer.province.name}</td>--%>
+                    <%--<td></td>--%>
+                    <%--<td></td>--%>
+                    <%--<td></td>--%>
+                    <%--<td></td>--%>
+                <%--</tr>--%>
+            <%--</c:forEach>--%>
         </c:forEach>
         <tr class="${fn:length(results) + 1 % 2 == 0 ? "odd": "even"} total" style="font-weight: bold">
             <td colspan="2" style="text-align: center">Tổng cộng</td>
