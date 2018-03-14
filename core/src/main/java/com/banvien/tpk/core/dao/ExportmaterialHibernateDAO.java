@@ -250,6 +250,7 @@ public class ExportmaterialHibernateDAO extends
 
                         StringBuffer sql = new StringBuffer("SELECT em.importmaterial.material as material, em.importmaterial.origin as origin, SUM(em.quantity) as quantity");
                         sql.append(" FROM Exportmaterial em WHERE 1 = 1");
+                        sql.append(" AND em.exportmaterialbill.status <> 1");
 //                        sql.append(" AND em.importmaterial.status = :status");
                         sql.append(whereClause);
                         sql.append(tailerQuery);
