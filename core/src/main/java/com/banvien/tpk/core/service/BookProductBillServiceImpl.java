@@ -563,9 +563,14 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
 
     private void computeLessBuyCustomer(SalesPerformanceBean bean, List<SalePerformanceDTO> salePerformanceDTOs){
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(bean.getFromDate().getTime() - 10 * 24 * 3600000L);
-        Date startDate = new Date(calendar.getTimeInMillis());
-        List<Customer> regularCustomers = bookProductBillDAO.findCustomerBuyRecentTime(startDate, bean.getFromDate());
+        calendar.setTimeInMillis(bean.getToDate().getTime() - 10 * 24 * 3600000L);
+        calendar.set(Calendar.AM_PM, Calendar.AM);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Timestamp startDate = new Timestamp(calendar.getTimeInMillis());
+        List<Customer> regularCustomers = bookProductBillDAO.findCustomerBuyRecentTime(startDate, bean.getToDate());
         Map<Long,Customer> mapRegularCustomer = new HashMap<Long, Customer>();
         for(Customer customer : regularCustomers){
             mapRegularCustomer.put(customer.getCustomerID(), customer);
@@ -599,7 +604,10 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
         for(SalePerformanceDTO salePerformanceDTO : salePerformanceDTOs){
             Collections.sort(salePerformanceDTO.getWontBuyCustomer(), new Comparator<Customer>() {
                 public int compare(Customer one, Customer other) {
-                    return other.getProvince().getName().compareTo(one.getProvince().getName());
+                    if(other.getProvince() != null && one.getProvince() != null){
+                        return other.getProvince().getName().compareTo(one.getProvince().getName());
+                    }
+                    return other.getName().compareTo(one.getName());
                 }
             });
         }
