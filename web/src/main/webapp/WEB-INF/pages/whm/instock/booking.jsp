@@ -112,7 +112,7 @@
         <table class="tableSadlier table-hover" border="1" style="border-right: 1px;margin: 12px 0 20px 0;width: 1300px;">
             <caption><fmt:message key="booked.product.list"/></caption>
             <tr>
-                <th class="table_header text-center"></th>
+                <th class="table_header text-center"><input type="checkbox" onclick="checkAllByClass('checkSelectedPrd', this);"/></th>
                 <th class="table_header text-center"><fmt:message key="label.stt"/></th>
                 <th class="table_header text-center"><fmt:message key="label.name"/></th>
                 <th class="table_header text-center"><fmt:message key="label.code"/></th>
@@ -138,7 +138,8 @@
                 <tr class="${status.index % 2 == 0 ? "even text-center" : "odd text-center"}${!empty tableList.importProduct.saleWarehouse ? ' advance-book' : ''}">
                     <td>
                         <c:if test="${tableList.importProduct.status != Constants.ROOT_MATERIAL_STATUS_USED}">
-                            <a onclick="removeProduct(this,'${tableList.bookProductID}','${bookBill.bookProductBillID}', '${tableList.importProduct.importProductID}')" href="#" class="icon-remove tip-top" title="<fmt:message key="label.delete"/>"></a>
+                            <%--<a onclick="removeProduct(this,'${tableList.bookProductID}','${bookBill.bookProductBillID}', '${tableList.importProduct.importProductID}')" href="#" class="icon-remove tip-top" title="<fmt:message key="label.delete"/>"></a>--%>
+                            <input class="checkSelectedPrd" type="checkbox" value="${tableList.bookProductID}"/>
                         </c:if>
                         <c:if test="${tableList.importProduct.status == Constants.ROOT_MATERIAL_STATUS_USED}">
                             Đã xuất
@@ -211,6 +212,9 @@
 <div class="process-control-left">
     <a onclick="goEditInfo('${bookBill.bookProductBillID}')" class="btn btn-info" style="cursor: pointer;">
         <i class="icon-arrow-left"></i> Thay đổi thông tin chung
+    </a>
+    <a onclick="removeSelectedProduct()" class="btn btn-danger" style="cursor: pointer;">
+        <i class="icon-remove"></i> Hủy chọn
     </a>
     <a href="${backUrl}" class="cancel-link">
         <fmt:message key="button.cancel"/>
@@ -421,7 +425,7 @@
             </tr>
         </c:forEach>
     </table>
-    <display:table name="items.listResult" cellspacing="0" cellpadding="0" requestURI="${formlUrl}"
+    <display:table name="items.listResult" cellspacing="0" cellpadding="0" requestURI="${urlForm}"
                    partialList="true" sort="external" size="${items.totalItems }"
                    uid="tableList" excludedParams="crudaction" style="display: none;"
                    pagesize="${items.maxPageItems}" export="false" class="tableSadlier table-hover">
@@ -619,6 +623,56 @@
     function goEditInfo(billId){
         window.location.href = "<c:url value='/whm/booking/editinfo.html?pojo.bookProductBillID='/>" + billId;
     }
+
+    function removeSelectedProduct(){
+        var bookProductIDs = [];
+        $('.checkSelectedPrd:checked').each(function () {
+            bookProductIDs.push($(this).val());
+        });
+//        var ids = jQuery.makeArray(bookProductIDs);
+        var textInfo = '<fmt:message key="booked.product.xacnhanxoa.msg" />';
+        var form = $("<form class='form-inline'><label>" +textInfo+ "</label></form>");
+        var div = bootbox.dialog(form,
+                [
+                    {
+                        "label" : "<i class='icon-ok'></i> " + '<fmt:message key="button.accept" />',
+                        "class" : "btn-small btn-success",
+                        "callback" : function(){
+                            $.ajax({
+                                url : '<c:url value="/ajax/removeBookedProducts.html"/>',
+                                type: 'post',
+                                cache: false,
+                                traditional: true,
+                                data: {'bookProductIDs': bookProductIDs},
+                                success: function(data){
+                                    var error = data.error;
+                                    if (error != null) {
+                                        alert(error);
+                                    }else{
+                                        searchItem();
+                                    }
+                                }
+                            });
+                        }
+                    },
+                    {
+                        "label" : "<i class='icon-remove'></i> " + '<fmt:message key="button.cancel" />',
+                        "class" : "btn-small btn-warning"
+                    }
+                ]
+                ,
+                {
+                    // prompts need a few extra options
+                    "onEscape": function(){
+                        div.modal("hide");
+                    }
+                }
+        );
+    }
+
+
+
+
 </script>
 </body>
 </html>

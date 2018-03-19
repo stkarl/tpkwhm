@@ -182,6 +182,18 @@ public class BookingController extends ApplicationObjectSupport {
         }
     }
 
+    @RequestMapping(value="/ajax/removeBookedProducts.html")
+    public void getProvinceByRegion(@RequestParam(value = "bookProductIDs", required = true) List<String> bookProductIDs,
+                                    HttpServletResponse response)  {
+        try{
+            for(String bookProductID : bookProductIDs){
+                this.bookProductService.deleteItem(Long.parseLong(bookProductID));
+            }
+        }catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
     @RequestMapping("/whm/booking/view.html")
     public ModelAndView viewBooking(@ModelAttribute(Constants.FORM_MODEL_KEY) BookProductBillBean bean, BindingResult bindingResult) {
         ModelAndView mav = new ModelAndView("/whm/booking/view");
