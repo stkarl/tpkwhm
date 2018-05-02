@@ -147,9 +147,9 @@ li{list-style: none;}
     text-align: center !important;
 }
 .product-info > table tr > td:nth-child(4){
-    font-weight: bold;
+    /*font-weight: bold;*/
 }
-.product-info > table tr > td:nth-child(n+6){
+.product-info > table tr.details > td:nth-child(n+7){
     text-align: right;
 }
 .sign-info > table td{
