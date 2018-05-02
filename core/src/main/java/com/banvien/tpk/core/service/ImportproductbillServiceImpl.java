@@ -423,7 +423,7 @@ public class ImportproductbillServiceImpl extends GenericServiceImpl<Importprodu
         }
         if(StringUtils.isNotBlank(bean.getProductCode())){
             whereClause.append(" AND EXISTS(SELECT 1 FROM Importproduct ip WHERE ip.importproductbill.importProductBillID = A.importProductBillID")
-                    .append(" AND ip.productCode = '").append(bean.getProductCode()).append("')");
+                    .append(" AND ip.productCode LIKE '%").append(bean.getProductCode()).append("%')");
         }
         if(bean.getFromDate() != null){
             whereClause.append(" AND importDate >= '").append(bean.getFromDate()).append("'");
