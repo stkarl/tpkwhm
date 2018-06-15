@@ -81,6 +81,7 @@
                                 <form:select path="pojo.production" id="type" onchange="changeName();">
                                     <form:option value="1">Sản Xuất Lạnh/Kẽm</form:option>
                                     <form:option value="2">Sản Xuất Màu</form:option>
+                                    <form:option value="3">Sản Xuất Xả Băng</form:option>
                                     <form:option value="0"><fmt:message key="label.maintain"/></form:option>
                                 </form:select>
                             </div>
