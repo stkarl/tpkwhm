@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" media="all" href="<c:url value='/themes/whm/css/print_ship_confirm_bill_v1.2.css'/>" />
+    <link rel="stylesheet" media="all" href="<c:url value='/themes/whm/css/print_ship_confirm_bill_v1.3.css'/>" />
 </head>
 <body onload='window.focus(); self.print();'>
 <%--<body>--%>
@@ -64,9 +64,7 @@
     <table class="tableSadlier">
         <tr>
             <td>Stt</td>
-            <td>Tên hàng</td>
-            <td>Tôn đen</td>
-            <td>Tôn TP</td>
+            <td colspan="2">Tên hàng - Quy cách</td>
             <td>MS - SP</td>
             <td>Mã số</td>
             <td>Tr.Lượng</td>
@@ -83,10 +81,9 @@
             <c:set var="kgm" value="${product.quantity2Pure / product.quantity1}"/>
             <c:set var="saleByKg" value="${product.productname.code eq Constants.PRODUCT_LANH || !oldFormula  ? true : false}"/>
 
-            <tr class="details">
+            <tr>
                 <td>${status.index + 1}</td>
                 <td>${tpk:productShipName(product.productname.name,product.colour.name)}</td>
-                <td>${product.mainUsedMaterial.size.name}</td>
                 <td>${product.size.name}</td>
                 <td>
                     <c:choose>
@@ -145,7 +142,7 @@
                 <c:set var="totalMoney" value="${saleByKg ? totalMoney + price * kgQuantity : totalMoney + price * quantity}"/>
                 <td><fmt:formatNumber value="${kgm}" pattern="###,###.##"/></td>
             </tr>
-            <c:if test="${fn:length(product.productqualitys) > 1}">
+            <c:if test="${fn:length(product.productqualitys) > 0}">
                 <c:forEach items="${product.productqualitys}" var="productQuality" varStatus="status">
                     <c:if test="${productQuality.quality.code ne Constants.QUALITY_A && productQuality.quantity1 > 0}">
                         <c:choose>
@@ -193,7 +190,7 @@
             <c:set var="totalM" value="${totalM + product.quantity1}"/>
         </c:forEach>
         <tr>
-            <td colspan="2">Cộng:</td>
+            <td colspan="2">Tổng cộng</td>
             <td></td>
             <td></td>
             <td></td>

@@ -169,7 +169,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <input style="width:80px;" code="${product.productname.code}" id="price-${product.importProductID}_A" name="suggestedItems[${counter - 1}].price" value="<fmt:formatNumber value="${price}" pattern="###,###" maxFractionDigits="2" minFractionDigits="0"/>" type="text" class="inputFractionNumber width2" onblur="calMoneyA(this);"/>
+                                    <input ${kgQuantity > 0 && quantity > 0 ? '' : 'disabled'} style="width:80px;" code="${product.productname.code}" id="price-${product.importProductID}_A" name="suggestedItems[${counter - 1}].price" value="<fmt:formatNumber value="${price}" pattern="###,###" maxFractionDigits="2" minFractionDigits="0"/>" type="text" class="inputFractionNumber width2" onblur="calMoneyA(this);"/>
                                     <input type="hidden" name="suggestedItems[${counter - 1}].itemID" value="${product.importProductID}"/>
                                 </td>
                                 <td id="money-${product.importProductID}_A" class="money"></td>
@@ -187,7 +187,7 @@
                                 <%--<td></td>--%>
                                 <%--&lt;%&ndash;<td></td>&ndash;%&gt;--%>
                             <%--</tr>--%>
-                            <c:if test="${fn:length(product.productqualitys) > 1}">
+                            <c:if test="${fn:length(product.productqualitys) > 0}">
                                 <c:forEach items="${product.productqualitys}" var="productQuality" varStatus="status">
                                     <c:if test="${productQuality.quality.code ne Constants.QUALITY_A && productQuality.quantity1 > 0}">
                                         <c:set var="counter" value="${counter + 1}"/>

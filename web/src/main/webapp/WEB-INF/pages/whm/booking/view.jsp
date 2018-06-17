@@ -300,7 +300,7 @@
                         <%--<td></td>--%>
                     <%--</tr>--%>
                 <%--</c:if>--%>
-                <c:if test="${fn:length(product.productqualitys) > 1}">
+                <c:if test="${fn:length(product.productqualitys) > 0}">
                     <c:forEach items="${product.productqualitys}" var="productQuality" varStatus="status">
                         <c:if test="${productQuality.quality.code ne Constants.QUALITY_A && productQuality.quantity1 > 0}">
                             <c:set var="counter" value="${counter + 1}"/>
