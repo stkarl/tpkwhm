@@ -42,9 +42,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><fmt:message key="whm.owe.util.bill.date"/></td>
+                        <td>
+                            <%--<fmt:message key="whm.owe.util.bill.date"/>--%>
+                        </td>
                         <td colspan="2">
-                            <fmt:formatNumber value="${owe}" pattern="###,###"/>
+                            <%--<fmt:formatNumber value="${owe}" pattern="###,###"/>--%>
                         </td>
                         <td class="wall"><fmt:message key="bill.date"/></td>
                         <td colspan="2">

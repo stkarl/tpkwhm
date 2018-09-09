@@ -83,10 +83,6 @@
                             <li><a class="menu" href="<c:url value="/whm/region/list.html"/>"><span><fmt:message key="whm.menu.region.management"/></span></a></li>
                             <li><a class="menu" href="<c:url value="/whm/province/list.html"/>"><span><fmt:message key="whm.menu.province.management"/></span></a></li>
                             <li><a class="menu" href="<c:url value="/whm/customer/list.html"/>"><span><fmt:message key="whm.menu.customer.management"/></span></a></li>
-                            <security:authorize ifAnyGranted="ADMIN">
-                                <li><a class="menu" href="<c:url value="/whm/customer/import.html"/>"><span>Nạp dữ liệu khách hàng</span></a></li>
-                                <li><a class="menu" href="<c:url value="/whm/customer/importOwe.html"/>"><span>Nạp dữ liệu công nợ khách hàng</span></a></li>
-                            </security:authorize>
                         </ul>
                     </li>
                 </security:authorize>
@@ -121,12 +117,6 @@
                 <security:authorize ifAnyGranted="NHAP_TP">
                     <li><a class="menu" href="<c:url value="/whm/importproductbill/reimport.html"/>"><span><fmt:message key="whm.menu.reimport.product.edit"/></span></a></li>
                 </security:authorize>
-
-                <security:authorize ifAnyGranted="ADMIN,NHANVIENTT,QUANLYTT,LANHDAO">
-                    <li><a class="menu" href="<c:url value="/whm/buycontract/list.html"/>"><span><fmt:message key="whm.buycontract.title"/></span></a></li>
-                    <li><a class="menu" href="<c:url value="/whm/buycontract/edit.html"/>"><span><fmt:message key="whm.buycontract.new"/></span></a></li>
-                </security:authorize>
-
                 <security:authorize ifAnyGranted="ADMIN,NHAP_TD,NHANVIENTT,QUANLYTT,QUANLYKHO,LANHDAO">
                     <li><a class="menu" href="<c:url value="/whm/importrootmaterialbill/list.html"/>"><span><fmt:message key="whm.menu.import.rootmaterial.list"/></span></a></li>
                 </security:authorize>
@@ -202,36 +192,16 @@
     <security:authorize ifAnyGranted="XUAT_TP,QUANLYKHO,NHANVIENKD,QUANLYKD,LANHDAO,ADMIN,QUANLYNO">
         <li class="dropdown" id="menu-moneys"><a href="#" data-toggle="dropdown" data-target="#menu-moneys" class="dropdown-toggle"><i class="sc-icon-top-money"></i> <span class="text"><fmt:message key="whm.menu.money"/></span></a>
             <ul class="dropdown-menu" style="margin-left:-15px;">
-                <%--<security:authorize ifAnyGranted="QUANLYTT,LANHDAO,ADMIN">--%>
-                    <%--<li><a class="menu" href="<c:url value="/whm/arrangement/list.html"/>"><span><fmt:message key="whm.arrangement.list"/></span></a></li>--%>
-                    <%--<li><a class="menu" href="<c:url value="/whm/arrangement/edit.html"/>"><span><fmt:message key="whm.arrangement.declare"/></span></a></li>--%>
-                <%--</security:authorize>--%>
-
-                <security:authorize ifAnyGranted="QUANLYKD">
-                    <%--<li><a class="menu" href="<c:url value="/whm/instock/suggestprice.html"/>"><span><fmt:message key="suggest.price"/></span></a></li>--%>
-                </security:authorize>
                 <security:authorize ifAnyGranted="XUAT_TP,QUANLYKHO,NHANVIENKD,QUANLYKD,LANHDAO,ADMIN,QUANLYNO">
                     <li><a class="menu" href="<c:url value="/whm/booking/list.html"/>"><span><fmt:message key="booking.bill.list.title"/></span></a></li>
                 </security:authorize>
                 <security:authorize ifAnyGranted="NHANVIENKD,QUANLYKD,LANHDAO,QUANLYNO">
                     <li><a class="menu" href="<c:url value="/whm/booking/editinfo.html"/>"><span><fmt:message key="book.info.declare"/></span></a></li>
-                    <%--<li><a class="menu" href="<c:url value="/whm/instock/booking.html"/>"><span><fmt:message key="booking.product"/></span></a></li>--%>
-                    <li class="dropdown-submenu pull-left"><a href="#" ><fmt:message key="update.customer.liability"/></a>
-                        <ul class="dropdown-menu" style="margin-left: 210px;">
-                            <li><a class="menu" href="<c:url value="/whm/customer/updateLiability.html"/>"><span><fmt:message key="label.pay"/></span></a></li>
-                            <li><a class="menu" href="<c:url value="/whm/customer/receiveOwe.html"/>"><span><fmt:message key="label.receive.owe"/></span></a></li>
-                        </ul>
-                    </li>
-                    <li><a class="menu" href="<c:url value="/whm/customer/owelog.html"/>"><span><fmt:message key="label.owe.log"/></span></a></li>
-                    <li><a class="menu" href="<c:url value="/whm/report/dailyOwe.html"/>"><span><fmt:message key="label.daily.own"/></span></a></li>
-                    <li><a class="menu" href="<c:url value="/whm/report/salesPerformance.html"/>"><span><fmt:message key="label.sales.performance"/></span></a></li>
-
                 </security:authorize>
             </ul>
         </li>
     </security:authorize>
-
-    <security:authorize ifAnyGranted="BAOCAO_SX,BAOCAO_KD,QUANLYKHO,TRUONGCA,QUANLYKD,QUANLYTT,LANHDAO,ADMIN">
+	<security:authorize ifAnyGranted="BAOCAO_SX,BAOCAO_KD,QUANLYKHO,TRUONGCA,QUANLYKD,QUANLYTT,LANHDAO,ADMIN">
         <li class="dropdown" id="menu-reports"><a href="#" data-toggle="dropdown" data-target="#menu-reports" class="dropdown-toggle"><i class="sc-icon-top-report"></i> <span class="text"><fmt:message key="whm.menu.report"/></span></a>
             <ul class="dropdown-menu" style="margin-left:-15px;">
                 <security:authorize ifAnyGranted="ADMIN,LANHDAO,QUANLYKD,QUANLYTT,QUANLYKHO,TRUONGCA,BAOCAO_SX">
@@ -244,16 +214,10 @@
                     <li><a class="menu" href="<c:url value="/whm/report/byoverlay.html"/>"><span><fmt:message key="whm.menu.report.by.overlay"/></span></a></li>
                     <li><a class="menu" href="<c:url value="/whm/report/summaryproduction.html"/>"><span><fmt:message key="whm.menu.report.summary.production"/></span></a></li>
                 </security:authorize>
-                <security:authorize ifAnyGranted="ADMIN,LANHDAO,QUANLYKD,QUANLYTT,BAOCAO_KD">
-                    <li><a class="menu" href="<c:url value="/whm/report/contract/import.html"/>"><span><fmt:message key="report.contract.import"/></span></a></li>
-                    <li><a class="menu" href="<c:url value="/whm/production/cost.html"/>"><span>Giá thành sản xuất</span></a></li>
-                    <li><a class="menu" href="<c:url value="/whm/report/sold.html"/>"><span><fmt:message key="report.sold.product.title"/></span></a></li>
-                    <li><a class="menu" href="<c:url value="/whm/report/sellreport.html"/>"><span><fmt:message key="summary.sell.report.title"/></span></a></li>
-                    <li><a class="menu" href="<c:url value="/whm/report/liability.html"/>"><span><fmt:message key="report.liability.title"/></span></a></li>
-                </security:authorize>
             </ul>
         </li>
     </security:authorize>
+
 </ul>
 
 </div>

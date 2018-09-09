@@ -138,7 +138,9 @@
                     <fmt:formatNumber value="${quantity}" pattern="###,###"/>
                 </td>
                 <td><fmt:formatNumber value="${price}" pattern="###,###"/></td>
-                <td><fmt:formatNumber value="${saleByKg ? price * kgQuantity : price * quantity}" pattern="###,###"/></td>
+                <td>
+                    <%--<fmt:formatNumber value="${saleByKg ? price * kgQuantity : price * quantity}" pattern="###,###"/>--%>
+                </td>
                 <c:set var="totalMoney" value="${saleByKg ? totalMoney + price * kgQuantity : totalMoney + price * quantity}"/>
                 <td><fmt:formatNumber value="${kgm}" pattern="###,###.##"/></td>
             </tr>
@@ -197,7 +199,9 @@
             <td><fmt:formatNumber value="${totalKg}" pattern="###,###"/></td>
             <td><fmt:formatNumber value="${totalM}" pattern="###,###"/></td>
             <td></td>
-            <td><fmt:formatNumber value="${totalMoney}" pattern="###,###"/></td>
+            <td>
+                <%--<fmt:formatNumber value="${totalMoney}" pattern="###,###"/>--%>
+            </td>
             <td></td>
         </tr>
     </table>

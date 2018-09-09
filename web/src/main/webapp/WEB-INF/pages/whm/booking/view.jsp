@@ -50,9 +50,10 @@
         </tr>
         <security:authorize ifAnyGranted="QUANLYKD,NHANVIENKD,QUANLYTT,LANHDAO,QUANLYNO">
             <tr>
-                <td><fmt:message key="whm.owe.util.bill.date"/></td>
+                <td>
+
+                </td>
                 <td colspan="2">
-                    <fmt:formatNumber value="${owe}" pattern="###,###"/>
                 </td>
                 <td class="wall"><fmt:message key="bill.date"/></td>
                 <td colspan="2">
@@ -98,7 +99,9 @@
                     <tr>
                         <td>${prePaid.note}</td>
                         <td><fmt:formatDate value="${prePaid.payDate}" pattern="dd/MM/yyyy"/></td>
-                        <td><fmt:formatNumber value="${prePaid.pay}" pattern="###,###"/></td>
+                        <td>
+
+                        </td>
                     </tr>
                 </c:forEach>
             </table>
@@ -417,7 +420,7 @@
             <%--<a class="btn btn-primary" onclick="printShippingConfirmBill(${item.pojo.bookProductBillID});"><i class="icon-print"></i> <fmt:message key="button.print.ship.confirm.bill"/></a>--%>
 
             <a class="btn btn-primary" onclick="printShippingConfirmBill2(${item.pojo.bookProductBillID});"><i class="icon-print"></i> <fmt:message key="button.print.ship.confirm.bill"/></a>
-            <a class="btn btn-primary" onclick="printOweConfirmBill(${item.pojo.bookProductBillID});"><i class="icon-print"></i> <fmt:message key="button.print.owe.confirm.bill"/></a>
+            <%--<a class="btn btn-primary" onclick="printOweConfirmBill(${item.pojo.bookProductBillID});"><i class="icon-print"></i> <fmt:message key="button.print.owe.confirm.bill"/></a>--%>
         </security:authorize>
         <form:hidden path="crudaction" id="crudaction" value="insert-update"/>
         <form:hidden path="pojo.bookProductBillID"/>
@@ -467,7 +470,6 @@
 
             quantity = quantity != '' ? numeral().unformat(quantity) : 0;
             total += price * quantity;
-            $('#money-' + id).html(numeral(parseFloat(price * quantity)).format('###,###'));
         });
 
         $("span[id^='priceSale-']").each(function(){

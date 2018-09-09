@@ -15,7 +15,15 @@
         <intercept-url pattern="/support/**" access="ADMIN,MT,GT,SUPPORT" />
         <intercept-url pattern="/report/mt/**" access="ADMIN,MT" />
         <intercept-url pattern="/report/gt/**" access="ADMIN,GT,SUPPORT" />
-
+        <intercept-url pattern="/whm/production/cost.html" access="GT"/>
+        <intercept-url pattern="/whm/customer/owelog.html" access="GT"/>
+        <intercept-url pattern="/whm/customer/updateLiability.html" access="GT"/>
+        <intercept-url pattern="/whm/customer/receiveOwe.html" access="GT"/>
+		<intercept-url pattern="/whm/report/contract/import.html" access="GT"/>
+		<intercept-url pattern="/whm/production/cost.html" access="GT"/>
+		<intercept-url pattern="/whm/report/sold.html" access="GT"/>
+		<intercept-url pattern="/whm/report/sellreport.html" access="GT"/>
+		<intercept-url pattern="/whm/report/liability.html" access="GT"/>
         <intercept-url pattern="/forgotpwd.html" access="ROLE_ANONYMOUS"/>
 
         <intercept-url pattern="/dcdt/**" access="ADMIN,ASM,SE,RSM,AUDITOR,DISTRIBUTOR"/>
@@ -35,24 +43,24 @@
     <beans:bean id="sessionFixtationStrategy" class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy">
     	<beans:property name="alwaysCreateSession" value="false"></beans:property>
     </beans:bean>
-    
+
     <beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
 
     <beans:bean id="concurrentSessionControlStrategy" class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">
 	  <beans:constructor-arg name="sessionRegistry" ref="sessionRegistry" />
 	  <beans:property name="maximumSessions" value="5" />
 	</beans:bean>
-    
+
     <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="userSecurityAdvice">
             <password-encoder ref="passwordEncoder"/>
-        </authentication-provider>   
+        </authentication-provider>
     </authentication-manager>
-    
+
     <beans:bean id="myLogoutSuccessHandler" class="com.banvien.tpk.security.MyLogoutSuccessHandler">
 		<beans:property name="logoutSuccessUrl" value="/login.jsp"></beans:property>
 	</beans:bean>
-    
+
 	<beans:bean id="myAuthenticationFilter" class="com.banvien.tpk.security.AuthenticationProcessingFilterExtends">
 		<beans:property name="filterProcessesUrl" value="/j_security_check"></beans:property>
 		<beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
