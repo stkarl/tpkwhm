@@ -217,7 +217,6 @@
                             $("#sl_customer").select2("val","");
                         });
                     }else{
-                        showLiability(customerID, date);
                     }
                 }
             });
