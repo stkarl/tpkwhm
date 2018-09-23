@@ -137,7 +137,7 @@
                 <td>
                     <fmt:formatNumber value="${quantity}" pattern="###,###"/>
                 </td>
-                <td><fmt:formatNumber value="${price}" pattern="###,###"/></td>
+                <td></td>
                 <td>
                     <%--<fmt:formatNumber value="${saleByKg ? price * kgQuantity : price * quantity}" pattern="###,###"/>--%>
                 </td>
@@ -168,7 +168,7 @@
                                     <td style="font-style: italic;font-weight: bold">
                                         <fmt:formatNumber value="${productQuality.quantity1 - productQuality.saleQuantity}" pattern="###,###"/>m${productQuality.quality.name}
                                     </td>
-                                    <td><fmt:formatNumber value="${productQuality.price}" pattern="###,###"/></td>
+                                    <td></td>
                                     <td>
                                         <c:set var="tempMoney" value="0"/>
                                         <c:if test="${saleByKg}">
@@ -212,9 +212,9 @@
     <table>
         <c:if test="${transportFee > 0}">
             <tr>
-                <td style="font-style: normal"><b>- Hỗ trợ CPVC nhận tại ${noinhan}: ${reduceCost}đ/kg</b></td>
+                <td style="font-style: normal"><b>- Hỗ trợ CPVC nhận tại </b></td>
                 <td colspan="2"></td>
-                <td style="text-align: right;">(<fmt:formatNumber value="${transportFee}" pattern="###,###"/>)</td>
+                <td style="text-align: right;"></td>
                 <td style="text-align: center;width: 40px">đồng</td>
             </tr>
         </c:if>
@@ -253,7 +253,7 @@
         <c:set var="sumAll" value="${totalMoney - transportFee - totalSale - totalPaid}"/>
         <tr>
             <td colspan="3"><b>&nbsp;&nbsp;&nbsp;Tổng Cộng:</b></td>
-            <td style="font-weight: bold"><div style="border-bottom: solid 1px black;text-align: right;"><fmt:formatNumber value="${sumAll}" pattern="###,###"/></div></td>
+            <td style="font-weight: bold"><div style="border-bottom: solid 1px black;text-align: right;"></div></td>
             <td style="text-align: center;width: 40px">đồng</td>
         </tr>
 

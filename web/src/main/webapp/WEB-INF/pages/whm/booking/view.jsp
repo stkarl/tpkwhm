@@ -77,9 +77,12 @@
                 </tr>
                 <c:forEach items="${item.pojo.bookBillSaleReasons}" var="reason">
                     <tr>
-                        <td>${reason.saleReason.reason}</td>
-                        <td><fmt:formatDate value="${reason.date}" pattern="dd/MM/yyyy"/></td>
-                        <td><fmt:formatNumber value="${reason.money}" pattern="###,###"/></td>
+                        <td>&nbsp;
+                        </td>
+                        <td>&nbsp;
+                        </td>
+                        <td>&nbsp;
+                        </td>
                     </tr>
                 </c:forEach>
             </table>
@@ -97,10 +100,12 @@
                 </tr>
                 <c:forEach items="${item.pojo.prePaids}" var="prePaid">
                     <tr>
-                        <td>${prePaid.note}</td>
-                        <td><fmt:formatDate value="${prePaid.payDate}" pattern="dd/MM/yyyy"/></td>
+                        <td>&nbsp;
+                        </td>
+                        <td>&nbsp;
+                        </td>
                         <td>
-
+                            &nbsp;
                         </td>
                     </tr>
                 </c:forEach>
@@ -118,9 +123,12 @@
                     <th class="table_header" style="width: 30%;">Thành tiền</th>
                 </tr>
                 <tr>
-                    <td>${item.pojo.destination}</td>
-                    <td><fmt:formatNumber value="${item.pojo.reduceCost}" pattern="###,###"/></td>
-                    <td><fmt:formatNumber value="${item.pojo.reduce}" pattern="###,###"/></td>
+                    <td> &nbsp;
+                    </td>
+                    <td>&nbsp;
+                    </td>
+                    <td>&nbsp;
+                    </td>
                 </tr>
             </table>
         </div>
@@ -279,9 +287,7 @@
                                     </span>
                     </td>
                     <td>
-                            <span code="${product.productname.code}" id="price-${product.importProductID}_A">
-                                <fmt:formatNumber value="${price}" pattern="###,###" maxFractionDigits="2" minFractionDigits="0"/>
-                            </span>
+
                     </td>
                     <td id="money-${product.importProductID}_A" class="money"></td>
                     <td><fmt:formatNumber value="${kgm}" pattern="###,###.##"/></td>
@@ -335,7 +341,6 @@
                                     <span id="product-${product.importProductID}_${productQuality.quality.name}"><fmt:formatNumber value="${productQuality.quantity1 - productQuality.saleQuantity}" pattern="###,###"/>m${productQuality.quality.name}</span>
                                 </td>
                                 <td>
-                                    <span code="${product.productname.code}" id="price-${product.importProductID}_${productQuality.quality.name}"><fmt:formatNumber value="${productQuality.price}" pattern="###,###" maxFractionDigits="2" minFractionDigits="0"/></span>
                                 </td>
                                 <td id="money-${product.importProductID}_${productQuality.quality.name}" class="money"></td>
                                 <td></td>
@@ -481,7 +486,7 @@
             $('#moneySale-' + id).html(numeral(parseFloat(price * quantity)).format('###,###'));
         });
 
-        $('#total').html(numeral(total).format('###,###'));
+//        $('#total').html(numeral(total).format('###,###'));
     }
     function rejectBill(){
         $("#crudaction").val("reject");
