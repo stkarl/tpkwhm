@@ -55,7 +55,12 @@
                     <td>
                         <form:select path="userID">
                             <form:option value="-1">Tất cả</form:option>
-                            <form:options items="${users}" itemValue="userID" itemLabel="fullname"/>
+                            <c:forEach items="${users}" var="user">
+                                <c:if test="${user.status == 1}">
+                                    <form:option value="${user.userID}">${user.fullname}</form:option>
+                                </c:if>
+                            </c:forEach>
+                            <%--<form:options items="${users}" itemValue="userID" itemLabel="fullname"/>--%>
                         </form:select>
                     </td>
                 </tr>
