@@ -2,13 +2,11 @@ package com.banvien.tpk.webapp.controller.whm;
 
 import com.banvien.tpk.core.Constants;
 import com.banvien.tpk.core.domain.*;
-import com.banvien.tpk.core.dto.ImportproductbillBean;
-import com.banvien.tpk.core.dto.ItemInfoDTO;
-import com.banvien.tpk.core.dto.MainMaterialInfoDTO;
-import com.banvien.tpk.core.dto.SearchProductBean;
+import com.banvien.tpk.core.dto.*;
 import com.banvien.tpk.core.exception.DuplicateException;
 import com.banvien.tpk.core.exception.ObjectNotFoundException;
 import com.banvien.tpk.core.service.*;
+import com.banvien.tpk.core.util.CacheUtil;
 import com.banvien.tpk.core.util.GeneratorUtils;
 import com.banvien.tpk.security.SecurityUtils;
 import com.banvien.tpk.webapp.dto.CellDataType;
@@ -54,6 +52,7 @@ import java.util.*;
 @Controller
 public class ImportProductBillController extends ApplicationObjectSupport {
     private transient final Log log = LogFactory.getLog(getClass());
+    private static final String PRODUCT_QUICK_IMPORT_KEY = "ProductQuickImportKey";
 
     @Autowired
     private ImportproductbillService importproductbillService;
@@ -126,7 +125,7 @@ public class ImportProductBillController extends ApplicationObjectSupport {
     }
     
     @RequestMapping("/whm/importrootmaterialbill/edit.html")
-	public ModelAndView keKhaiNhapTonDen(@ModelAttribute(Constants.FORM_MODEL_KEY) ImportproductbillBean bean, BindingResult bindingResult) {
+	public ModelAndView keKhaiNhapTonDen(@ModelAttribute(Constants.FORM_MODEL_KEY) ImportproductbillBean bean, BindingResult bindingResult, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("/whm/importrootmaterialbill/edit");
 
 		String crudaction = bean.getCrudaction();
@@ -192,6 +191,19 @@ public class ImportProductBillController extends ApplicationObjectSupport {
                 if(bean.getPojo().getCode() == null){
                     bean.getPojo().setCode(GeneratorUtils.generatePNKTONCode());
                 }
+
+                String sessionId = request.getSession().getId();
+                List<ImportProductDataDTO> importProductDataDTOs = (List<ImportProductDataDTO>) CacheUtil.getInstance().getValue(sessionId + PRODUCT_QUICK_IMPORT_KEY);
+                CacheUtil.getInstance().remove(sessionId + PRODUCT_QUICK_IMPORT_KEY);
+                if(importProductDataDTOs != null && importProductDataDTOs.size() > 0) {
+                    try {
+                        List<Importproduct> importProducts = convertData2Show(importProductDataDTOs);
+                        mav.addObject("importProducts", importProducts);
+                    }
+                    catch (Exception e) {
+                        logger.error("Can not prepare data to view", e);
+                    }
+                }
             }
         }
 
@@ -199,6 +211,40 @@ public class ImportProductBillController extends ApplicationObjectSupport {
 		mav.addObject(Constants.FORM_MODEL_KEY, bean);
 		return mav;
 	}
+
+    private List<Importproduct> convertData2Show(List<ImportProductDataDTO> importProductDataDTOs) {
+        List<Importproduct> importProducts = new ArrayList<Importproduct>();
+        Map<String, Origin> originMap = getOriginData();
+        Map<String, Size> sizeMap = getSizeData();
+        for(ImportProductDataDTO importProductDataDTO : importProductDataDTOs){
+            Importproduct importProduct = new Importproduct();
+            importProduct.setProductCode(importProductDataDTO.getCode());
+            importProduct.setSize(sizeMap.get(importProductDataDTO.getSize().toLowerCase()));
+            importProduct.setQuantity2Pure(Double.valueOf(importProductDataDTO.getQuantityPure()));
+            importProduct.setQuantity2(Double.valueOf(importProductDataDTO.getQuantityOverall()));
+            importProduct.setQuantity2Actual(Double.valueOf(importProductDataDTO.getQuantityActual()));
+            importProduct.setOrigin(originMap.get(importProductDataDTO.getOrigin().toLowerCase()));
+            importProducts.add(importProduct);
+        }
+        return importProducts;
+    }
+
+
+    private Map<String, Origin> getOriginData() {
+        Map<String, Origin> data = new HashMap<String, Origin>();
+        for(Origin origin : originService.findAll()){
+            data.put(origin.getName().toLowerCase(), origin);
+        }
+        return data;
+    }
+
+    private Map<String, Size> getSizeData() {
+        Map<String, Size> data = new HashMap<String, Size>();
+        for(Size size : sizeService.findAll()){
+            data.put(size.getName().toLowerCase(), size);
+        }
+        return data;
+    }
 
     private void prepareDataToEdit(ModelAndView mav, ImportproductbillBean bean, boolean isUpdate) {
         if(!isUpdate){

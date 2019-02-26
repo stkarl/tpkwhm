@@ -35,6 +35,11 @@ public class ImportProductDataDTO implements Serializable {
     private String money;
     private boolean valid = true;
 
+    private String quantityPure;
+    private String quantityOverall;
+    private String quantityActual;
+
+
     private Timestamp initDate;
 
     public Timestamp getInitDate() {
@@ -211,5 +216,29 @@ public class ImportProductDataDTO implements Serializable {
 
     public void setWarehouse(Warehouse warehouse) {
         this.warehouse = warehouse;
+    }
+
+    public String getQuantityPure() {
+        return quantityPure;
+    }
+
+    public void setQuantityPure(String quantityPure) {
+        this.quantityPure = quantityPure;
+    }
+
+    public String getQuantityOverall() {
+        return quantityOverall;
+    }
+
+    public void setQuantityOverall(String quantityOverall) {
+        this.quantityOverall = quantityOverall;
+    }
+
+    public String getQuantityActual() {
+        return quantityActual;
+    }
+
+    public void setQuantityActual(String quantityActual) {
+        this.quantityActual = quantityActual;
     }
 }

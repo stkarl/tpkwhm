@@ -108,7 +108,7 @@
                 </security:authorize>
                 <security:authorize ifAnyGranted="NHAP_VT">
                     <li><a class="menu" href="<c:url value="/whm/importmaterialbill/edit.html"/>"><span><fmt:message key="whm.menu.import.material.edit"/></span></a></li>
-                    <li><a class="menu" href="<c:url value="/whm/material/quickImportList.html"/>"><span><fmt:message key="quick.import.material.title"/></span></a></li>
+                    <li><a class="menu" href="<c:url value="/whm/material/quickimport.html"/>"><span><fmt:message key="quick.import.material.title"/></span></a></li>
                 </security:authorize>
 
                 <security:authorize ifAnyGranted="ADMIN,NHAP_TP,QUANLYKHO,TRUONGCA,QUANLYTT,LANHDAO">
@@ -122,6 +122,7 @@
                 </security:authorize>
                 <security:authorize ifAnyGranted="NHAP_TD">
                     <li><a class="menu" href="<c:url value="/whm/importrootmaterialbill/edit.html"/>"><span><fmt:message key="whm.menu.import.rootmaterial.edit"/></span></a></li>
+                    <li><a class="menu" href="<c:url value="/whm/product/quickimport.html"/>"><span><fmt:message key="quick.import.product.title"/></span></a></li>
                 </security:authorize>
 
                 <security:authorize ifAnyGranted="ADMIN,NHAP_TP,QUANLYKHO,TRUONGCA,QUANLYTT,LANHDAO">
