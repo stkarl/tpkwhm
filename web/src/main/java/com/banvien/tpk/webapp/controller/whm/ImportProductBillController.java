@@ -220,9 +220,15 @@ public class ImportProductBillController extends ApplicationObjectSupport {
             Importproduct importProduct = new Importproduct();
             importProduct.setProductCode(importProductDataDTO.getCode());
             importProduct.setSize(sizeMap.get(importProductDataDTO.getSize().toLowerCase()));
-            importProduct.setQuantity2Pure(Double.valueOf(importProductDataDTO.getQuantityPure()));
-            importProduct.setQuantity2(Double.valueOf(importProductDataDTO.getQuantityOverall()));
-            importProduct.setQuantity2Actual(Double.valueOf(importProductDataDTO.getQuantityActual()));
+            if(StringUtils.isNotEmpty(importProductDataDTO.getQuantityPure())){
+                importProduct.setQuantity2Pure(Double.valueOf(importProductDataDTO.getQuantityPure()));
+            }
+            if(StringUtils.isNotEmpty(importProductDataDTO.getQuantityOverall())){
+                importProduct.setQuantity2(Double.valueOf(importProductDataDTO.getQuantityOverall()));
+            }
+            if(StringUtils.isNotEmpty(importProductDataDTO.getQuantityActual())){
+                importProduct.setQuantity2Actual(Double.valueOf(importProductDataDTO.getQuantityActual()));
+            }
             importProduct.setOrigin(originMap.get(importProductDataDTO.getOrigin().toLowerCase()));
             importProducts.add(importProduct);
         }
