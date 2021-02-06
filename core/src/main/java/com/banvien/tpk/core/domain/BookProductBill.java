@@ -35,6 +35,15 @@ public class BookProductBill implements Serializable {
     private Timestamp billDate;
 
     private Boolean oldFormula;
+    private String bankAccount;
+
+    public String getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(String bankAccount) {
+        this.bankAccount = bankAccount;
+    }
 
     public Boolean getOldFormula() {
         return oldFormula;

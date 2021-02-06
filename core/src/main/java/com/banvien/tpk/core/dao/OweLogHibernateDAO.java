@@ -1,6 +1,7 @@
 package com.banvien.tpk.core.dao;
 
 import com.banvien.tpk.core.Constants;
+import com.banvien.tpk.core.domain.Customer;
 import com.banvien.tpk.core.domain.OweLog;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -218,6 +219,27 @@ public class OweLogHibernateDAO extends
                             }
                         }
                         return mapCustomersOwe;
+                    }
+                });
+    }
+
+    @Override
+    public List<OweLog> find4DailyOweReport(final Date fromDate, final Date toDate) {
+        return getHibernateTemplate().execute(
+                new HibernateCallback<List<OweLog>>() {
+                    public List<OweLog> doInHibernate(Session session)
+                            throws HibernateException, SQLException {
+                        StringBuffer oweQuery = new StringBuffer("FROM OweLog ol ");
+                        oweQuery.append(" WHERE ( ol.oweDate IS NOT NULL ")
+                                .append("         AND ol.oweDate >= :fromDate ")
+                                .append("         AND ol.oweDate <= :toDate) ")
+                                .append("    OR ( ol.payDate IS NOT NULL ")
+                                .append("         AND ol.payDate >= :fromDate ")
+                                .append("         AND ol.payDate <= :toDate) ");
+                        Query query = session.createQuery(oweQuery.toString());
+                        query.setParameter("fromDate", fromDate);
+                        query.setParameter("toDate", toDate);
+                        return (List<OweLog>) query.list();
                     }
                 });
     }

@@ -4,21 +4,18 @@ import com.banvien.tpk.core.Constants;
 import com.banvien.tpk.core.dao.CustomerDAO;
 import com.banvien.tpk.core.dao.OweLogDAO;
 import com.banvien.tpk.core.dao.GenericDAO;
-import com.banvien.tpk.core.domain.Customer;
-import com.banvien.tpk.core.domain.OweLog;
-import com.banvien.tpk.core.dto.OweLogBean;
+import com.banvien.tpk.core.domain.*;
+import com.banvien.tpk.core.dto.*;
 import com.banvien.tpk.core.exception.DuplicateException;
 import com.banvien.tpk.core.exception.ObjectNotFoundException;
+import com.banvien.tpk.core.util.DateUtils;
 import com.banvien.tpk.security.SecurityUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class OweLogServiceImpl extends GenericServiceImpl<OweLog,Long>
                                                     implements OweLogService {
@@ -27,6 +24,9 @@ public class OweLogServiceImpl extends GenericServiceImpl<OweLog,Long>
 
     private OweLogDAO oweLogDAO;
     private CustomerDAO customerDAO;
+
+    @Autowired
+    private ImportproductService importProductService;
 
     public void setCustomerDAO(CustomerDAO customerDAO) {
         this.customerDAO = customerDAO;
@@ -139,5 +139,85 @@ public class OweLogServiceImpl extends GenericServiceImpl<OweLog,Long>
     @Override
     public List<OweLog> findPrePaidByBill(Long bookProductBillID) {
         return this.oweLogDAO.findPrePaidByBill(bookProductBillID);
+    }
+
+    @Override
+    public List<OweByDateDTO> dailyOwe(DailyOweBean bean) {
+        List<OweLog> oweLogs = this.oweLogDAO.find4DailyOweReport(bean.getFromDate(), bean.getToDate());
+        return summaryByCustomer(oweLogs, bean.getFromDate(), bean.getToDate());
+    }
+
+    private List<OweByDateDTO> summaryByCustomer(List<OweLog> oweLogs, Date fromDate, Date toDate) {
+        final String sToDate = DateUtils.date2String(toDate, "ddMMyyyy");
+        Map<Long, OweByDateDTO> dailyOwe = computeDailyOwe(oweLogs);
+        List<Long> customerIDs = new ArrayList<Long>(dailyOwe.keySet());
+        Map<Long,Double> mapCustomerOwe = importProductService.getCustomerInitialOwe(customerIDs, fromDate);
+        List<OweByDateDTO> salePerformanceDTOs = new ArrayList<OweByDateDTO>();
+        for(Long cusId : dailyOwe.keySet()){
+            OweByDateDTO oweByDateDTO = dailyOwe.get(cusId);
+            if(mapCustomerOwe.get(cusId) != null){
+                oweByDateDTO.setInitOwe(mapCustomerOwe.get(cusId));
+            }
+            oweByDateDTO.setFinalOwe(
+                    oweByDateDTO.getInitOwe() + oweByDateDTO.getTotalBuy() - oweByDateDTO.getTotalPay()
+            );
+            salePerformanceDTOs.add(oweByDateDTO);
+        }
+
+//        Collections.sort(salePerformanceDTOs, new Comparator<OweByDateDTO>() {
+//            public int compare(OweByDateDTO one, OweByDateDTO other) {
+//                SalesByDateDTO oneSalesDate = one.getSalesByDates().get(one.getSalesman().getUserID() + "_" + sToDate);
+//                Double oneSales = oneSalesDate != null ? oneSalesDate.getWeight() : 0d;
+//                SalesByDateDTO otherSalesDate = other.getSalesByDates().get(other.getSalesman().getUserID() + "_" + sToDate);
+//                Double otherSales = otherSalesDate != null ? otherSalesDate.getWeight() : 0d;
+//                return otherSales.compareTo(oneSales) != 0 ? otherSales.compareTo(oneSales) : other.getTotalWeight().compareTo(one.getTotalWeight());
+//            }
+//        });
+        return salePerformanceDTOs;
+    }
+
+    private Map<Long, OweByDateDTO> computeDailyOwe(List<OweLog> oweLogs) {
+        Map<Long, OweByDateDTO> overallOwe = new HashMap<Long, OweByDateDTO>();
+        String cusDate;
+        for(OweLog log : oweLogs){
+            Timestamp issueDate = log.getOweDate() != null ? log.getOweDate() : log.getPayDate();
+            Customer customer = log.getCustomer();
+            Long customerID  = customer.getCustomerID();
+            cusDate = log.getCustomer().getCustomerID() + "_" + DateUtils.date2String(issueDate, "ddMMyyyy");
+
+            OweByDateDTO oweByDateDTO = overallOwe.get(customerID);
+            if(oweByDateDTO == null){
+                oweByDateDTO = new OweByDateDTO(customer);
+                DailyOweDTO dailyOweDTO = new DailyOweDTO(issueDate, customer);
+                addOweByDate(oweByDateDTO, dailyOweDTO, log);
+
+                Map<String, DailyOweDTO> mapCusOwe = new HashMap<String, DailyOweDTO>();
+                mapCusOwe.put(cusDate, dailyOweDTO);
+                oweByDateDTO.setOweByDates(mapCusOwe);
+                overallOwe.put(customerID, oweByDateDTO);
+            }else{
+                DailyOweDTO dailyOweDTO = oweByDateDTO.getOweByDates().get(cusDate);
+                if(dailyOweDTO == null){
+                    dailyOweDTO = new DailyOweDTO(issueDate, customer );
+                    addOweByDate(oweByDateDTO, dailyOweDTO, log);
+                    oweByDateDTO.getOweByDates().put(cusDate, dailyOweDTO);
+                }else{
+                    addOweByDate(oweByDateDTO, dailyOweDTO, log);
+                }
+            }
+        }
+        return overallOwe;
+    }
+
+    private void addOweByDate(OweByDateDTO oweByDate, DailyOweDTO dailyOwe, OweLog log) {
+        Double amount = log.getPay();
+        boolean isPay = Constants.OWE_MINUS.equals(log.getType());
+        if(isPay){
+            dailyOwe.setPay(dailyOwe.getPay() + amount);
+            oweByDate.setTotalPay(oweByDate.getTotalPay() + amount);
+        }else{
+            dailyOwe.setBuy(dailyOwe.getBuy() + amount);
+            oweByDate.setTotalBuy(oweByDate.getTotalBuy() + amount);
+        }
     }
 }

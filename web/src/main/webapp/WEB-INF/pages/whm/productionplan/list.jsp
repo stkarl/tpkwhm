@@ -66,6 +66,7 @@
                     <display:column headerClass="table_header"  escapeXml="false" sortable="false" sortName="name" titleKey="label.plan.type" style="width: 15%" >
                         <c:if test="${tableList.production == 1}">Sản Xuất Lạnh/Kẽm</c:if>
                         <c:if test="${tableList.production == 2}">Sản Xuất Màu</c:if>
+                        <c:if test="${tableList.production == 3}">Sản Xuất Xả Băng</c:if>
                         <c:if test="${tableList.production == 0}"><fmt:message key="label.maintain"/></c:if>
                     </display:column>
                     <display:column headerClass="table_header"  escapeXml="false" sortable="true" sortName="status" titleKey="label.status" style="width: 10%" >

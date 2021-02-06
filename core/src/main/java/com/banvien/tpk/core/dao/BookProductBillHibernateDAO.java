@@ -2,6 +2,7 @@ package com.banvien.tpk.core.dao;
 
 import com.banvien.tpk.core.Constants;
 import com.banvien.tpk.core.domain.BookProductBill;
+import com.banvien.tpk.core.domain.Customer;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
@@ -11,6 +12,7 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 public class BookProductBillHibernateDAO extends
@@ -71,6 +73,26 @@ public class BookProductBillHibernateDAO extends
                         SQLQuery query = session.createSQLQuery(sqlQuery.toString());
                         String code = query.uniqueResult() != null ? query.uniqueResult().toString() : "0";
                         return code;
+                    }
+                });
+    }
+
+    @Override
+    public List<Customer> findCustomerBuyRecentTime(final Date startDate, final Date endDate) {
+        return getHibernateTemplate().execute(
+                new HibernateCallback<List<Customer>>() {
+                    public List<Customer> doInHibernate(Session session)
+                            throws HibernateException, SQLException {
+                        StringBuffer sqlQuery = new StringBuffer("SELECT distinct(b.customer) FROM BookProductBill b WHERE b.status >= :status ");
+                        if(startDate != null){
+                            sqlQuery.append(" AND deliveryDate >= '").append(startDate).append("'");
+                        }
+                        if(endDate != null){
+                            sqlQuery.append(" AND deliveryDate <= '").append(endDate).append("'");
+                        }
+                        Query query = session.createQuery(sqlQuery.toString());
+                        query.setParameter("status", Constants.BOOK_ALLOW_EXPORT);
+                        return (List<Customer>) query.list();
                     }
                 });
     }

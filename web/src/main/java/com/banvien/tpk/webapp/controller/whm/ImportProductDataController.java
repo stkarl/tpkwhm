@@ -4,6 +4,7 @@ import com.banvien.tpk.core.Constants;
 import com.banvien.tpk.core.domain.Warehouse;
 import com.banvien.tpk.core.dto.ImportProductDataBean;
 import com.banvien.tpk.core.dto.ImportProductDataDTO;
+import com.banvien.tpk.core.dto.ImportproductbillBean;
 import com.banvien.tpk.core.service.ImportproductService;
 import com.banvien.tpk.core.service.InitProductService;
 import com.banvien.tpk.core.service.WarehouseService;
@@ -49,6 +50,8 @@ public class ImportProductDataController extends ApplicationObjectSupport {
     private transient final Log log = LogFactory.getLog(getClass());
     private static final String PRODUCT_IMPORT_KEY = "ProductImportKey";
     private static final String PRODUCT_IMPORT_INIT_KEY = "ProductImportInitKey";
+    private static final String PRODUCT_QUICK_IMPORT_KEY = "ProductQuickImportKey";
+
 
     @Autowired
     private WarehouseService warehouseService;
@@ -374,5 +377,115 @@ public class ImportProductDataController extends ApplicationObjectSupport {
                 importProductDataDTOs.add(importProductDataDTO);
             }
         }
+    }
+
+
+    @RequestMapping(value={"/whm/product/quickimport.html"})
+    public ModelAndView importScoreCardMonth(ImportProductDataBean bean, HttpServletRequest request)throws IOException, ServletException {
+        ModelAndView mav = new ModelAndView("/whm/product/quickimport");
+        referenceDataQuickImport(mav, bean);
+        if (RequestMethod.GET.toString().equals(request.getMethod())) {
+//            Clear cache
+            CacheUtil.getInstance().remove(request.getSession().getId() + PRODUCT_QUICK_IMPORT_KEY);
+            if(SecurityUtils.getPrincipal().getWarehouseID() == null){
+                mav = new ModelAndView("redirect:/whm/home.html");
+            }
+        } else if (RequestMethod.POST.toString().equals(request.getMethod())) {
+            try{
+                if(StringUtils.isNotBlank(bean.getCrudaction()) && bean.getCrudaction().equals(Constants.ACTION_IMPORT)) {
+                    String destFolder = CommonUtil.getBaseFolder() + CommonUtil.getTempFolderName();
+                    MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
+                    Map<String, MultipartFile> map = mRequest.getFileMap();
+                    MultipartFile csvfile = (MultipartFile) map.get("dataFile");
+                    String fileName = FileUtils.upload(mRequest, destFolder, csvfile);
+                    String destFileName = request.getSession().getServletContext().getRealPath(destFolder + "/" + fileName);
+                    List<ImportProductDataDTO> quickImportDatas = new ArrayList<ImportProductDataDTO>();
+                    extractExcelData4QuickImport(destFileName, quickImportDatas);
+
+//                    quickImportDatas.get(0).setMaterialID(bean.getMaterialID());
+//                    quickImportDatas.get(0).setOriginID(bean.getOriginID());
+                    log.debug("Remove temp file: " + destFileName);
+                    try{
+                        FileUtils.remove(destFileName);
+                    }catch (Exception e) {
+                        log.debug("Temporary File could not be deleted" + e.getMessage());
+                    }
+
+                    String sessionId = request.getSession().getId();
+                    CacheUtil.getInstance().putValue(sessionId + PRODUCT_QUICK_IMPORT_KEY, quickImportDatas);
+                }
+                mav = new ModelAndView("redirect:/whm/importrootmaterialbill/edit.html");
+            }catch (Exception ex) {
+                mav = new ModelAndView("/whm/product/quickimport");
+                referenceDataQuickImport(mav, bean);
+                mav.addObject("errorMessage", "Có lỗi trong quá trình đọc dữ liệu từ file excel.");
+            }
+        }
+        return mav;
+    }
+
+    private void referenceDataQuickImport(ModelAndView mav,ImportProductDataBean bean ) {
+        mav.addObject(Constants.FORM_MODEL_KEY, bean);
+//        mav.addObject("materials", materialService.findAssigned(SecurityUtils.getLoginUserId()));
+//        mav.addObject("origins", originService.findAll());
+    }
+
+    private void extractExcelData4QuickImport(String dbFileName, List<ImportProductDataDTO> importMaterialDataDTOs) throws BiffException, IOException {
+        WorkbookSettings ws = new WorkbookSettings();
+        FileInputStream fs = new FileInputStream(new File(dbFileName));
+        Workbook workbook = Workbook.getWorkbook(fs, ws);
+        Sheet s = workbook.getSheet(0);
+        ExcelUtil.setEncoding4Workbook(ws);
+
+        Cell rowData[] = null;
+        int rowCount = s.getRows();
+        boolean beginExtractData = false;
+        for(int i = 0; i < rowCount;i++){
+            rowData = s.getRow(i);
+            if (rowData.length == 0) {
+                continue;
+            }
+            // Identify row header
+            if(rowData[0].getContents().equalsIgnoreCase("STT")){
+                beginExtractData = true;
+            }
+            else if(beginExtractData){
+                ImportProductDataDTO importMaterialDataDTO = new ImportProductDataDTO();
+                int currentTotalCol = 1;
+                importMaterialDataDTO.setCode(rowData[currentTotalCol++].getContents());
+                importMaterialDataDTO.setSize(rowData[currentTotalCol++].getContents());
+                importMaterialDataDTO.setQuantityPure(rowData[currentTotalCol++].getContents());
+                importMaterialDataDTO.setQuantityOverall(rowData[currentTotalCol++].getContents());
+                importMaterialDataDTO.setQuantityActual(rowData[currentTotalCol++].getContents());
+                importMaterialDataDTO.setOrigin(rowData[currentTotalCol++].getContents());
+                if(StringUtils.isBlank(importMaterialDataDTO.getQuantityPure())
+                        && StringUtils.isBlank(importMaterialDataDTO.getQuantityOverall())
+                        && StringUtils.isBlank(importMaterialDataDTO.getQuantityActual())){
+                    importMaterialDataDTO.setValid(false);
+                }
+                importMaterialDataDTOs.add(importMaterialDataDTO);
+            }
+        }
+    }
+
+    @RequestMapping(value="/whm/product/quickImportList.html", method=RequestMethod.GET)
+    public ModelAndView importScoreCardMonthList(HttpServletRequest request, ImportProductDataBean bean) throws Exception {
+        String sessionId = request.getSession().getId();
+        List<ImportProductDataDTO> importMaterialDataDTOs = (List<ImportProductDataDTO>) CacheUtil.getInstance().getValue(sessionId + PRODUCT_QUICK_IMPORT_KEY);
+        if (importMaterialDataDTOs == null || importMaterialDataDTOs.size() == 0) {
+            return new ModelAndView("redirect:/whm/product/quickimport.html");
+        }
+        ModelAndView mav = new ModelAndView("redirect:/whm/importrootmaterialbill/edit.html");
+        ImportproductbillBean importProductBillBean = new ImportproductbillBean();
+        try{
+            importProductBillBean.setImportProductDataDTOs(importMaterialDataDTOs);
+            importProductBillBean.setCrudaction("quickImport");
+            CacheUtil.getInstance().remove(sessionId + PRODUCT_QUICK_IMPORT_KEY);
+            CacheUtil.getInstance().putValue(sessionId + PRODUCT_QUICK_IMPORT_KEY, importProductBillBean);
+        }catch (Exception ex) {
+            logger.error(ex.getMessage());
+        }
+        mav.addObject(Constants.FORM_MODEL_KEY,importProductBillBean);
+        return mav;
     }
 }

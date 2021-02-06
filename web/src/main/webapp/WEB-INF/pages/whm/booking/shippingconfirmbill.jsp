@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" media="all" href="<c:url value='/themes/whm/css/print_ship_confirm_bill_v1.1.css'/>" />
+    <link rel="stylesheet" media="all" href="<c:url value='/themes/whm/css/print_ship_confirm_bill_v1.3.css'/>" />
 </head>
 <body onload='window.focus(); self.print();'>
 <%--<body>--%>
@@ -145,7 +145,7 @@
                     <%--<td></td>--%>
                 <%--</tr>--%>
             <%--</c:if>--%>
-            <c:if test="${fn:length(product.productqualitys) > 1}">
+            <c:if test="${fn:length(product.productqualitys) > 0}">
                 <c:forEach items="${product.productqualitys}" var="productQuality" varStatus="status">
                     <c:if test="${productQuality.quality.code ne Constants.QUALITY_A && productQuality.quantity1 > 0}">
                         <tr>

@@ -3,10 +3,8 @@ package com.banvien.tpk.webapp.listener;
 
 import com.banvien.tpk.core.Constants;
 import com.banvien.tpk.core.context.AppContext;
-import com.banvien.tpk.core.domain.Setting;
 import com.banvien.tpk.core.service.*;
 import com.banvien.tpk.core.util.GeneratorUtils;
-import com.banvien.tpk.webapp.util.GlobalDataUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
@@ -17,7 +15,6 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -71,7 +68,25 @@ public class StartupListener implements ServletContextListener {
         setMaxPTNTONCode(ctx);
         setMaxBookBillNumber(ctx);
 
+        initGlobalValue(ctx);
+
         setupContext(context);
+    }
+
+    private void initGlobalValue(ApplicationContext ctx) {
+        SettingService settingService = ctx.getBean(SettingService.class);
+        try {
+            GeneratorUtils.defaultBankAccount = settingService.findByFieldName(Constants.SETTING_DEFAULT_BANK_ACCOUNT).getFieldValue();
+        } catch (Exception e) {
+            log.error(e);
+        }
+
+        try {
+            GeneratorUtils.priceTypeC = Integer.valueOf(settingService.findByFieldName(Constants.SETTING_PRICE_TYPE_C).getFieldValue());
+        } catch (Exception e) {
+            log.error(e);
+            GeneratorUtils.priceTypeC = 70;
+        }
     }
 
     private void setMaxBookBillNumber(ApplicationContext ctx) {
@@ -160,7 +175,6 @@ public class StartupListener implements ServletContextListener {
      */
     public static void setupContext(ServletContext context) {
         ApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-
     }
 
     /**

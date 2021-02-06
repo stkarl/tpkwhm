@@ -223,6 +223,13 @@ a:hover {
     display: block;
 }
 
+.sc-icon-top-board {
+    background:url(../images/icons/mainnav/board.png) scroll top center no-repeat;
+    height: 32px;
+    min-width: 32px;
+    display: block;
+}
+
 .sc-icon-top-money {
     background:url(../images/icons/mainnav/money.png) scroll top center no-repeat;
     height: 32px;

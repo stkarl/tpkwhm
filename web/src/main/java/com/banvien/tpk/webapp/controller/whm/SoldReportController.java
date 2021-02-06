@@ -77,9 +77,16 @@ public class SoldReportController extends ApplicationObjectSupport {
     @RequestMapping(value={"/whm/report/sold.html"})
     public ModelAndView list(ReportBean bean,HttpServletRequest request,HttpServletResponse response) {
         ModelAndView mav = new ModelAndView("/whm/report/sold");
-        if(bean.getToDate() != null){
+        if(bean.getToDate() == null){
+            bean.setToDate(new Timestamp(System.currentTimeMillis()));
+        }else{
             bean.setToDate(DateUtils.move2TheEndOfDay(new Timestamp(bean.getToDate().getTime())));
         }
+
+        if(bean.getFromDate() == null){
+            bean.setFromDate(bean.getToDate());
+        }
+
         if(bean.getCrudaction() != null && ("search".equals(bean.getCrudaction()) || "export".equals(bean.getCrudaction()))){
             try {
                 List<Importproduct> results = this.importProductService.summarySoldProducts(bean);

@@ -1,7 +1,10 @@
 package com.banvien.tpk.core.service;
 
 import com.banvien.tpk.core.domain.OweLog;
+import com.banvien.tpk.core.dto.DailyOweBean;
+import com.banvien.tpk.core.dto.OweByDateDTO;
 import com.banvien.tpk.core.dto.OweLogBean;
+import com.banvien.tpk.core.dto.SalePerformanceDTO;
 import com.banvien.tpk.core.exception.DuplicateException;
 import com.banvien.tpk.core.exception.ObjectNotFoundException;
 
@@ -27,4 +30,5 @@ public interface OweLogService extends GenericService<OweLog,Long> {
 
     List<OweLog> findPrePaidByBill(Long bookProductBillID);
 
+    List<OweByDateDTO> dailyOwe(DailyOweBean bean);
 }

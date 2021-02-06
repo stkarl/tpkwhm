@@ -67,6 +67,16 @@ public class ImportproductbillBean extends AbstractBean<Importproductbill> {
     private Date importDate;
     private List<Long> billIDs;
 
+    private List<ImportProductDataDTO> importProductDataDTOs;
+
+    public List<ImportProductDataDTO> getImportProductDataDTOs() {
+        return importProductDataDTOs;
+    }
+
+    public void setImportProductDataDTOs(List<ImportProductDataDTO> importProductDataDTOs) {
+        this.importProductDataDTOs = importProductDataDTOs;
+    }
+
     public Long getMarketID() {
         return marketID;
     }

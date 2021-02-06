@@ -38,10 +38,7 @@ import java.io.File;
 import java.lang.Boolean;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class ReportSummaryProductionController extends ApplicationObjectSupport {
@@ -112,9 +109,17 @@ public class ReportSummaryProductionController extends ApplicationObjectSupport 
         bean.setLoginWarehouseID(SecurityUtils.getPrincipal().getWarehouseID());
         bean.setReportSummaryProduction(Boolean.TRUE);
         bean.setMaxPageItems(Integer.MAX_VALUE);
-        if(bean.getToDate() != null){
+
+        if(bean.getToDate() == null){
+            bean.setToDate(new Timestamp(System.currentTimeMillis()));
+        }else{
             bean.setToDate(DateUtils.move2TheEndOfDay(new Timestamp(bean.getToDate().getTime())));
         }
+
+        if(bean.getFromDate() == null){
+            bean.setFromDate(bean.getToDate());
+        }
+
         if(bean.getCrudaction() != null && "report".equals(bean.getCrudaction())){
             List<SummaryProductionDTO> results = this.importProductService.summaryProducttion(bean);
             mav.addObject("results", results);

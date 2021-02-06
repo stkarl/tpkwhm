@@ -3,8 +3,7 @@ package com.banvien.tpk.core.service;
 import com.banvien.tpk.core.Constants;
 import com.banvien.tpk.core.dao.*;
 import com.banvien.tpk.core.domain.*;
-import com.banvien.tpk.core.dto.BookProductBillBean;
-import com.banvien.tpk.core.dto.SuggestPriceDTO;
+import com.banvien.tpk.core.dto.*;
 import com.banvien.tpk.core.exception.ObjectNotFoundException;
 import com.banvien.tpk.core.util.DateUtils;
 import com.banvien.tpk.core.util.GeneratorUtils;
@@ -61,6 +60,18 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
 
     public void setBookBillSaleReasonDAO(BookBillSaleReasonDAO bookBillSaleReasonDAO) {
         this.bookBillSaleReasonDAO = bookBillSaleReasonDAO;
+    }
+
+    private UserDAO userDAO;
+
+    public void setUserDAO(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+
+    private UserCustomerDAO userCustomerDAO;
+
+    public void setUserCustomerDAO(UserCustomerDAO userCustomerDAO) {
+        this.userCustomerDAO = userCustomerDAO;
     }
 
     @Override
@@ -256,6 +267,9 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
             }
             dbBill.setBillDate(bean.getPojo().getBillDate());
             dbBill.setCustomer(bean.getPojo().getCustomer());
+            if(bean.getPojo().getBankAccount() != null && !bean.getPojo().getBankAccount().isEmpty()){
+                dbBill.setBankAccount(bean.getPojo().getBankAccount());
+            }
         }else{
             dbBill = bean.getPojo();
             String title = bean.getTitle();
@@ -508,5 +522,214 @@ public class BookProductBillServiceImpl extends GenericServiceImpl<BookProductBi
             quantitySaleMap.put(key, suggestPriceDTO.getSaleQuantity());
         }
         return new Object[]{priceMap, priceSaleMap, quantitySaleMap} ;
+    }
+
+
+    @Override
+    public List<SalePerformanceDTO> salesPerformance(SalesPerformanceBean bean) {
+        Map<String,Object> properties = new HashMap<String,Object>();
+        StringBuffer whereClause = new StringBuffer(" status >= ");
+        whereClause.append(Constants.BOOK_ALLOW_EXPORT);
+        if(bean.getFromDate() != null){
+            whereClause.append(" AND deliveryDate >= '").append(bean.getFromDate()).append("'");
+        }
+        if(bean.getToDate() != null){
+            whereClause.append(" AND deliveryDate <= '").append(bean.getToDate()).append("'");
+        }
+        List<BookProductBill> bookProductBills =
+                bookProductBillDAO.findByProperties(properties, "deliveryDate", "2", true, whereClause.toString());
+
+        Map<String, Object> salesmanProperties = new HashMap<String, Object>();
+
+        salesmanProperties.put("role", Constants.NVKD_ROLE);
+        salesmanProperties.put("status", Constants.TPK_USER_ACTIVE);
+        List<User> users = userDAO.findByProperties(salesmanProperties, "fullname", Constants.SORT_ASC, true, null);
+        List<SalePerformanceDTO> salePerformanceDTOs = summaryBySalesman(bookProductBills, bean.getToDate());
+        List<User> rankedSalesman = new ArrayList<User>();
+        for(SalePerformanceDTO salePerformanceDTO : salePerformanceDTOs){
+            rankedSalesman.add(salePerformanceDTO.getSalesman());
+        }
+        for(User user : users){
+            if(!rankedSalesman.contains(user)){
+                SalePerformanceDTO salePerformanceDTO = new SalePerformanceDTO(user);
+                salePerformanceDTOs.add(salePerformanceDTO);
+            }
+        }
+        if(bean.isShowLessBuy()){
+            computeLessBuyCustomer(bean, salePerformanceDTOs);
+        }
+        return salePerformanceDTOs;
+    }
+
+    private void computeLessBuyCustomer(SalesPerformanceBean bean, List<SalePerformanceDTO> salePerformanceDTOs){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(bean.getToDate().getTime() - 10 * 24 * 3600000L);
+        calendar.set(Calendar.AM_PM, Calendar.AM);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        Timestamp startDate = new Timestamp(calendar.getTimeInMillis());
+        List<Customer> regularCustomers = bookProductBillDAO.findCustomerBuyRecentTime(startDate, bean.getToDate());
+        Map<Long,Customer> mapRegularCustomer = new HashMap<Long, Customer>();
+        for(Customer customer : regularCustomers){
+            mapRegularCustomer.put(customer.getCustomerID(), customer);
+        }
+        
+        List<UserCustomer> userCustomers = userCustomerDAO.findAll();
+        Map<Long, List<Customer>> mapSmCustomer = new HashMap<Long, List<Customer>>();
+        for(UserCustomer userCustomer : userCustomers){
+            List<Customer> smCustomers = mapSmCustomer.get(userCustomer.getUser().getUserID());
+            if(smCustomers == null){
+                smCustomers = new ArrayList<Customer>();
+                smCustomers.add(userCustomer.getCustomer());
+                mapSmCustomer.put(userCustomer.getUser().getUserID(), smCustomers);
+            }else{
+                smCustomers.add(userCustomer.getCustomer());
+            }
+        }
+        
+        for(SalePerformanceDTO salePerformanceDTO : salePerformanceDTOs){
+            List<Customer> smCustomers = mapSmCustomer.get(salePerformanceDTO.getSalesman().getUserID());
+            for(Customer customer : smCustomers){
+                if(!mapRegularCustomer.containsKey(customer.getCustomerID())){
+                    if(salePerformanceDTO.getCustomerConsumption().containsKey(customer)){
+                        salePerformanceDTO.getLessBuyCustomer().put(customer, true);
+                    }else{
+                        salePerformanceDTO.getWontBuyCustomer().add(customer);
+                    }
+                }
+            }
+        }
+        for(SalePerformanceDTO salePerformanceDTO : salePerformanceDTOs){
+            Collections.sort(salePerformanceDTO.getWontBuyCustomer(), new Comparator<Customer>() {
+                public int compare(Customer one, Customer other) {
+                    if(other.getProvince() != null && one.getProvince() != null){
+                        return other.getProvince().getName().compareTo(one.getProvince().getName());
+                    }
+                    return other.getName().compareTo(one.getName());
+                }
+            });
+        }
+    }
+
+    private List<SalePerformanceDTO> summaryBySalesman(List<BookProductBill> bookProductBills, final Date toDate) {
+        final String sToDate = DateUtils.date2String(toDate, "ddMMyyyy");
+        Map<User, SalePerformanceDTO> salesPerformance = computeDailyPerformance(bookProductBills);
+        List<SalePerformanceDTO> salePerformanceDTOs = new ArrayList<SalePerformanceDTO>(salesPerformance.values());
+        Collections.sort(salePerformanceDTOs, new Comparator<SalePerformanceDTO>() {
+            public int compare(SalePerformanceDTO one, SalePerformanceDTO other) {
+                SalesByDateDTO oneSalesDate = one.getSalesByDates().get(one.getSalesman().getUserID() + "_" + sToDate);
+                Double oneSales = oneSalesDate != null ? oneSalesDate.getWeight() : 0d;
+                SalesByDateDTO otherSalesDate = other.getSalesByDates().get(other.getSalesman().getUserID() + "_" + sToDate);
+                Double otherSales = otherSalesDate != null ? otherSalesDate.getWeight() : 0d;
+                return otherSales.compareTo(oneSales) != 0 ? otherSales.compareTo(oneSales) : other.getTotalWeight().compareTo(one.getTotalWeight());
+            }
+        });
+        return salePerformanceDTOs;
+    }
+
+    private Map<User, SalePerformanceDTO> computeDailyPerformance(List<BookProductBill> bookProductBills) {
+        Map<User, SalePerformanceDTO> overallPerformance = new HashMap<User, SalePerformanceDTO>();
+        String smDate;
+        for(BookProductBill bill : bookProductBills){
+            smDate = bill.getCreatedBy().getUserID() + "_" + DateUtils.date2String(bill.getDeliveryDate(), "ddMMyyyy");
+
+            SalePerformanceDTO salePerformance = overallPerformance.get(bill.getCreatedBy());
+            if(salePerformance == null){
+                salePerformance = new SalePerformanceDTO(bill.getCreatedBy());
+                SalesByDateDTO salesByDate = new SalesByDateDTO(bill.getDeliveryDate(), bill.getCreatedBy());
+                addSalesByDate(salePerformance, salesByDate, bill);
+
+                Map<String, SalesByDateDTO> mapSmSales = new HashMap<String, SalesByDateDTO>();
+                mapSmSales.put(smDate, salesByDate);
+                salePerformance.setSalesByDates(mapSmSales);
+                overallPerformance.put(bill.getCreatedBy(), salePerformance);
+            }else{
+                SalesByDateDTO salesByDate = salePerformance.getSalesByDates().get(smDate);
+                if(salesByDate == null){
+                    salesByDate = new SalesByDateDTO(bill.getDeliveryDate(), bill.getCreatedBy() );
+                    addSalesByDate(salePerformance, salesByDate, bill);
+                    salePerformance.getSalesByDates().put(smDate, salesByDate);
+                }else{
+                    addSalesByDate(salePerformance, salesByDate, bill);
+                }
+            }
+        }
+        return overallPerformance;
+    }
+
+    private void addSalesByDate(SalePerformanceDTO salesByMonth, SalesByDateDTO salesByDate, BookProductBill bill) {
+        Double quantityPerBill = 0d;
+        for(BookProduct product : bill.getBookProducts()){
+            quantityPerBill += product.getImportProduct().getQuantity2Pure();
+            salesByDate.setWeight(salesByDate.getWeight() + product.getImportProduct().getQuantity2Pure());
+            salesByMonth.setTotalWeight(salesByMonth.getTotalWeight() + product.getImportProduct().getQuantity2Pure());
+
+        }
+        computeCustomerConsumption(salesByMonth, salesByDate, bill, quantityPerBill);
+        salesByDate.setNoCustomer(salesByDate.getCustomerConsumption().size());
+        salesByMonth.setTotalCustomer(salesByMonth.getCustomerConsumption().size());
+    }
+
+    private void computeCustomerConsumption(SalePerformanceDTO salePerformance, SalesByDateDTO salesByDate, BookProductBill bill, Double quantityPerBill) {
+        Map<Customer, Double> customerConsumptionByMonth = salePerformance.getCustomerConsumption();
+        computeCustomerConsumptionDetail(customerConsumptionByMonth, bill.getCustomer(), quantityPerBill);
+
+        Map<Customer, Double> customerConsumption = salesByDate.getCustomerConsumption();
+        computeCustomerConsumptionDetail(customerConsumption, bill.getCustomer(), quantityPerBill);
+    }
+
+    private void computeCustomerConsumptionDetail(Map<Customer, Double> customerConsumption, Customer customer, Double quantityPerBill){
+        Double currentConsumption = customerConsumption.get(customer);
+        if(currentConsumption == null){
+            customerConsumption.put(customer, quantityPerBill);
+        }else{
+            customerConsumption.put(customer, currentConsumption + quantityPerBill);
+        }
+    }
+
+
+    @Override
+    public Map<Long, User> findBookedUser(List<Long> productIds) {
+        Map<Long, User> result = new HashMap<Long, User>();
+        StringBuilder whereClause = new StringBuilder(" importProduct.importProductID IN (");
+        whereClause.append(listToString(productIds)).append(")");
+        List<BookProduct> bookProducts =
+                bookProductDAO.findByProperties(new HashMap<String,Object>(), null, null, true, whereClause.toString());
+        for(BookProduct bookProduct : bookProducts){
+            result.put(bookProduct.getImportProduct().getImportProductID(), bookProduct.getBookProductBill().getCreatedBy());
+        }
+        return result;
+    }
+
+    @Override
+    public boolean checkAllowConfirm(Long bookProductBillID) {
+        boolean checker = true;
+        BookProductBill bill = this.bookProductBillDAO.findByIdNoAutoCommit(bookProductBillID);
+        for(BookProduct bookProduct : bill.getBookProducts()){
+            Importproduct product = bookProduct.getImportProduct();
+            if(Constants.ROOT_MATERIAL_STATUS_WAIT_CONFIRM.equals(product.getStatus())
+                    || Constants.ROOT_MATERIAL_STATUS_EXPORTING.equals(product.getStatus())
+                    || product.getSaleWarehouse() != null){
+                checker = false;
+                break;
+            }
+        }
+        return checker;
+    }
+
+    private StringBuilder listToString(List<Long> productIds) {
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        for(Long id : productIds){
+            if(i == 0){
+                sb.append(id);
+            }else{
+                sb.append(",").append(id);
+            }
+            i++;
+        }
+        return sb;
     }
 }

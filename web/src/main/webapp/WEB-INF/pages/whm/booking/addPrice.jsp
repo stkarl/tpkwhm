@@ -42,9 +42,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><fmt:message key="whm.owe.util.bill.date"/></td>
+                        <td>
+                            <%--<fmt:message key="whm.owe.util.bill.date"/>--%>
+                        </td>
                         <td colspan="2">
-                            <fmt:formatNumber value="${owe}" pattern="###,###"/>
+                            <%--<fmt:formatNumber value="${owe}" pattern="###,###"/>--%>
                         </td>
                         <td class="wall"><fmt:message key="bill.date"/></td>
                         <td colspan="2">
@@ -169,7 +171,7 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <input style="width:80px;" code="${product.productname.code}" id="price-${product.importProductID}_A" name="suggestedItems[${counter - 1}].price" value="<fmt:formatNumber value="${price}" pattern="###,###" maxFractionDigits="2" minFractionDigits="0"/>" type="text" class="inputFractionNumber width2" onblur="calMoney(this);"/>
+                                    <input ${kgQuantity > 0 && quantity > 0 ? '' : 'disabled'} style="width:80px;" code="${product.productname.code}" id="price-${product.importProductID}_A" name="suggestedItems[${counter - 1}].price" value="<fmt:formatNumber value="${price}" pattern="###,###" maxFractionDigits="2" minFractionDigits="0"/>" type="text" class="inputFractionNumber width2" onblur="calMoneyA(this);"/>
                                     <input type="hidden" name="suggestedItems[${counter - 1}].itemID" value="${product.importProductID}"/>
                                 </td>
                                 <td id="money-${product.importProductID}_A" class="money"></td>
@@ -187,7 +189,7 @@
                                 <%--<td></td>--%>
                                 <%--&lt;%&ndash;<td></td>&ndash;%&gt;--%>
                             <%--</tr>--%>
-                            <c:if test="${fn:length(product.productqualitys) > 1}">
+                            <c:if test="${fn:length(product.productqualitys) > 0}">
                                 <c:forEach items="${product.productqualitys}" var="productQuality" varStatus="status">
                                     <c:if test="${productQuality.quality.code ne Constants.QUALITY_A && productQuality.quantity1 > 0}">
                                         <c:set var="counter" value="${counter + 1}"/>
@@ -401,6 +403,18 @@ function saveExportBill(){
                 $(this).val(numeral().unformat($(this).val()));
             }
         });
+    }
+
+    function calMoneyA(ele){
+        calMoney(ele);
+
+        var price = $(ele).val() != '' ? numeral().unformat($(ele).val()) : 0;
+        var id = $(ele).attr('id').split('-')[1];
+        var idTypeC = id.replace('A','C');
+        var priceC = Math.round(price * eval(${priceTypeC}) / 100);
+        var $inputPriceC = $('#price-'+idTypeC);
+        $inputPriceC.val(numeral(parseFloat(priceC)).format('###,###'));
+        calMoney($inputPriceC);
     }
 
     function calMoney(ele){

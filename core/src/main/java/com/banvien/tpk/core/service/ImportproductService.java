@@ -5,7 +5,9 @@ import com.banvien.tpk.core.dto.*;
 import com.banvien.tpk.core.exception.DuplicateException;
 import com.banvien.tpk.core.exception.ObjectNotFoundException;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 
 public interface ImportproductService extends GenericService<Importproduct,Long> {
@@ -55,4 +57,6 @@ public interface ImportproductService extends GenericService<Importproduct,Long>
     List<ProductInOutDTO> summaryProductInOut(ProductGeneralBean bean);
 
     List<CustomerActivityDTO> summaryCustomerActivity(ReportBean bean);
+
+    Map<Long, Double> getCustomerInitialOwe(List<Long> customerIds, Date beforeDate);
 }

@@ -38,10 +38,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class CustomerController extends ApplicationObjectSupport {
@@ -643,5 +640,52 @@ public class CustomerController extends ApplicationObjectSupport {
             return mav;
         }
         return mav;
+    }
+
+    @RequestMapping(value={"/whm/report/dailyOwe.html"})
+    public ModelAndView sellSummary(DailyOweBean bean, HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("/whm/report/dailyOweReport");
+        if(bean.getToDate() == null){
+            bean.setToDate(new Timestamp(System.currentTimeMillis()));
+        }else{
+            bean.setToDate(DateUtils.move2TheEndOfDay(new Timestamp(bean.getToDate().getTime())));
+        }
+
+        if(bean.getFromDate() == null){
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(bean.getToDate().getTime());
+            calendar.set(Calendar.DATE, 1);
+            bean.setFromDate(new Timestamp(calendar.getTimeInMillis()));
+        }
+        mav.addObject(Constants.LIST_MODEL_KEY, bean);
+        if((bean.getToDate().getTime() - bean.getFromDate().getTime())/(24 * 3600000L) > 31 ||
+                bean.getToDate().getTime() - bean.getFromDate().getTime() < 0){
+            mav.addObject("alertType","error");
+            mav.addObject("messageResponse", this.getMessageSourceAccessor().getMessage("invalid.date.range"));
+            return mav;
+        }
+
+        if(bean.getCrudaction() != null && "report".equals(bean.getCrudaction())){
+            computeDailyOwe(bean, mav);
+        }
+        return mav;
+    }
+
+    private void computeDailyOwe(DailyOweBean bean, ModelAndView mav){
+        try {
+            List<OweByDateDTO> results = oweLogService.dailyOwe(bean);
+            if(results != null && results.size() > 0){
+                mav.addObject("results",results);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+        }
+        List<Date> dates = new LinkedList<Date>();
+        Date date = bean.getFromDate();
+        while(date.before(bean.getToDate())){
+            dates.add(date);
+            date = DateUtils.addDate(date, 1);
+        }
+        mav.addObject("dates", dates);
     }
 }

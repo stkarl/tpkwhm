@@ -180,6 +180,9 @@
                         <th class="table_header text-center"><fmt:message key="whm.warehouse.name"/></th>
                         <th class="table_header text-center"><fmt:message key="label.produced.date"/></th>
                         <th class="table_header text-center"><fmt:message key="label.status"/></th>
+                        <c:if test="${Constants.ROOT_MATERIAL_STATUS_BOOKED eq items.status}">
+                            <th class="table_header text-center">Nhân viên</th>
+                        </c:if>
                     </tr>
                     <c:forEach items="${items.listResult}" var="tableList" varStatus="status">
                         <tr class="${status.index % 2 == 0 ? "even text-center" : "odd text-center"}">
@@ -252,6 +255,9 @@
                                     <c:otherwise>-</c:otherwise>
                                 </c:choose>
                             </td>
+                            <c:if test="${Constants.ROOT_MATERIAL_STATUS_BOOKED eq items.status}">
+                                <td>${bookedUser[tableList.importProductID].fullname}</td>
+                            </c:if>
                         </tr>
                     </c:forEach>
                 </table>

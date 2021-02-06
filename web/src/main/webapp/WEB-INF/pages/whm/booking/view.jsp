@@ -21,6 +21,13 @@
 <div id="container-fluid data_content_box">
 <div class="row-fluid data_content">
 <div class="content-header"><fmt:message key="booking.bill.view.title"/></div>
+    <div class="clear"></div>
+    <c:if test="${not empty messageResponse}">
+        <div class="alert alert-${alertType}">
+            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">x</button>
+                ${messageResponse}
+        </div>
+    </c:if>
 <div class="clear"></div>
 <div id="generalInfo">
     <table class="tbHskt info">
@@ -43,9 +50,10 @@
         </tr>
         <security:authorize ifAnyGranted="QUANLYKD,NHANVIENKD,QUANLYTT,LANHDAO,QUANLYNO">
             <tr>
-                <td><fmt:message key="whm.owe.util.bill.date"/></td>
+                <td>
+
+                </td>
                 <td colspan="2">
-                    <fmt:formatNumber value="${owe}" pattern="###,###"/>
                 </td>
                 <td class="wall"><fmt:message key="bill.date"/></td>
                 <td colspan="2">
@@ -69,9 +77,12 @@
                 </tr>
                 <c:forEach items="${item.pojo.bookBillSaleReasons}" var="reason">
                     <tr>
-                        <td>${reason.saleReason.reason}</td>
-                        <td><fmt:formatDate value="${reason.date}" pattern="dd/MM/yyyy"/></td>
-                        <td><fmt:formatNumber value="${reason.money}" pattern="###,###"/></td>
+                        <td>&nbsp;
+                        </td>
+                        <td>&nbsp;
+                        </td>
+                        <td>&nbsp;
+                        </td>
                     </tr>
                 </c:forEach>
             </table>
@@ -89,9 +100,13 @@
                 </tr>
                 <c:forEach items="${item.pojo.prePaids}" var="prePaid">
                     <tr>
-                        <td>${prePaid.note}</td>
-                        <td><fmt:formatDate value="${prePaid.payDate}" pattern="dd/MM/yyyy"/></td>
-                        <td><fmt:formatNumber value="${prePaid.pay}" pattern="###,###"/></td>
+                        <td>&nbsp;
+                        </td>
+                        <td>&nbsp;
+                        </td>
+                        <td>
+                            &nbsp;
+                        </td>
                     </tr>
                 </c:forEach>
             </table>
@@ -108,9 +123,12 @@
                     <th class="table_header" style="width: 30%;">Thành tiền</th>
                 </tr>
                 <tr>
-                    <td>${item.pojo.destination}</td>
-                    <td><fmt:formatNumber value="${item.pojo.reduceCost}" pattern="###,###"/></td>
-                    <td><fmt:formatNumber value="${item.pojo.reduce}" pattern="###,###"/></td>
+                    <td> &nbsp;
+                    </td>
+                    <td>&nbsp;
+                    </td>
+                    <td>&nbsp;
+                    </td>
                 </tr>
             </table>
         </div>
@@ -269,9 +287,7 @@
                                     </span>
                     </td>
                     <td>
-                            <span code="${product.productname.code}" id="price-${product.importProductID}_A">
-                                <fmt:formatNumber value="${price}" pattern="###,###" maxFractionDigits="2" minFractionDigits="0"/>
-                            </span>
+
                     </td>
                     <td id="money-${product.importProductID}_A" class="money"></td>
                     <td><fmt:formatNumber value="${kgm}" pattern="###,###.##"/></td>
@@ -293,7 +309,7 @@
                         <%--<td></td>--%>
                     <%--</tr>--%>
                 <%--</c:if>--%>
-                <c:if test="${fn:length(product.productqualitys) > 1}">
+                <c:if test="${fn:length(product.productqualitys) > 0}">
                     <c:forEach items="${product.productqualitys}" var="productQuality" varStatus="status">
                         <c:if test="${productQuality.quality.code ne Constants.QUALITY_A && productQuality.quantity1 > 0}">
                             <c:set var="counter" value="${counter + 1}"/>
@@ -325,7 +341,6 @@
                                     <span id="product-${product.importProductID}_${productQuality.quality.name}"><fmt:formatNumber value="${productQuality.quantity1 - productQuality.saleQuantity}" pattern="###,###"/>m${productQuality.quality.name}</span>
                                 </td>
                                 <td>
-                                    <span code="${product.productname.code}" id="price-${product.importProductID}_${productQuality.quality.name}"><fmt:formatNumber value="${productQuality.price}" pattern="###,###" maxFractionDigits="2" minFractionDigits="0"/></span>
                                 </td>
                                 <td id="money-${product.importProductID}_${productQuality.quality.name}" class="money"></td>
                                 <td></td>
@@ -391,15 +406,26 @@
             <a onclick="rejectBill()" class="btn btn-danger" style="cursor: pointer;">
                 <fmt:message key="button.reject"/>
             </a>
-            <a onclick="approveBill()" class="btn btn-success" style="cursor: pointer;">
-                <fmt:message key="button.accept"/>
-            </a>
+            <c:if test="${allowConfirm}">
+                <a onclick="approveBill()" class="btn btn-success" style="cursor: pointer;">
+                    <fmt:message key="button.accept"/>
+                </a>
+            </c:if>
+            <c:if test="${!allowConfirm}">
+                <fmt:message var="notAllowConfirmTitle" key="not.allow.confirm.book"/>
+                <a class="btn btn-success tip-top" disabled="disabled" title="<fmt:message key="not.allow.confirm.book"/>" style="cursor: pointer;">
+                    <fmt:message key="button.accept"/>
+                </a>
+            </c:if>
         </security:authorize>
     </c:if>
     <div style="display: inline">
         <security:authorize ifAnyGranted="QUANLYKD,NHANVIENKD,QUANLYTT,LANHDAO,QUANLYNO">
             <a class="btn btn-primary" onclick="printShippingBill(${item.pojo.bookProductBillID});"><i class="icon-print"></i> <fmt:message key="button.print.ship.bill"/></a>
-            <a class="btn btn-primary" onclick="printShippingConfirmBill(${item.pojo.bookProductBillID});"><i class="icon-print"></i> <fmt:message key="button.print.ship.confirm.bill"/></a>
+            <%--<a class="btn btn-primary" onclick="printShippingConfirmBill(${item.pojo.bookProductBillID});"><i class="icon-print"></i> <fmt:message key="button.print.ship.confirm.bill"/></a>--%>
+
+            <a class="btn btn-primary" onclick="printShippingConfirmBill2(${item.pojo.bookProductBillID});"><i class="icon-print"></i> <fmt:message key="button.print.ship.confirm.bill"/></a>
+            <%--<a class="btn btn-primary" onclick="printOweConfirmBill(${item.pojo.bookProductBillID});"><i class="icon-print"></i> <fmt:message key="button.print.owe.confirm.bill"/></a>--%>
         </security:authorize>
         <form:hidden path="crudaction" id="crudaction" value="insert-update"/>
         <form:hidden path="pojo.bookProductBillID"/>
@@ -449,7 +475,6 @@
 
             quantity = quantity != '' ? numeral().unformat(quantity) : 0;
             total += price * quantity;
-            $('#money-' + id).html(numeral(parseFloat(price * quantity)).format('###,###'));
         });
 
         $("span[id^='priceSale-']").each(function(){
@@ -461,7 +486,7 @@
             $('#moneySale-' + id).html(numeral(parseFloat(price * quantity)).format('###,###'));
         });
 
-        $('#total').html(numeral(total).format('###,###'));
+//        $('#total').html(numeral(total).format('###,###'));
     }
     function rejectBill(){
         $("#crudaction").val("reject");
@@ -498,5 +523,15 @@
     function printShippingConfirmBill(billId){
         <%--window.location.href = "<c:url value='/ajax/printShippingConfirmBill.html?bookProductBillId='/>" + billId;--%>
         document.getElementById("printout").src = "<c:url value='/ajax/printShippingConfirmBill.html?bookProductBillId='/>" + billId;
+    }
+
+    function printShippingConfirmBill2(billId){
+        <%--window.location.href = "<c:url value='/ajax/printShippingConfirmBill2.html?bookProductBillId='/>" + billId;--%>
+        document.getElementById("printout").src = "<c:url value='/ajax/printShippingConfirmBill2.html?bookProductBillId='/>" + billId;
+    }
+
+    function printOweConfirmBill(billId){
+        <%--window.location.href = "<c:url value='/ajax/printOweConfirmBill.html?bookProductBillId='/>" + billId;--%>
+        document.getElementById("printout").src = "<c:url value='/ajax/printOweConfirmBill.html?bookProductBillId='/>" + billId;
     }
 </script>

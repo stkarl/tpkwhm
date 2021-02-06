@@ -12,7 +12,7 @@
     <link rel="stylesheet" type="text/css" media="print"
           href="<c:url value='/themes/whm/css/print_v1.2.css'/>"/>
     <link rel="stylesheet" type="text/css"
-          href="<c:url value='/themes/whm/css/style.css'/>"/>
+          href="<c:url value='/themes/whm/css/style_v1.0.css'/>"/>
     <link rel="stylesheet" type="text/css"
           href="<c:url value='/styles/tpk/jquery-lightness/jquery-ui-1.8.10.css'/>"/>
     <link rel="stylesheet" type="text/css" media="all"

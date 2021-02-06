@@ -1,8 +1,10 @@
 package com.banvien.tpk.core.dao;
 
 import com.banvien.tpk.core.domain.BookProductBill;
+import com.banvien.tpk.core.domain.Customer;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,4 +23,5 @@ public interface BookProductBillDAO extends GenericDAO<BookProductBill,Long> {
 
     String getLatestBookBillNumber();
 
+    List<Customer> findCustomerBuyRecentTime(Date startDate, Date endDate);
 }

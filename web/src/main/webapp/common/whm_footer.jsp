@@ -15,19 +15,10 @@
     <div class="footer" class="span12">
         <div class="footer_settings navbar">
 
-            <div class="btn-group dropup" style="float:left;">
-                <a class="classroom link" data-toggle="dropdown"></a>
-                <ul class="dropdown-menu bullet pull-top">
-                    <li><a href="<c:url value="/files/TPK_Manual.pdf"/>"><fmt:message key="label.manual.warehouse"/></a></li>
-                    <li><a href="<c:url value="/files/May_ThietBi.pdf"/>"><fmt:message key="label.manual.machine"/></a></li>
-                    <security:authorize ifAnyGranted="ADMIN,LANHDAO,QUANLYKD,NHANVIENKD,QUANLYNO">
-                    <li><a href="<c:url value="/files/ManualSell.pdf"/>"><fmt:message key="label.manual.sell"/></a></li>
-                    </security:authorize>
-                </ul>
-            </div>
+
         </div>
         <div class="clear"></div>
-        <div class="copyright" style="color: #442b2b;">Copyright &copy; 2014 by Tan Phuoc Khanh. Developed by Khanh Chu.</div>
+        <div class="copyright" style="color: #442b2b;">Copyright &copy; 2014 by Tan Phuoc Khanh.</div>
         <div class="footer_links">
         </div>
     </div>

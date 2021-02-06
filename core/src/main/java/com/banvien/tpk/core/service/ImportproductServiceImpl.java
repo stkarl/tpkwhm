@@ -1062,7 +1062,8 @@ public class ImportproductServiceImpl extends GenericServiceImpl<Importproduct,L
         return customerPaidMap;
     }
 
-    private Map<Long, Double> getCustomerInitialOwe(List<Long> customerIds, Date beforeDate) {
+    @Override
+    public Map<Long, Double> getCustomerInitialOwe(List<Long> customerIds, Date beforeDate) {
         List<Object> customersInitialOwe = this.oweLogDAO.findCustomerInitialOwe(customerIds, beforeDate);
         Map<Long,Double> mapCustomerInitialOwe = new HashMap<Long, Double>();
         for(Object customerInitialOwe : customersInitialOwe){

@@ -113,6 +113,8 @@ public class BookingController extends ApplicationObjectSupport {
             customers = this.customerService.findAll();
         }
         mav.addObject("customers",customers);
+        mav.addObject("defaultBankAccount", GeneratorUtils.defaultBankAccount);
+        mav.addObject("priceTypeC", GeneratorUtils.priceTypeC);
     }
 
     @RequestMapping("/whm/booking/edit.html")
@@ -180,6 +182,18 @@ public class BookingController extends ApplicationObjectSupport {
         }
     }
 
+    @RequestMapping(value="/ajax/removeBookedProducts.html")
+    public void getProvinceByRegion(@RequestParam(value = "bookProductIDs", required = true) List<String> bookProductIDs,
+                                    HttpServletResponse response)  {
+        try{
+            for(String bookProductID : bookProductIDs){
+                this.bookProductService.deleteItem(Long.parseLong(bookProductID));
+            }
+        }catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+    }
+
     @RequestMapping("/whm/booking/view.html")
     public ModelAndView viewBooking(@ModelAttribute(Constants.FORM_MODEL_KEY) BookProductBillBean bean, BindingResult bindingResult) {
         ModelAndView mav = new ModelAndView("/whm/booking/view");
@@ -224,13 +238,19 @@ public class BookingController extends ApplicationObjectSupport {
         }else if (StringUtils.isNotBlank(crudaction) && crudaction.equals("approve")){
             try {
                 if(!bindingResult.hasErrors()) {
-                    if(pojo.getBookProductBillID() != null && pojo.getBookProductBillID() > 0) {
-                        if(bean.getPojo().getNote() == null || !StringUtils.isNotBlank(bean.getPojo().getNote()))
-                            bean.getPojo().setNote(this.getMessageSourceAccessor().getMessage("msg.approve"));
-                        this.bookProductBillService.updateConfirm(bean.getPojo().getBookProductBillID(),SecurityUtils.getLoginUserId());
-                        mav = new ModelAndView("redirect:/whm/booking/list.html?isUpdate=true");
-                    }
-                    return mav;
+                        if(pojo.getBookProductBillID() != null && pojo.getBookProductBillID() > 0) {
+                            boolean allowConfirm = bookProductBillService.checkAllowConfirm(pojo.getBookProductBillID());
+                            if(allowConfirm){
+                                if(bean.getPojo().getNote() == null || !StringUtils.isNotBlank(bean.getPojo().getNote()))
+                                    bean.getPojo().setNote(this.getMessageSourceAccessor().getMessage("msg.approve"));
+                                this.bookProductBillService.updateConfirm(bean.getPojo().getBookProductBillID(),SecurityUtils.getLoginUserId());
+                                mav = new ModelAndView("redirect:/whm/booking/list.html?isUpdate=true");
+                                return mav;
+                            }else{
+                                mav.addObject("alertType", "error");
+                                mav.addObject("messageResponse", this.getMessageSourceAccessor().getMessage("not.allow.confirm.book"));
+                            }
+                        }
                 }
             }catch(Exception e) {
                 logger.error(e.getMessage(), e);
@@ -253,6 +273,7 @@ public class BookingController extends ApplicationObjectSupport {
                 }
                 bean.setPojo(dbItem);
                 mav.addObject("owe", this.oweLogService.findCustomerOweUtilDate(dbItem.getCustomer().getCustomerID(), dbItem.getBillDate()));
+                mav.addObject("allowConfirm", bookProductBillService.checkAllowConfirm(pojo.getBookProductBillID()));
             } catch (Exception e) {
                 logger.error("Could not found item " + bean.getPojo().getBookProductBillID(), e);
             }
@@ -262,6 +283,7 @@ public class BookingController extends ApplicationObjectSupport {
         addData2Model(mav);
         return mav;
     }
+
     private List<BookProduct> getWaitExportProduct(BookProductBill bill){
         List<BookProduct> bookProducts = new ArrayList<BookProduct>();
         for(BookProduct bookProduct : bill.getBookProducts()){
@@ -374,7 +396,11 @@ public class BookingController extends ApplicationObjectSupport {
     public ModelAndView printShippingConfirmBill(@RequestParam(value="bookProductBillId") Long bookProductBillId) {
         ModelAndView mav = new ModelAndView("/whm/booking/shippingconfirmbill");
         Map model = mav.getModel();
+        addPrintDataToModel(model, bookProductBillId);
+        return mav;
+    }
 
+    private void addPrintDataToModel(Map model, Long bookProductBillId){
         try {
             BookProductBill bookProductBill = bookProductBillService.findByIdNoCommit(bookProductBillId);
             Calendar calendar = Calendar.getInstance();
@@ -400,15 +426,36 @@ public class BookingController extends ApplicationObjectSupport {
             }
             model.put("noinhan", bookProductBill.getDestination() != null ? bookProductBill.getDestination() : "");
             model.put("transportFee", bookProductBill.getReduce() != null ? bookProductBill.getReduce() : "");
+            model.put("reduceCost", bookProductBill.getReduceCost() != null ? bookProductBill.getReduceCost() : "");
             model.put("deliveryDate", bookProductBill.getDeliveryDate() != null ? bookProductBill.getDeliveryDate() : "");
             model.put("owe", this.oweLogService.findCustomerOweUtilDate(bookProductBill.getCustomer().getCustomerID(), bookProductBill.getBillDate()));
             model.put("bookSales", bookProductBill.getBookBillSaleReasons());
             model.put("prePaids", this.oweLogService.findPrePaidByBill(bookProductBill.getBookProductBillID()));
             model.put("user", bookProductBill.getCreatedBy());
             model.put("oldFormula", bookProductBill.getOldFormula());
+
+            String bankAccount = bookProductBill.getBankAccount() != null && bookProductBill.getBankAccount().trim() != "" ? bookProductBill.getBankAccount() : GeneratorUtils.defaultBankAccount;
+            String bankAccountShort = bankAccount.split("\\t")[1];
+            model.put("bankAccount", bankAccount.replaceAll("\\n","</br>").replaceAll("\\t","&nbsp;&nbsp;&nbsp;").replaceAll("\\r","&nbsp;&nbsp;&nbsp;"));
+            model.put("bankAccountShort", bankAccountShort);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
         }
+    }
+
+    @RequestMapping(value = "/ajax/printShippingConfirmBill2.html", method = RequestMethod.GET)
+    public ModelAndView printShippingConfirmBill2(@RequestParam(value="bookProductBillId") Long bookProductBillId) {
+        ModelAndView mav = new ModelAndView("/whm/booking/shippingconfirmbill2");
+        Map model = mav.getModel();
+        addPrintDataToModel(model, bookProductBillId);
+        return mav;
+    }
+
+    @RequestMapping(value = "/ajax/printOweConfirmBill.html", method = RequestMethod.GET)
+    public ModelAndView printOweConfirmBill(@RequestParam(value="bookProductBillId") Long bookProductBillId) {
+        ModelAndView mav = new ModelAndView("/whm/booking/oweconfirmbill");
+        Map model = mav.getModel();
+        addPrintDataToModel(model, bookProductBillId);
         return mav;
     }
 

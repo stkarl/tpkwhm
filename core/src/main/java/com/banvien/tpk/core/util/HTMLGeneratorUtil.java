@@ -1,6 +1,7 @@
 package com.banvien.tpk.core.util;
 
 
+import com.banvien.tpk.core.domain.Customer;
 import com.banvien.tpk.core.dto.OriginQuantityDTO;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.ui.velocity.VelocityEngineUtils;
@@ -69,5 +70,25 @@ public class HTMLGeneratorUtil {
             result.put(overlayID, buffer.toString());
         }
         return result;
+    }
+
+    public static String createConsumptionHTML(Map<Customer, Double> customerConsumption){
+        DecimalFormat decimalFormat = new DecimalFormat("###,###");
+        StringBuffer buffer = new StringBuffer();
+        int i = 0;
+        for(Customer key : customerConsumption.keySet()){
+            if(i == 0){
+                buffer.append("<span>")
+                        .append(key.getName()).append(": ").append(decimalFormat.format(customerConsumption.get(key)));
+            }else {
+                buffer.append("<br>")
+                        .append(key.getName()).append(": ").append(decimalFormat.format(customerConsumption.get(key)));
+            }
+            i++;
+            if(i == customerConsumption.size()){
+                buffer.append("</span>");
+            }
+        }
+        return buffer.toString();
     }
 }

@@ -1,5 +1,6 @@
 package com.banvien.tpk.core.dao;
 
+import com.banvien.tpk.core.domain.Customer;
 import com.banvien.tpk.core.domain.OweLog;
 
 import java.sql.Timestamp;
@@ -30,4 +31,6 @@ public interface OweLogDAO extends GenericDAO<OweLog,Long> {
     Double findCustomerOweUtilDate(Long customerID, Date date);
 
     Map<Long,Double> findCustomersOweUtilDate(List<Long> customerIDs, Timestamp date);
+
+    List<OweLog> find4DailyOweReport(Date fromDate, Date toDate);
 }

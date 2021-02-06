@@ -41,6 +41,7 @@
         <property name="billDate" column="BillDate"/>
 
         <property name="oldFormula" column="OldFormula"/>
+        <property name="bankAccount" column="bankAccount"/>
 
         <bag name="bookProducts" inverse="true">
 			<key column="bookProductBillID"/>

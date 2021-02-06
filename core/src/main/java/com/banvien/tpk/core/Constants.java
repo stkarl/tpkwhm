@@ -257,6 +257,11 @@ public final class Constants {
     public static final String PRODUCT_LEVEL_2 = "PRODUCT_LEVEL_2";
     public static final String PRODUCT_LEVEL_3 = "PRODUCT_LEVEL_3";
 
+    public static final String SETTING_DEFAULT_BANK_ACCOUNT = "default.bank.account";
+
+    public static final String SETTING_PRICE_TYPE_C = "price.type.c";
+
+
 
 
 }
