@@ -128,12 +128,12 @@
 <div class="sign-info">
     <table class="tableSadlier">
         <tr>
-            <td rowspan="2">DUYỆT XUẤT KHO</td>
-            <td rowspan="2">PHÒNG KD ĐỀ XUẤT</td>
+            <td rowspan="2">NHÂN VIÊN PHỤ TRÁCH</td>
+            <td rowspan="2">TỔNG DUYỆT CÔNG NỢ</td>
             <td colspan="3" style="font-size: 14px;">Hai bên đã kiểm tra đối chiếu số liệu và ký xác nhận</td>
         </tr>
         <tr>
-            <td>BĐH NHÀ MÁY</td>
+            <td>GIÁM SÁT</td>
             <td>ĐẠI DIỆN GIAO HÀNG</td>
             <td>ĐẠI DIỆN NHẬN HÀNG</td>
         </tr>
