@@ -517,8 +517,8 @@
     }
 
     function printShippingBill(billId){
-        <%--window.location.href = "<c:url value='/ajax/printShippingBill.html?bookProductBillId='/>" + billId;--%>
-        document.getElementById("printout").src = "<c:url value='/ajax/printShippingBill.html?bookProductBillId='/>" + billId;
+        window.location.href = "<c:url value='/ajax/printShippingBill.html?bookProductBillId='/>" + billId;
+        <%--document.getElementById("printout").src = "<c:url value='/ajax/printShippingBill.html?bookProductBillId='/>" + billId;--%>
     }
     function printShippingConfirmBill(billId){
         <%--window.location.href = "<c:url value='/ajax/printShippingConfirmBill.html?bookProductBillId='/>" + billId;--%>
