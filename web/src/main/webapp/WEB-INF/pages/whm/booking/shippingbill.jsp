@@ -128,16 +128,18 @@
 <div class="sign-info">
     <table class="tableSadlier">
         <tr>
-            <td rowspan="2">NHÂN VIÊN PHỤ TRÁCH</td>
-            <td rowspan="2">TỔNG DUYỆT CÔNG NỢ</td>
-            <td colspan="3" style="font-size: 14px;">Hai bên đã kiểm tra đối chiếu số liệu và ký xác nhận</td>
+            <td rowspan="2">GIÁM SÁT</td>
+            <td rowspan="2">THEO DÕI CÔNG NỢ</td>
+            <td colspan="4" style="font-size: 14px;">Hai bên đã kiểm tra đối chiếu số liệu và ký xác nhận</td>
         </tr>
         <tr>
-            <td>GIÁM SÁT</td>
+            <td>TRƯỞNG PHÒNG KINH DOANH</td>
+            <td>NHÂN VIÊN BÁN HÀNG</td>
             <td>ĐẠI DIỆN GIAO HÀNG</td>
             <td>ĐẠI DIỆN NHẬN HÀNG</td>
         </tr>
         <tr>
+            <td></td>
             <td></td>
             <td></td>
             <td></td>

@@ -108,12 +108,8 @@ li{list-style: none;}
 .product-info > table tr > td:nth-child(4){
     font-weight: bold;
 }
-
-.sign-info > table td:nth-child(-n+3){
-    width: 18%;
-}
-.sign-info > table td:nth-child(n+4){
-    width: 23%;
+.sign-info > table td{
+    width: 15%;
 }
 .sign-info > table{
     text-align: center;
