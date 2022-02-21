@@ -169,7 +169,7 @@
             <td><u>* ĐẶC BIỆT CHÚ Ý</u></td>
         </tr>
         <tr>
-            <td>Đây là thời điểm vào mùa mưa, quý khách hàng và người đại diện nhận hàng cần chú ý bảo quản Tôn và sàn xe khô ráo.</td>
+            <td>Dù trời mưa hay nắng, anh em tài xế và người giao nhận hàng nhớ đậy bạt cẩn thận.</td>
         </tr>
     </table>
 </div>

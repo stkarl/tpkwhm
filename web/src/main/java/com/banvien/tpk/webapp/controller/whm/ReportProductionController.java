@@ -267,7 +267,7 @@ public class ReportProductionController extends ApplicationObjectSupport {
                     overallQuality += totalQuality;
                     res[i++] = new CellValue(CellDataType.STRING, totalQuality != 0 ? decimalFormat2.format(totalQuality)  : "");
                     res[i++] = new CellValue(CellDataType.STRING, kgOkg != 0 ? decimalFormat2.format(kgOkg)  : "");
-                    res[i++] = new CellValue(CellDataType.STRING, kgOkg != 0 ? decimalFormat2.format(kgOkg * qualityPure / (totalQuality * WebCommonUtils.productWidth(product.getSize().getName())))  : "");
+                    res[i++] = new CellValue(CellDataType.STRING, kgOkg != 0 ? product.getSize() != null ? decimalFormat2.format(kgOkg * qualityPure / (totalQuality * WebCommonUtils.productWidth(product.getSize().getName())))  : "" : "");
                     res[i++] = new CellValue(CellDataType.STRING, totalQuality != 0 ? decimalFormat2.format(qualityPure / totalQuality)  : "");
                     res[i++] = new CellValue(CellDataType.STRING, product.getNote() != null ? product.getNote() : "");
                     String team = product.getImportproductbill().getProductionPlan() != null ? product.getImportproductbill().getProductionPlan().getShift().getName() + " - " + product.getImportproductbill().getProductionPlan().getTeam().getName() : "";
