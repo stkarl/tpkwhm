@@ -463,12 +463,25 @@ public class InStockController extends ApplicationObjectSupport {
                 mav.addObject("owe", this.oweLogService.findCustomerOweUtilDate(bill.getCustomer().getCustomerID(), bill.getBillDate()));
             }
             addData2ModelProduct(mav);
+            clearSaleWarehouseMapParam(mav, bean);
             mav.addObject(Constants.LIST_MODEL_KEY, bean);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
             return new ModelAndView("redirect:/whm/booking/list.html?isError=true");
         }
         return mav;
+    }
+
+    private void clearSaleWarehouseMapParam(ModelAndView mav, SearchProductBean bean) {
+        StringBuilder sb = new StringBuilder("");
+        if(bean.getMapSaleWarehouse() != null){
+            for(Long productID: bean.getMapSaleWarehouse().keySet()){
+                sb.append("mapSaleWarehouse[")
+                        .append(productID.toString())
+                        .append("] ");
+            }
+        }
+        mav.addObject("excludedParams", sb);
     }
 
     private void executeSearchProduct4Book(SearchProductBean bean, HttpServletRequest request) {

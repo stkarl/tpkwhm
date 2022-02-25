@@ -429,7 +429,7 @@
     </table>
     <display:table name="items.listResult" cellspacing="0" cellpadding="0" requestURI="${urlForm}"
                    partialList="true" sort="external" size="${items.totalItems }"
-                   uid="tableList" excludedParams="crudaction" style="display: none;"
+                   uid="tableList" excludedParams="crudaction ${excludedParams}" style="display: none;"
                    pagesize="${items.maxPageItems}" export="false" class="tableSadlier table-hover">
         <display:setProperty name="paging.banner.item_name" value="cuộn tôn"/>
         <display:setProperty name="paging.banner.items_name" value="cuộn tôn"/>
