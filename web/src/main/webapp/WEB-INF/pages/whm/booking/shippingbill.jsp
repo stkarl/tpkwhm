@@ -133,7 +133,7 @@
             <td colspan="4" style="font-size: 14px;">Hai bên đã kiểm tra đối chiếu số liệu và ký xác nhận</td>
         </tr>
         <tr>
-            <td>TRƯỞNG PHÒNG KINH DOANH</td>
+            <td>PHÓ PHÒNG KINH DOANH</td>
             <td>NHÂN VIÊN BÁN HÀNG</td>
             <td>ĐẠI DIỆN GIAO HÀNG</td>
             <td>ĐẠI DIỆN NHẬN HÀNG</td>
