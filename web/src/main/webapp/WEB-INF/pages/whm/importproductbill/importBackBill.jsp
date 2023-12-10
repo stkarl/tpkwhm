@@ -12,10 +12,10 @@
             <td style="font-weight: bold">TÔN TÂN PHƯỚC KHANH</td>
         </tr>
         <tr>
-            <td>KCN Phú Mỹ 1, Thị Xã Phú Mỹ, Tỉnh BRVT</td>
+            <td>KCN Phú Mỹ 1, H.Tân Thành, Tỉnh BRVT</td>
         </tr>
         <tr>
-            <td>Điện thoại: 02543.922762   Fax: 02543.922765</td>
+            <td>Điện thoại: 0643.922762   Fax: 0643.922765</td>
         </tr>
     </table>
 </div>

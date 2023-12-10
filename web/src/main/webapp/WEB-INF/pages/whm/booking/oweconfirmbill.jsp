@@ -15,7 +15,7 @@
             <td style="font-weight: bold;">CÔNG TY CỔ PHẦN THƯƠNG MẠI & SẢN XUẤT TÔN TÂN PHƯỚC KHANH</td>
         </tr>
         <tr>
-            <td>Khu Công Nghiệp Phú Mỹ I - Thị Xã Phú Mỹ - Tỉnh Bà Rịa Vũng Tàu</td>
+            <td>Khu Công Nghiệp Phú Mỹ I - Huyện Tân Thành - Tỉnh Bà Rịa Vũng Tàu</td>
         </tr>
         <tr>
             <td>Tel: (84.254) 3922.762    ****    Fax: (84.254) 3922.765</td>
