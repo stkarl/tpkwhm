@@ -21,12 +21,12 @@
             <td style="font-weight: bold;font-size: 14px;">TÔN TÂN PHƯỚC KHANH</td>
         </tr>
         <tr>
-            <td style="font-weight: bold;font-size: 10px;">KCN Phú Mỹ 1, H.Tân Thành, Tỉnh BRVT</td>
+            <td style="font-weight: bold;font-size: 10px;">KCN Phú Mỹ 1, Thị Xã Phú Mỹ, Tỉnh BRVT</td>
             <td rowspan="2" style="font-weight: bold;font-size: 14px;">Số: ......./......./.......</td>
             <td rowspan="4" style="font-weight: bold;font-size: 12px;"><div style="border: 3px solid #000000">VUI LÒNG ĐỂ TÔN <br>NƠI KHÔ RÁO <br>TRÁNH ẨM ƯỚT</div></td>
         </tr>
         <tr>
-            <td style="font-weight: bold;font-size: 10px;">ĐT: 0643.922762 - Fax: 0643.922765</td>
+            <td style="font-weight: bold;font-size: 10px;">ĐT: 02543.922762 - Fax: 02543.922765</td>
         </tr>
         <tr>
             <td rowspan="2"></td>
